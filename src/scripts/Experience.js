@@ -8,9 +8,9 @@ export default class Experience extends ExperienceBase {
     constructor(canvas, sources) {
         super(canvas, sources)
 
-        this.world = new World(this)
         this.camera = new Camera(this)
         this.renderer = new Renderer(this)
+        this.world = new World(this)
     }
     resize() {
         super.resize()
