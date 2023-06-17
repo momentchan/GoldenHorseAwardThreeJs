@@ -80,6 +80,17 @@ float Contrast(float In, float Contrast)
 }
 
 
+float noise(vec2 co)
+{
+    vec2 seed = vec2(sin(co.x), cos(co.y));
+    return fract(sin(dot(seed, vec2(12.9898, 78.233))) * 43758.5453);
+}
+
+vec2 Scatter(vec2 uv, float radius)
+{
+    return -radius + vec2(noise(uv), noise(uv.yx)) * radius * 2.0;
+}
+
 varying vec2 vUv;
 uniform sampler2D uTexture;
 uniform float uTime;
@@ -89,7 +100,9 @@ void main()
 {
     vec4 textureColor = texture2D(uTexture, vUv);
 
-    vec2 p = vUv * 0.5;
+    
+    vec2 p = vUv * 0.5 + Scatter(vUv, 0.1);
+
 	vec3 p3 = vec3(p, uTime * uSpeed);
 	
 	float value;
@@ -99,6 +112,7 @@ void main()
     value = Contrast(value, 118.0) * 0.02;
 
     textureColor.rgb *= value;
+    textureColor.a = value;
 
     gl_FragColor = textureColor;
     
