@@ -113,7 +113,7 @@ void main() {
 
 	float f = getFractal(uv);
 	vec4 col = vec4(f) * textureColor;
-	float fade = smoothEdge(vUv, vec2(0.1)) * smoothstep(0.0, 0.1, uRatio) * smoothstep(1.0, 0.0, uRatio);
+	float fade = smoothEdge(vUv, vec2(0.1)) * smoothstep(0.0, 0.05, uRatio) * smoothstep(1.0, 0.9, uRatio);
 	col.a *= fade;
 
 	gl_FragColor = col;
