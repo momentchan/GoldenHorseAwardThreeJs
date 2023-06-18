@@ -15,7 +15,7 @@ export default class BackgroundFractal {
         var h = 2 * Math.tan(fovRadians * 0.5) * d;
         var w = h * this.camera.instance.aspect;
 
-        const geometry = new THREE.PlaneGeometry(w, h, 32, 32);
+        const geometry = new THREE.PlaneGeometry(w, h, 1, 1);
 
         this.material = new THREE.ShaderMaterial({
             vertexShader: screenVertexShader,
