@@ -1,5 +1,3 @@
-#include <common>
-
 /* discontinuous pseudorandom uniformly distributed in [-0.5, +0.5]^3 */
 vec3 random3(vec3 c) {
 	float j = 4096.0*sin(dot(c,vec3(17.0, 59.4, 15.0)));
@@ -96,24 +94,35 @@ uniform sampler2D uTexture;
 uniform float uTime;
 uniform float uSpeed;
 
+float getFractal(vec2 uv){
+	vec3 p = vec3(uv, uTime * uSpeed);
+	
+	float value;
+    value = simplex3d_fractal(p);
+	value = 0.5 + 0.5 * value;
+    
+    value = Contrast(value, 118.0) * 0.02;
+	return value;
+}
+
 void main()
 {
     vec4 textureColor = texture2D(uTexture, vUv);
 
-    
-    vec2 p = vUv * 0.5 + Scatter(vUv, 0.1);
+    vec2 uv1 = vUv * 0.5 + Scatter(vUv, 0.1);
+	vec2 uv2 = uv1 + 123.45; // random seed
 
-	vec3 p3 = vec3(p, uTime * uSpeed);
+	float v1 = getFractal(uv1);
+	float v2 = getFractal(uv2);
 	
-	float value;
-    value = simplex3d_fractal(p3);
-	value = 0.5 + 0.5 * value;
-    
-    value = Contrast(value, 118.0) * 0.02;
+	vec4 col1 = textureColor * v1;
+	col1.a = v1;
 
-    textureColor.rgb *= value;
-    textureColor.a = value;
+	vec4 col2 = textureColor * v2;
+	col2.a = v2;
 
-    gl_FragColor = textureColor;
+	vec4 col = col1 * col1.a + col2 * col2.a;
+
+    gl_FragColor = col;//textureColor;
     
 }

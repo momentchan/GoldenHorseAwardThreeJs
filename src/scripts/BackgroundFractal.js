@@ -1,5 +1,6 @@
 import * as THREE from 'three'
-import backgroundFractalVertexShader from '../shaders/backgroundFractal/vertex.glsl'
+
+import screenVertexShader from '../shaders/screen_vertex.glsl'
 import backgroundFractalFragmentShader from '../shaders/backgroundFractal/fragment.glsl'
 
 export default class BackgroundFractal {
@@ -17,7 +18,7 @@ export default class BackgroundFractal {
         const geometry = new THREE.PlaneGeometry(w, h, 32, 32);
 
         this.material = new THREE.ShaderMaterial({
-            vertexShader: backgroundFractalVertexShader,
+            vertexShader: screenVertexShader,
             fragmentShader: backgroundFractalFragmentShader,
             side: THREE.DoubleSide,
             transparent: true,
