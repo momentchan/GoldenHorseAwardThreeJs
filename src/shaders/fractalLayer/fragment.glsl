@@ -101,7 +101,7 @@ float getFractal(vec2 uv) {
 	float value;
 	value = simplex3d_fractal(p);
 
-	value = Contrast(value, 90.0) * 0.1;
+	value = Contrast(value, 90.0) * 0.2;
 	value = clamp(value, 0.0, 1.0);
 	return value;
 }
@@ -109,10 +109,10 @@ float getFractal(vec2 uv) {
 void main() {
 	vec4 textureColor = texture2D(uTexture, vUv);
 
-	vec2 uv = vUv * 1.2 + Scatter(vUv, 0.02) + uSeed * 123.45;
+	vec2 uv = vUv * 1.78 + Scatter(vUv, 0.02) + uSeed * 123.45;
 
 	float f = getFractal(uv);
-	vec4 col = vec4(f) * textureColor * 2.0;
+	vec4 col = vec4(f) * textureColor;
 	float fade = smoothEdge(vUv, vec2(0.1)) * smoothstep(0.0, 0.1, uRatio) * smoothstep(1.0, 0.0, uRatio);
 	col.a *= fade;
 

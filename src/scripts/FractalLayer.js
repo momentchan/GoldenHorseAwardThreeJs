@@ -17,7 +17,8 @@ export default class FractalLayer {
         this.camera = this.generater.camera
 
         const size = this.camera.getWorldSizeAtDistance(this.generater.distanceToCamera)
-        const geometry = new THREE.PlaneGeometry(size[0], size[1]);
+        // const geometry = new THREE.PlaneGeometry(size[0], size[1]);
+        const geometry = new THREE.PlaneGeometry(1, 1);
 
         this.material = new THREE.ShaderMaterial({
             vertexShader: screenVertexShader,
@@ -27,9 +28,9 @@ export default class FractalLayer {
             blending: THREE.AdditiveBlending,
             uniforms: {
                 uTime: { value: 0 },
-                uSpeed: { value: 0.00005 },
-                uSeed: {value: Math.random() },
-                uRatio: {value: 0},
+                uSpeed: { value: 0.00002 },
+                uSeed: { value: Math.random() },
+                uRatio: { value: 0 },
                 uTexture: { value: this.generater.experience.resources.items.backgroundTex }
             }
         })
@@ -51,7 +52,7 @@ export default class FractalLayer {
 
         // console.log(r)
         if (r > 1) {
-        //    this.destroy()
+            this.destroy()
         }
     }
 
