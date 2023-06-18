@@ -9,7 +9,8 @@ export default class FractalLayerGenerator {
         this.scene = this.experience.scene
         this.camera = this.experience.camera
 
-        this.lifetime = new THREE.Vector2(2, 5)
+        this.distanceToCamera = 1
+        this.lifetime = new THREE.Vector2(5, 10)
         this.generateInterval = new THREE.Vector2(3, 5)
 
         this.layers = []
@@ -31,18 +32,16 @@ export default class FractalLayerGenerator {
         const layer = new FractalLayer(this, this.layerId)
         this.layers.push(layer)
         this.layerId++
-        // console.log(this.layers.length)
     }
 
     update() {
-        console.log(this.layers.length)
-
         for (var layer of this.layers) {
             layer.update()
         }
     }
 
     removeLayerFromList(id) {
+        // console.log(id);
         this.layers = this.layers.filter(item => item.id !== id)
     }
 }

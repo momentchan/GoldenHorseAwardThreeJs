@@ -19,6 +19,6 @@ export default class Camera extends CameraBase {
     }
 
     update() {
-        this.cameraGroup.position.z -= 0.0005
+        this.cameraGroup.position.z -= 0.0001
     }
 }

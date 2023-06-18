@@ -123,6 +123,6 @@ void main()
 
 	vec4 col = col1 * col1.a + col2 * col2.a;
 
-    gl_FragColor = col;//textureColor;
+    gl_FragColor = col;
     
 }
