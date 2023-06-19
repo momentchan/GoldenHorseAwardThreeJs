@@ -1,4 +1,5 @@
 import * as THREE from 'three'
+import { MathUtils } from 'three'
 import Brush from "./Brush"
 
 
@@ -8,16 +9,17 @@ export default class BushGenerator {
         this.experience = experience
         this.scene = this.experience.scene
         this.camera = this.experience.camera
+        this.items = this.experience.resources.items
 
-        this.distanceToCamera = 6
+        this.distanceToCamera = 5
         this.lifetime = new THREE.Vector2(20, 30)
-        this.generateInterval = new THREE.Vector2(3, 5)
+        this.generateInterval = new THREE.Vector2(10, 20)
 
         this.brushes = []
         this.brushId = 0
 
         this.generateBrush()
-        // this.startGenerateBrushes()
+        this.startGenerateBrushes()
     }
 
     startGenerateBrushes() {
@@ -35,13 +37,13 @@ export default class BushGenerator {
     }
 
     update() {
-        // for (var layer of this.layers) {
-        //     layer.update()
-        // }
+        for (var brush of this.brushes) {
+            brush.update()
+        }
     }
 
-    removeLayerFromList(id) {
+    removeBrushFromList(id) {
         // console.log(id);
-        // this.layers = this.layers.filter(item => item.id !== id)
+        this.brushes = this.brushes.filter(item => item.id !== id)
     }
 }

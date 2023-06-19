@@ -22,5 +22,9 @@ export default class World extends WorldBase {
         if(this.fractalLayerGenerator){
             this.fractalLayerGenerator.update()
         }
+
+        if(this.brushGenerator){
+            this.brushGenerator.update()
+        }
     }
 }

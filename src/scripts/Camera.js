@@ -27,7 +27,7 @@ export default class Camera extends CameraBase {
     }
 
     update() {
-        // this.cameraGroup.position.z -= 0.001
+        this.cameraGroup.position.z -= 0.001
         const pos = this.cameraGroup.position
 
         const x = isValueInRange(this.gyro.gamma, this.gammaRange.x, this.gammaRange.y) ? remap(this.gyro.gamma, this.gammaRange.x, this.gammaRange.y, -0.05, 0.05) : pos.x

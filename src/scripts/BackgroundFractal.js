@@ -18,7 +18,7 @@ export default class BackgroundFractal {
             vertexShader: screenVertexShader,
             fragmentShader: backgroundFractalFragmentShader,
             side: THREE.DoubleSide,
-            transparent: true,
+            transparent: false,
             uniforms: {
                 uTime: { value: 0 },
                 uSpeed: { value: 0.0001 },
