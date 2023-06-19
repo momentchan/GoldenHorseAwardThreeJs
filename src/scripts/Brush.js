@@ -41,7 +41,7 @@ export default class Brush {
             800,
             new THREE.Vector2(0.5, 1.5).multiplyScalar(0.001),
             new THREE.Vector2(0.3, 1),
-            0.1,
+            0.2,
             20
         )
     }

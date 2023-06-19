@@ -24,7 +24,7 @@ export default class BrushLayer {
                 uSeed: { value: Math.random() },
                 uRatio: { value: 0 },
                 uStrength: { value: strength },
-                uColorStrength: {value: colorStrength},
+                uColorStrength: { value: colorStrength },
                 uStrokeTex: { value: this.items.strokeTex },
                 uBackgroundTex: { value: this.items.backgroundTex }
             }
@@ -44,10 +44,11 @@ export default class BrushLayer {
 
         for (let i = 0; i < count; i++) {
 
-            const x = Math.random()
-
             const w = MathUtils.randFloat(wRange.x, wRange.y)
             const h = MathUtils.randFloat(hRange.x, hRange.y)
+
+            const x = Math.random()
+            const y = Math.random()
 
             const position = this.brush.position.clone()
                 .add(new THREE.Vector3(
@@ -70,7 +71,6 @@ export default class BrushLayer {
             uvBuffer.setZ(i, 0.5 - h / this.brush.brushSize.y * 0.5)
             uvBuffer.setW(i, 0.5 + h / this.brush.brushSize.y * 0.5)
         }
-        console.log(uvBuffer)
     }
 
     update() {

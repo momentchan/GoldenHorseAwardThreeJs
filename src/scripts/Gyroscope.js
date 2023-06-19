@@ -9,34 +9,35 @@ export default class Gyroscoe {
         this.alpha = 0
         this.beta = 0
         this.gamma = 0
-        
-
-        if (window.DeviceMotionEvent &&
-            typeof window.DeviceMotionEvent.requestPermission === "function"
-        ) {
-            window.DeviceMotionEvent.requestPermission();
-        }
 
         if (window.DeviceMotionEvent && typeof window.DeviceMotionEvent.requestPermission === 'function') {
-            // Request permission to access motion sensors (required for newer versions of iOS)
-            window.DeviceMotionEvent.requestPermission()
-                .then(permissionState => {
-                    if (permissionState === 'granted') {
-                        // Permission granted, add event listener for motion data
-                        window.addEventListener("deviceorientation", this.handleOrientation.bind(this));
-                    } else {
-                        // Permission denied, display error message
-                        this.debugText.textContent = 'Motion sensor permission denied';
-                    }
-                })
-                .catch(error => {
-                    // Error occurred while requesting permission, display error message
-                    console.error('Motion sensor permission error:', error);
-                    this.debugText.textContent = 'Motion sensor permission error';
-                });
+            this.banner = document.createElement('div')
+            this.banner.innerHTML = `<div style="z-index: 1; position: absolute; width: 100%; background-color:#000; color: #fff"><p style="padding: 10px">Click here to enable DeviceMotion</p></div>`
+            this.banner.onclick = () => this.request()
+            document.body.appendChild(this.banner)
         } else {
             window.addEventListener("deviceorientation", this.handleOrientation.bind(this));
         }
+    }
+
+    request() {
+        this.banner.remove()
+        // Request permission to access motion sensors (required for newer versions of iOS)
+        window.DeviceMotionEvent.requestPermission()
+            .then(permissionState => {
+                if (permissionState === 'granted') {
+                    // Permission granted, add event listener for motion data
+                    window.addEventListener("deviceorientation", this.handleOrientation.bind(this));
+                } else {
+                    // Permission denied, display error message
+                    this.debugText.textContent = 'Motion sensor permission denied';
+                }
+            })
+            .catch(error => {
+                // Error occurred while requesting permission, display error message
+                console.error('Motion sensor permission error:', error);
+                this.debugText.textContent = 'Motion sensor permission error';
+            });
     }
 
     handleOrientation(event) {
