@@ -5,7 +5,7 @@ import instancedVertexShader from '../shaders/instanced_vertex.glsl'
 import brushFragmentShader from '../shaders/brush/fragment.glsl'
 
 export default class BrushLayer {
-    constructor(brush, count, w, h, strength) {
+    constructor(brush, count, wRange, hRange, strength, colorStrength) {
         this.brush = brush
         this.scene = this.brush.scene
         this.camera = this.brush.camera
@@ -24,6 +24,7 @@ export default class BrushLayer {
                 uSeed: { value: Math.random() },
                 uRatio: { value: 0 },
                 uStrength: { value: strength },
+                uColorStrength: {value: colorStrength},
                 uStrokeTex: { value: this.items.strokeTex },
                 uBackgroundTex: { value: this.items.backgroundTex }
             }
@@ -31,8 +32,10 @@ export default class BrushLayer {
 
         this.mesh = new THREE.InstancedMesh(geometry, this.material, count)
         const seedBuffer = new THREE.InstancedBufferAttribute(new Float32Array(count), 1);
-        this.mesh.geometry.setAttribute('seedBuffer', seedBuffer);
+        const uvBuffer = new THREE.InstancedBufferAttribute(new Float32Array(count * 4), 4);
 
+        this.mesh.geometry.setAttribute('seedBuffer', seedBuffer)
+        this.mesh.geometry.setAttribute('uvBuffer', uvBuffer) // x0, x1, y0, y1
 
         var rotationMatrix = new THREE.Matrix4().makeRotationZ(this.brush.angle)
         this.mesh.applyMatrix4(rotationMatrix)
@@ -40,23 +43,34 @@ export default class BrushLayer {
         this.scene.add(this.mesh)
 
         for (let i = 0; i < count; i++) {
+
+            const x = Math.random()
+
+            const w = MathUtils.randFloat(wRange.x, wRange.y)
+            const h = MathUtils.randFloat(hRange.x, hRange.y)
+
             const position = this.brush.position.clone()
-            .add(new THREE.Vector3(
-                (Math.random() - 0.5) * this.brush.brushSize.x * 2,
-                0,
-                0
-            ))
+                .add(new THREE.Vector3(
+                    (x - 0.5) * this.brush.brushSize.x,
+                    0,
+                    0
+                ))
 
             const quaternion = new THREE.Quaternion()
             quaternion.setFromEuler(new THREE.Euler(0, 0, 0))
 
             const matrix = new THREE.Matrix4()
 
-            matrix.compose(position, quaternion, new THREE.Vector3(MathUtils.randFloat(w.x, w.y), MathUtils.randFloat(h.x, h.y), 1.0))
+            matrix.compose(position, quaternion, new THREE.Vector3(w, h, 1.0))
 
             this.mesh.setMatrixAt(i, matrix)
             seedBuffer.setX(i, Math.random())
+            uvBuffer.setX(i, x - w / this.brush.brushSize.x * 0.5)
+            uvBuffer.setY(i, x + w / this.brush.brushSize.x * 0.5)
+            uvBuffer.setZ(i, 0.5 - h / this.brush.brushSize.y * 0.5)
+            uvBuffer.setW(i, 0.5 + h / this.brush.brushSize.y * 0.5)
         }
+        console.log(uvBuffer)
     }
 
     update() {

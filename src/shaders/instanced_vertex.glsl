@@ -51,27 +51,27 @@ float snoise(vec2 v) {
 
 varying vec2 vUv;
 varying float vSeedBuffer;
+varying vec4 vUvBuffer;
+
 attribute float seedBuffer;
+attribute vec4 uvBuffer;
 
 void main() {
+	vec2 strokeUv = vec2(mix(uvBuffer.x, uvBuffer.y, uv.x), mix(uvBuffer.z, uvBuffer.w, uv.y));
 
-    vec3 pos = position;
-    // // pos.x += sin(uv.y * 6.28) * 2.0;
-    
+	float offset = sin(strokeUv.y * 6.128 * 2.0 ) * 0.1 + snoise(vec2(strokeUv.y * 2.0, seedBuffer)) * 0.2;
+     // Perform your vertex transformations
+    vec4 worldPosition = modelMatrix * instanceMatrix * vec4(position, 1.0);
+	worldPosition.x += offset;
 
-    //  // Perform your vertex transformations
-    // vec4 worldPosition = modelMatrix * vec4(position, 1.0);
-    // vec4 viewPosition = viewMatrix * worldPosition;
-    // vec4 projectedPosition = projectionMatrix * viewPosition;
+    vec4 viewPosition = viewMatrix * worldPosition;
+    vec4 projectedPosition = projectionMatrix * viewPosition;
 
-    // // Calculate screen position
-    // vScreenPosition = projectedPosition.xy / projectedPosition.w;
-
-    // // Set the transformed vertex position
-    // gl_Position = projectedPosition;
-    
-    gl_Position = projectionMatrix * viewMatrix * modelMatrix * instanceMatrix * vec4(pos, 1.0);
+    // Set the transformed vertex position
+    gl_Position = projectedPosition;
 
     vUv = uv;
+
+    vUvBuffer = uvBuffer;
     vSeedBuffer = seedBuffer;
 }

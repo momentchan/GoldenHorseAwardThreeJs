@@ -11,7 +11,7 @@ export default class FractalLayerGenerator {
 
         this.distanceToCamera = 1
         this.lifetime = new THREE.Vector2(20, 30)
-        this.generateInterval = new THREE.Vector2(3, 5)
+        this.generateInterval = new THREE.Vector2(5, 15)
 
         this.layers = []
         this.layerId = 0

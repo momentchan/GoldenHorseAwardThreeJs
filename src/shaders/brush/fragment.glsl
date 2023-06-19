@@ -1,4 +1,3 @@
-
 float noise(vec2 co) {
 	vec2 seed = vec2(sin(co.x), cos(co.y));
 	return fract(sin(dot(seed, vec2(12.9898, 78.233))) * 43758.5453);
@@ -40,23 +39,25 @@ float drawBrush(vec2 uv, float time, float strength, float seed) {
 	float fade = 1.0 - smoothstep(delay + r, delay + r + 0.05, uv.y);
 
 	float o = drawEllipse(uv, vec2(0.5, 0.5), 1.0, 1.0) * strength * fade;
-	return o;
+	return clamp(o, 0.0, 1.0);
 }
 
 varying vec2 vUv;
 varying float vSeedBuffer;
+varying vec4 vUvBuffer;
 
 uniform sampler2D uBackgroundTex;
 uniform sampler2D uStrokeTex;
 uniform float uStrength;
 uniform float uTime;
 uniform float uRatio;
+uniform float uColorStrength;
 
 void main() {
 	vec4 background = texture2D(uBackgroundTex, vUv);
-	background.rgb = hueShift(background.rgb, -30.0);
+	background.rgb = hueShift(background.rgb, -30.0) * uColorStrength;
 
-	vec2 strokeUv = vec2(vUv.x * 0.01 + vSeedBuffer, vUv.y);
+	vec2 strokeUv = vec2(mix(vUvBuffer.x, vUvBuffer.y, vUv.x), mix(vUvBuffer.z, vUvBuffer.w, vUv.y));
 	float stroke = texture2D(uStrokeTex, strokeUv).r;
 
 	vec2 uv = vUv;
@@ -66,5 +67,11 @@ void main() {
 	float fade = smoothstep(0.0, 0.05, uRatio) * smoothstep(1.0, 0.9, uRatio);
 	col.a = b * fade;
 
+	//col.r = mix(vUvBuffer.x, vUvBuffer.y, vUv.x);
+	//col.g = mix(vUvBuffer.z, vUvBuffer.w, vUv.y);
+	//col.b = 0.0;
+	//col.a = 1.0;
+
+	// col.rgba = vec4(stroke);
 	gl_FragColor = col;
 }

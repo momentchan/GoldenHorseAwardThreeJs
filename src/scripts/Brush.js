@@ -25,14 +25,15 @@ export default class Brush {
         this.position = new THREE.Vector3((Math.random()-0.5) * this.sizes[0], (Math.random()-0.5) * this.sizes[1], cameraWorldPos.z + this.generater.distanceToCamera)
         this.angle = Math.random() * Math.PI * 2
 
-        this.brushSize = new THREE.Vector2(0.2, 2)
+        this.brushSize = new THREE.Vector2(0.4, 2)
 
         this.bottomLayer = new BrushLayer(
             this,
-            200,
-            new THREE.Vector2(0.5, 1.5).multiplyScalar(0.05),
+            100,
+            new THREE.Vector2(0.5, 1.5).multiplyScalar(0.1),
             new THREE.Vector2(0.3, 1),
-            0.1
+            0.01,
+            64
         )
 
         this.upperLayer = new BrushLayer(
@@ -40,7 +41,8 @@ export default class Brush {
             800,
             new THREE.Vector2(0.5, 1.5).multiplyScalar(0.001),
             new THREE.Vector2(0.3, 1),
-            0.5
+            0.1,
+            20
         )
     }
 
