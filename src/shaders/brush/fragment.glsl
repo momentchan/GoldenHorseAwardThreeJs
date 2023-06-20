@@ -32,13 +32,13 @@ vec3 hueShift(vec3 col, float Offset) {
 float drawBrush(vec2 uv, float time, float strength, float seed, float ratio) {
 	float n = noise(vec2(float(seed) * 0.45, float(seed) * 1.89));
 
-	float delay = -mix(0.0, 0.5, fract(n * 32.5));
+	float delay = -mix(0.0, 1.0, fract(n * 32.5));
 	float speed = mix(0.1, 0.2, fract(n * 69.3));
 	float life = mix(0.5, 0.9, fract(n * 58.8));
 
 
 	float r = time * speed;
-	float fade = (1.0 - smoothstep(delay + r, delay + r + 0.05, uv.y)) * smoothstep(1.0, life, ratio);
+	float fade = (1.0 - smoothstep(delay + r, delay + r + 0.02, uv.y)) * smoothstep(1.0, life, ratio);
 
 	float o = drawEllipse(uv, vec2(0.5, 0.5), 1.0, 1.0) * strength * fade;
 	return clamp(o, 0.0, 1.0);

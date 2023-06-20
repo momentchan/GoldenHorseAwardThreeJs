@@ -59,19 +59,21 @@ attribute vec4 uvBuffer;
 void main() {
 	vec2 strokeUv = vec2(mix(uvBuffer.x, uvBuffer.y, uv.x), mix(uvBuffer.z, uvBuffer.w, uv.y));
 
-	float offset = sin(strokeUv.y * 6.128 * 2.0 ) * 0.1 + snoise(vec2(strokeUv.y * 2.0, seedBuffer)) * 0.2;
+	vec2 offset = vec2(snoise(vec2(strokeUv.y * 2.0, seedBuffer * 0.5)), snoise(vec2(seedBuffer * 0.5, strokeUv.y * 2.0))) * 0.1;
      // Perform your vertex transformations
-    vec4 worldPosition = modelMatrix * instanceMatrix * vec4(position, 1.0);
-	worldPosition.x += offset;
+	vec4 pos = instanceMatrix * vec4(position, 1.0);
+	pos.xy += offset;
+	vec4 worldPosition = modelMatrix * pos;
+	// worldPosition.x += offset;
 
-    vec4 viewPosition = viewMatrix * worldPosition;
-    vec4 projectedPosition = projectionMatrix * viewPosition;
+	vec4 viewPosition = viewMatrix * worldPosition;
+	vec4 projectedPosition = projectionMatrix * viewPosition;
 
     // Set the transformed vertex position
-    gl_Position = projectedPosition;
+	gl_Position = projectedPosition;
 
-    vUv = uv;
+	vUv = uv;
 
-    vUvBuffer = uvBuffer;
-    vSeedBuffer = seedBuffer;
+	vUvBuffer = uvBuffer;
+	vSeedBuffer = seedBuffer;
 }

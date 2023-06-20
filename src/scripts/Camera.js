@@ -12,7 +12,7 @@ export default class Camera extends CameraBase {
             1000)
         this.cameraGroup = new THREE.Group()
         this.cameraGroup.add(this.instance)
-        this.instance.position.z = -8
+        this.instance.position.z = -15
         this.gyro = this.experience.gyro
 
         this.gammaRange = new THREE.Vector2(-20, 20)
@@ -28,7 +28,7 @@ export default class Camera extends CameraBase {
     }
 
     update() {
-        this.cameraGroup.position.z -= 0.002
+        this.cameraGroup.position.z -= 0.0015
         const pos = this.cameraGroup.position
 
         const x = isValueInRange(this.gyro.gamma, this.gammaRange.x, this.gammaRange.y) ? remap(this.gyro.gamma, this.gammaRange.x, this.gammaRange.y, -this.moveRange.x, this.moveRange.x) : pos.x
