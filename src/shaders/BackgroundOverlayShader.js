@@ -28,16 +28,17 @@ const BackgroundOverlayShader = {
 
 		varying vec2 vUv;
 
-        vec3 BlendOverLay(vec3 baseColor, vec3 blendColor)
+        vec3 BlendOverLay(vec3 baseColor, vec3 blendColor, float lerp)
         {
-            return (2.0 * baseColor * blendColor);
+            return mix(baseColor, (2.0 * baseColor * blendColor), lerp);
         }
+
 		void main() {
 
             float overlay = texture2D(uTexture, vUv).r;
             vec4 col = texture2D(tDiffuse, vUv);
 
-            col.rgb = BlendOverLay(col.rgb, vec3(overlay));
+            col.rgb = BlendOverLay(col.rgb, vec3(overlay), 0.5);
 			gl_FragColor = col;
 		}`
 };

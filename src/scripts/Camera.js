@@ -15,8 +15,8 @@ export default class Camera extends CameraBase {
         this.instance.position.z = -15
         this.gyro = this.experience.gyro
 
-        this.gammaRange = new THREE.Vector2(-20, 20)
-        this.betaRange = new THREE.Vector2(70, 110)
+        this.gammaRange = new THREE.Vector2(-80, 80)
+        this.betaRange = new THREE.Vector2(30, 160)
         this.moveRange = new THREE.Vector2(0.2, 0.2)
 
         this.scene.add(this.cameraGroup)
