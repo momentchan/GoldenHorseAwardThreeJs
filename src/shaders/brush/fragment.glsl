@@ -36,9 +36,9 @@ float drawBrush(vec2 uv, float time, float strength, float seed, float ratio) {
 	float speed = mix(0.1, 0.2, fract(n * 69.3));
 	float life = mix(0.5, 0.9, fract(n * 58.8));
 
-
 	float r = time * speed;
 	float fade = (1.0 - smoothstep(delay + r, delay + r + 0.02, uv.y)) * smoothstep(1.0, life, ratio);
+	// float fade = 1.0;
 
 	float o = drawEllipse(uv, vec2(0.5, 0.5), 1.0, 1.0) * strength * fade;
 	return clamp(o, 0.0, 1.0);
@@ -47,33 +47,33 @@ float drawBrush(vec2 uv, float time, float strength, float seed, float ratio) {
 varying vec2 vUv;
 varying float vSeedBuffer;
 varying vec4 vUvBuffer;
+varying vec2 vScreenUV;
 
 uniform sampler2D uBackgroundTex;
 uniform sampler2D uStrokeTex;
 uniform float uStrength;
 uniform float uTime;
 uniform float uRatio;
+uniform float uHueShift;
 uniform float uColorStrength;
 
 void main() {
-	vec4 background = texture2D(uBackgroundTex, vUv);
-	background.rgb = hueShift(background.rgb, -30.0) * uColorStrength;
+	vec4 background = texture2D(uBackgroundTex, vScreenUV);
+	background.rgb = hueShift(background.rgb, uHueShift) * uColorStrength;
 
-	vec2 strokeUv = vec2(mix(vUvBuffer.x, vUvBuffer.y, vUv.x), mix(vUvBuffer.z, vUvBuffer.w, vUv.y));
+	vec2 strokeUv = clamp(vec2(mix(vUvBuffer.x, vUvBuffer.y, vUv.x), mix(vUvBuffer.z, vUvBuffer.w, vUv.y)), 0.0, 1.0);
 	float stroke = texture2D(uStrokeTex, strokeUv).r;
 
 	vec2 uv = vUv;
 	float b = drawBrush(uv, uTime, uStrength, vSeedBuffer, uRatio);
 
-	vec4 col = b * stroke * background * 5.0;
-	float fade = smoothEdge(strokeUv, vec2(0.01, 0.1));
-	col.a = b * fade;
+	vec4 col = b * stroke * background;
+	col.a = b * 20.0 * smoothEdge(strokeUv, vec2(0.1, 0.1));
 
 	// col.r = mix(vUvBuffer.x, vUvBuffer.y, vUv.x);
 	// col.g = mix(vUvBuffer.z, vUvBuffer.w, vUv.y);
 	// col.b = 0.0;
 	// col.a = 1.0;
 
-	// col.rgba = vec4(stroke);
 	gl_FragColor = col;
 }

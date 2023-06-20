@@ -5,7 +5,7 @@ import instancedVertexShader from '../shaders/instanced_vertex.glsl'
 import brushFragmentShader from '../shaders/brush/fragment.glsl'
 
 export default class BrushLayer {
-    constructor(brush, count, wRange, hRange, strength, colorStrength) {
+    constructor(brush, count, wRange, hRange, strength, colorStrength, hueShift) {
         this.brush = brush
         this.scene = this.brush.scene
         this.camera = this.brush.camera
@@ -26,7 +26,8 @@ export default class BrushLayer {
                 uStrength: { value: strength },
                 uColorStrength: { value: colorStrength },
                 uStrokeTex: { value: this.items.strokeTex },
-                uBackgroundTex: { value: this.items.backgroundTex }
+                uBackgroundTex: { value: this.items.backgroundTex },
+                uHueShift: { value: hueShift }
             }
         })
 

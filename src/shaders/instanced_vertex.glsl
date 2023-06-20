@@ -52,14 +52,14 @@ float snoise(vec2 v) {
 varying vec2 vUv;
 varying float vSeedBuffer;
 varying vec4 vUvBuffer;
-
+varying vec2 vScreenUV;
 attribute float seedBuffer;
 attribute vec4 uvBuffer;
 
 void main() {
 	vec2 strokeUv = vec2(mix(uvBuffer.x, uvBuffer.y, uv.x), mix(uvBuffer.z, uvBuffer.w, uv.y));
 
-	vec2 offset = vec2(snoise(vec2(strokeUv.y * 2.0, seedBuffer * 0.5)), snoise(vec2(seedBuffer * 0.5, strokeUv.y * 2.0))) * 0.1;
+	vec2 offset = vec2(snoise(vec2(strokeUv.y * 2.0, seedBuffer * 0.2)), snoise(vec2(seedBuffer * 0.2, strokeUv.y * 2.0))) * 0.2;
      // Perform your vertex transformations
 	vec4 pos = instanceMatrix * vec4(position, 1.0);
 	pos.xy += offset;
@@ -72,6 +72,7 @@ void main() {
     // Set the transformed vertex position
 	gl_Position = projectedPosition;
 
+	vScreenUV = gl_Position.xy * 0.5 + 0.5;
 	vUv = uv;
 
 	vUvBuffer = uvBuffer;

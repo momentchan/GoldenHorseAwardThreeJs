@@ -10,24 +10,30 @@ export default class Gyroscoe {
         this.beta = 0
         this.gamma = 0
 
+
+        // hide debugText
+        this.debugText.style.visibility = 'hidden'
+
+
+
         if (window.DeviceMotionEvent && typeof window.DeviceMotionEvent.requestPermission === 'function') {
             this.banner = document.createElement('div')
             this.banner.innerHTML = `<div style="z-index: 1; position: absolute; width: 100%; background-color:#000; color: #fff"><p style="padding: 10px">Click here to enable DeviceMotion</p></div>`
-            this.banner.onclick = () => this.request()
+            this.banner.onclick = () => this.requestPermission()
             document.body.appendChild(this.banner)
         } else {
             window.addEventListener("deviceorientation", this.handleOrientation.bind(this));
         }
     }
 
-    request() {
-        this.banner.remove()
+    requestPermission() {
         // Request permission to access motion sensors (required for newer versions of iOS)
         window.DeviceMotionEvent.requestPermission()
             .then(permissionState => {
                 if (permissionState === 'granted') {
                     // Permission granted, add event listener for motion data
                     window.addEventListener("deviceorientation", this.handleOrientation.bind(this));
+                    this.banner.remove()
                 } else {
                     // Permission denied, display error message
                     this.debugText.textContent = 'Motion sensor permission denied';

@@ -22,27 +22,30 @@ export default class Brush {
 
         this.sizes = this.camera.getWorldSizeAtDistance(this.generater.distanceToCamera)
 
-        this.position = new THREE.Vector3((Math.random()-0.5) * this.sizes[0], (Math.random()-0.5) * this.sizes[1], cameraWorldPos.z + this.generater.distanceToCamera)
+        this.position = new THREE.Vector3((Math.random() - 0.5) * this.sizes[0], (Math.random() - 0.5) * this.sizes[1], cameraWorldPos.z + this.generater.distanceToCamera)
+        // this.position = new THREE.Vector3(0, 0, cameraWorldPos.z + this.generater.distanceToCamera)
         this.angle = Math.random() * Math.PI * 2
 
         this.brushSize = new THREE.Vector2(0.4, 2)
 
         this.bottomLayer = new BrushLayer(
             this,
-            100,
+            200,
             new THREE.Vector2(0.5, 1.5).multiplyScalar(0.1),
             new THREE.Vector2(0.3, 1),
             0.01,
-            64
+            15,
+            -2
         )
 
         this.upperLayer = new BrushLayer(
             this,
             800,
-            new THREE.Vector2(0.5, 1.5).multiplyScalar(0.001),
+            new THREE.Vector2(0.5, 1.5).multiplyScalar(0.005),
             new THREE.Vector2(0.3, 1),
-            0.3,
-            30
+            0.05,
+            3,
+            -30
         )
     }
 
@@ -62,8 +65,10 @@ export default class Brush {
     destroy() {
         this.generater.removeBrushFromList(this.id)
 
-        this.upperLayer.destroy()
-        this.bottomLayer.destroy()
+        if (this.upperLayer)
+            this.upperLayer.destroy()
+        if (this.bottomLayer)
+            this.bottomLayer.destroy()
 
         delete this
     }

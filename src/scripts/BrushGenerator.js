@@ -11,7 +11,7 @@ export default class BushGenerator {
         this.camera = this.experience.camera
         this.items = this.experience.resources.items
 
-        this.distanceToCamera = 5
+        this.distanceToCamera = 4
         this.lifetime = new THREE.Vector2(20, 30)
         this.generateInterval = new THREE.Vector2(10, 20)
 
