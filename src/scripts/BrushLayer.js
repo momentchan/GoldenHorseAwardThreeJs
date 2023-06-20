@@ -5,11 +5,16 @@ import instancedVertexShader from '../shaders/instanced_vertex.glsl'
 import brushFragmentShader from '../shaders/brush/fragment.glsl'
 
 export default class BrushLayer {
-    constructor(brush, count, wRange, hRange, strength, colorStrength, hueShift) {
+    constructor(brush, type) {
         this.brush = brush
         this.scene = this.brush.scene
         this.camera = this.brush.camera
         this.items = this.brush.items
+
+        this.type = type
+
+        this.parameters = this.brush.parameters
+
         const geometry = new THREE.PlaneGeometry(1, this.brush.brushSize.y, 1, 10);
 
         this.material = new THREE.ShaderMaterial({
@@ -23,13 +28,17 @@ export default class BrushLayer {
                 uSpeed: { value: 0.00002 },
                 uSeed: { value: Math.random() },
                 uRatio: { value: 0 },
-                uStrength: { value: strength },
-                uColorStrength: { value: colorStrength },
+                uStrength: { value: this.parameters[this.type].strength },
+                uColorStrength: { value: this.parameters[this.type].colorStrength },
+                uHueShift: { value: this.parameters[this.type].hueShift },
                 uStrokeTex: { value: this.items.strokeTex },
-                uBackgroundTex: { value: this.items.backgroundTex },
-                uHueShift: { value: hueShift }
+                uBackgroundTex: { value: this.items.backgroundTex }
             }
         })
+
+        const count = this.parameters[this.type].count
+        const wRange = new THREE.Vector2(0.5, 1.5).multiplyScalar(this.parameters[this.type].widthScaler)
+        const hRange = new THREE.Vector2(0.3, 1)
 
         this.mesh = new THREE.InstancedMesh(geometry, this.material, count)
         const seedBuffer = new THREE.InstancedBufferAttribute(new Float32Array(count), 1);
@@ -77,6 +86,12 @@ export default class BrushLayer {
     update() {
         this.material.uniforms.uTime.value = this.brush.t / 1000
         this.material.uniforms.uRatio.value = this.brush.age
+    }
+
+    updateMaterial() {
+        this.material.uniforms.uStrength.value = this.parameters[this.type].strength
+        this.material.uniforms.uColorStrength.value = this.parameters[this.type].colorStrength
+        this.material.uniforms.uHueShift.value = this.parameters[this.type].hueShift
     }
 
     destroy() {
