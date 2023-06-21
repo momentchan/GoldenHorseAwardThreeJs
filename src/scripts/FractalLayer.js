@@ -35,13 +35,13 @@ export default class FractalLayer {
             }
         })
 
-        this.plane = new THREE.Mesh(geometry, this.material);
+        this.mesh = new THREE.Mesh(geometry, this.material);
 
         var cameraWorldPos = new THREE.Vector3();
         this.camera.instance.getWorldPosition(cameraWorldPos)
 
-        this.plane.position.z = cameraWorldPos.z + this.generater.distanceToCamera;
-        this.scene.add(this.plane);
+        this.mesh.position.z = cameraWorldPos.z + this.generater.distanceToCamera;
+        this.scene.add(this.mesh);
     }
 
     update() {
@@ -60,11 +60,11 @@ export default class FractalLayer {
         this.generater.removeLayerFromList(this.id)
 
         // Remove the plane from the scene
-        this.scene.remove(this.plane);
+        this.scene.remove(this.mesh);
 
         // Dispose the plane's geometry and material
-        this.plane.geometry.dispose();
-        this.plane.material.dispose();
+        this.mesh.geometry.dispose();
+        this.mesh.material.dispose();
 
         delete this
     }
