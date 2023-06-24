@@ -81,32 +81,37 @@ vec3 hueShift(vec3 col, float Offset) {
 }
 
 float drawSingleBrush(vec2 uv, float n, float width, float height, float drawRate, float strength) {
-	float offset = snoise(vec2(n, uv.y * 2.0)) * 0.5;
+	float offset = snoise(vec2(n, uv.y * 2.0)) * 0.1;
 
 	float x = mix(-0.2, 0.2, n);
-	float y = mix(-0.2, 0.2, fract(n * 132.0));
+	float y = mix(-0.5, 0.5, fract(n * 132.0));
 	float w = mix(0.5, 1.5, fract(n * 43.3)) * width;
-	float h = mix(0.3, 1.0, fract(n * 123.8)) * height;
+	float h = mix(0.6, 1.0, fract(n * 123.8)) * height;
 
-	float intensity = mix(0.1, 1.0, fract(n * 35.5));
+	float s = mix(0.1, 1.0, fract(n * 35.5)) * strength;
 
-	float delay = -mix(0.0, 0.2, fract(n * 32.5));
-	float speed = mix(0.06, 0.1, fract(n * 69.3));
+	float delay = -mix(0.0, 0.5, fract(n * 32.5));
+	float speed = mix(0.1, 0.15, fract(n * 69.3));
 
 	float r = drawRate * speed;
 	float fade = 1.0 - smoothstep(delay + r, delay + r + 0.05, uv.y + 0.5);
 
-	return clamp(drawEllipse(uv + offset, vec2(x, y), w, h), 0.0, 1.0) * strength * intensity * fade;
+	// fade = 1.0;
+
+	return clamp(drawEllipse(uv + offset, vec2(x, y), w, h) * s * fade, 0.0, 1.0);
 }
 
-float drawBrush(vec2 uv, vec2 id, float width, float height, float ratio, float strength) {
+float drawBrush(vec2 uv, vec2 id, float layer, float width, float height, float ratio, float strength) {
 	float o = 0.0;
-	for(int x = -10; x <= 10; x++) {
+	for(int x = -1; x <= 1; x++) {
 		vec2 offs = vec2(x, 0.0);
 
-		float n = nrand(id * 130.45 + offs);
-		o += drawSingleBrush(uv - offs, n, width, height, ratio, strength) / 21.0;
+		float n = nrand(id + offs + layer);
+		o += drawSingleBrush(uv - offs, n, width, height, ratio, strength) / 3.0;
+		o = clamp(o, 0.0, 1.0);
 	}
+
+	// if(uv.x > .48 || uv.y > .48) o = 1.0;
 	return o;
 }
 
@@ -115,6 +120,7 @@ varying vec2 vUv;
 uniform sampler2D uColorTex;
 uniform sampler2D uStrokeTex;
 uniform float uCount;
+uniform float uLayer;
 uniform float uWitdh;
 uniform float uHeight;
 uniform float uStrength;
@@ -126,23 +132,34 @@ uniform float uRatio;
 void main() {
 	vec2 uv = vUv;
 	uv.x *= uCount;
-	vec2 id = floor(uv);
-	vec2 gv = fract(uv) - 0.5;
+
+	float b = 0.0;
+	for(float l = 0.0; l < uLayer; l++) {
+		float n = nrand(vec2(l * 130.45, 0.0));
+
+		vec2 uv0 = uv;
+		uv0.x += n * uCount;
+		vec2 id = floor(uv0);
+		vec2 gv = fract(uv0) - 0.5;
+
+		b += drawBrush(gv, id, l, uWitdh, uHeight, uDrawRate, uStrength);
+		b = clamp(b, 0.0, 1.0);
+	}
 
 	vec4 color = texture2D(uColorTex, vUv);
 	color.rgb = hueShift(color.rgb, uHueShift) * uColorStrength;
 
 	vec4 stroke = texture2D(uStrokeTex, vUv);
 
-	float b = drawBrush(gv, id, uWitdh, uHeight, uDrawRate, uStrength);
-
 	// gamma correction
 	float b_gamma = pow(b, 1.0 / 2.2);
 
 	vec4 col = color * b_gamma * stroke.r;
+	// col = vec4(b_gamma);
 
 	float fade = 0.1 + mix(0.0, 1.9, smoothstep(0.5, 1.0, uRatio));
 	col.a = b * smoothEdge(vUv, vec2(fade, 0.1));
+	// col.a = 1.0;
 
 	gl_FragColor = col;
 }

@@ -11,7 +11,7 @@ export default class BushGeneratorNew {
         this.camera = this.experience.camera
         this.items = this.experience.resources.items
 
-        this.distanceToCamera = 6
+        this.distanceToCamera = 12
         this.lifetime = new THREE.Vector2(20, 30)
         this.generateInterval = new THREE.Vector2(10, 20)
 
@@ -27,24 +27,26 @@ export default class BushGeneratorNew {
 
         this.parameters = { 'bottom': {}, 'upper': {} }
 
-        this.parameters['bottom'].sizes = new THREE.Vector2(2, 3)
+        this.parameters['bottom'].sizes = new THREE.Vector2(3, 4)
         this.parameters['bottom'].distortionFrequency = 0.5
         this.parameters['bottom'].distortionStrength = 0.5
-        this.parameters['bottom'].count = 200
-        this.parameters['bottom'].strength = 1.2
-        this.parameters['bottom'].width = 270
+        this.parameters['bottom'].count = 4
+        this.parameters['bottom'].layer = 30
+        this.parameters['bottom'].strength = 0.2
+        this.parameters['bottom'].width = 0.9
         this.parameters['bottom'].height = 1
-        this.parameters['bottom'].colorStrength = 2.3
+        this.parameters['bottom'].colorStrength = 4.3
         this.parameters['bottom'].hueShift = -5
 
-        this.parameters['upper'].sizes = new THREE.Vector2(2, 3)
+        this.parameters['upper'].sizes = new THREE.Vector2(3, 4)
         this.parameters['upper'].distortionFrequency = 0.5
         this.parameters['upper'].distortionStrength = 0.5
-        this.parameters['upper'].count = 400
-        this.parameters['upper'].strength = 1.23
-        this.parameters['upper'].width = 4.24
+        this.parameters['upper'].count = 80
+        this.parameters['upper'].layer = 5
+        this.parameters['upper'].strength = 0.3
+        this.parameters['upper'].width = 0.6
         this.parameters['upper'].height = 1
-        this.parameters['upper'].colorStrength = 5.3
+        this.parameters['upper'].colorStrength = 5
         this.parameters['upper'].hueShift = -30
 
 
@@ -71,7 +73,7 @@ export default class BushGeneratorNew {
                 this.debugFolder.add(this.parameters[key], 'strength')
                     .name('strength')
                     .min(0)
-                    .max(0.1)
+                    .max(5)
                     .step(0.001)
                     .onChange(() => this.updateBrushMaterials())
 
@@ -89,8 +91,28 @@ export default class BushGeneratorNew {
                     .step(0.01)
                     .onChange(() => this.updateBrushMaterials())
 
+
+                this.debugFolder.add(this.parameters[key], 'width')
+                    .name('width')
+                    .min(0)
+                    .max(10)
+                    .step(0.1)
+                    .onChange(() => this.updateBrushMaterials())
+
+
+                this.debugFolder.add(this.parameters[key], 'height')
+                    .name('height')
+                    .min(0)
+                    .max(2)
+                    .step(0.01)
+                    .onChange(() => this.updateBrushMaterials())
+
                 this.debugFolder.add(this.parameters[key], 'count')
                     .name('count')
+                    .min(0)
+                    .max(100)
+                    .step(1)
+                    .onChange(() => this.updateBrushMaterials())
             }
         }
     }

@@ -28,7 +28,7 @@ uniform float uDistortionStrength;
 void main() {
 
 	vec3 pos = position;
-	pos.x += (gradientNoise(uv.yy, uDistortionFrequency) - 0.5) * 2.0 * uDistortionStrength;
+	pos.x += (gradientNoise(uv.yy, uDistortionFrequency) - 0.5) * uDistortionStrength;
 
 	gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
 	vUv = uv;

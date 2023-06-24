@@ -20,9 +20,10 @@ export default class BrushNew {
 
         this.sizes = this.camera.getWorldSizeAtDistance(this.generater.distanceToCamera)
         this.position = new THREE.Vector3((Math.random() - 0.5) * this.sizes[0], (Math.random() - 0.5) * this.sizes[1], cameraWorldPos.z + this.generater.distanceToCamera)
-        this.position.setX(0)
-        this.position.setY(0)
+        // this.position.setX(0)
+        // this.position.setY(0)
         this.angle = Math.random() * Math.PI * 2
+        // this.angle = 0
 
         this.parameters = this.generater.parameters
 
@@ -45,8 +46,10 @@ export default class BrushNew {
     }
 
     updateMaterials() {
-        this.upperLayer.updateMaterial()
-        this.bottomLayer.updateMaterial()
+        if (this.upperLayer)
+            this.upperLayer.updateMaterial()
+        if (this.bottomLayer)
+            this.bottomLayer.updateMaterial()
     }
 
     destroy() {

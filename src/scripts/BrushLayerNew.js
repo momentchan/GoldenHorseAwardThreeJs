@@ -17,6 +17,7 @@ export default class BrushLayerNew {
 
         const sizes = this.parameters[this.type].sizes
         const count = this.parameters[this.type].count
+        const layer = this.parameters[this.type].layer
         const width = this.parameters[this.type].width
         const height = this.parameters[this.type].height
         const strength = this.parameters[this.type].strength
@@ -42,6 +43,7 @@ export default class BrushLayerNew {
                 uColorTex: { value: this.items.backgroundTex },
                 uStrokeTex: { value: this.items.strokeTex },
                 uCount: { value: count },
+                uLayer: { value: layer },
                 uWitdh: { value: width },
                 uHeight: { value: height },
                 uStrength: { value: strength },
@@ -74,6 +76,9 @@ export default class BrushLayerNew {
         this.material.uniforms.uHueShift.value = this.parameters[this.type].hueShift
         this.material.uniforms.uDistortionFrequency.value = this.parameters[this.type].distortionFrequency
         this.material.uniforms.uDistortionStrength.value = this.parameters[this.type].distortionStrength
+        this.material.uniforms.uCount.value = this.parameters[this.type].count
+        this.material.uniforms.uWitdh.value = this.parameters[this.type].width
+        this.material.uniforms.uHeight.value = this.parameters[this.type].height
     }
 
     destroy() {
