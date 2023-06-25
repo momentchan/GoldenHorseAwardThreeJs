@@ -11,7 +11,7 @@ export default class BushGeneratorTiling {
         this.camera = this.experience.camera
         this.items = this.experience.resources.items
 
-        this.distanceToCamera = 12
+        this.distanceToCamera = 1
         this.lifetime = new THREE.Vector2(20, 30)
         this.generateInterval = new THREE.Vector2(10, 20)
 
@@ -27,9 +27,9 @@ export default class BushGeneratorTiling {
 
         this.parameters = { 'bottom': {}, 'upper': {} }
 
-        this.parameters['bottom'].sizes = new THREE.Vector2(3, 4)
+        this.parameters['bottom'].sizes = new THREE.Vector2(0.3, 0.4)
         this.parameters['bottom'].distortionFrequency = 0.5
-        this.parameters['bottom'].distortionStrength = 0.5
+        this.parameters['bottom'].distortionStrength = 0.1
         this.parameters['bottom'].count = 4
         this.parameters['bottom'].layer = 30
         this.parameters['bottom'].strength = 0.2
@@ -38,9 +38,9 @@ export default class BushGeneratorTiling {
         this.parameters['bottom'].colorStrength = 4.3
         this.parameters['bottom'].hueShift = -5
 
-        this.parameters['upper'].sizes = new THREE.Vector2(3, 4)
+        this.parameters['upper'].sizes = new THREE.Vector2(0.3, 0.4)
         this.parameters['upper'].distortionFrequency = 0.5
-        this.parameters['upper'].distortionStrength = 0.5
+        this.parameters['upper'].distortionStrength = 0.1
         this.parameters['upper'].count = 80
         this.parameters['upper'].layer = 5
         this.parameters['upper'].strength = 0.3

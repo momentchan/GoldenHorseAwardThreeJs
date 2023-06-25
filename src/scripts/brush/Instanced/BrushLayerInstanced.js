@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 import { MathUtils } from 'three'
-import instancedVertexShader from '../../../shaders/instanced_vertex.glsl'
-import brushFragmentShader from '../../../shaders/brush/fragment.glsl'
+import instancedVertexShader from '../../../shaders/brushInstanced/instanced_vertex_instanced.glsl'
+import brushFragmentShader from '../../../shaders/brushInstanced/fragment.glsl'
 
 export default class BrushLayerInstanced {
     constructor(brush, type) {

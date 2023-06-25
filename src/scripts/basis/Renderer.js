@@ -4,7 +4,7 @@ import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
 import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
 import { GammaCorrectionShader } from 'three/examples/jsm/shaders/GammaCorrectionShader.js';
-import { BackgroundOverlayShader } from '../../shaders/BackgroundOverlayShader';
+import { BackgroundOverlayShader } from '../../shaders/postProcessing/BackgroundOverlayShader';
 
 
 export default class Renderer extends RendererBase {
