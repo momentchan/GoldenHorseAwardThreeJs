@@ -3,7 +3,7 @@ import { MathUtils } from 'three'
 import BrushTiling from "./BrushTiling"
 
 
-export default class BushGeneratorTiling {
+export default class BrushGeneratorTiling {
 
     constructor(experience) {
         this.experience = experience

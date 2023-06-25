@@ -3,7 +3,7 @@ import { MathUtils } from 'three'
 import BrushInstanced from "./BrushInstanced"
 
 
-export default class BushGenerator {
+export default class BushGeneratorInstanced {
 
     constructor(experience) {
         this.experience = experience

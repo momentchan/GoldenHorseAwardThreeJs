@@ -1,8 +1,9 @@
 import WorldBase from "../../three.js-gist/World/WorldBase"
 import BackgroundFractal from '../background/BackgroundFractal'
 import FractalLayerGenerator from "../fractal/FractalLayerGenerator"
-import BrushGeneratorInstanced from "../brush/Instanced/BrushGeneratorInstanced"
-import BrushGeneratorTiling from "../brush/Tiling/BrushGeneratorTiling"
+import BrushGeneratorInstanced from "../brush/instanced/BrushGeneratorInstanced"
+import BrushGeneratorTiling from "../brush/tiling/BrushGeneratorTiling"
+import BrushGeneratorVideo from "../brush/video/BrushGeneratorVideo"
 
 export default class World extends WorldBase {
     constructor(experience) {
@@ -13,6 +14,7 @@ export default class World extends WorldBase {
             this.fractalLayerGenerator = new FractalLayerGenerator(this.experience)
             // this.brushGenerator = new BrushGeneratorInstanced(this.experience)
             // this.brushGenerator = new BrushGeneratorTiling(this.experience)
+            this.brushGenerator = new BrushGeneratorVideo(this.experience)
         })
     }
 
