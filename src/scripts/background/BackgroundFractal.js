@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 
-import screenVertexShader from '../shaders/screen_vertex.glsl'
-import backgroundFractalFragmentShader from '../shaders/backgroundFractal/fragment.glsl'
+import screenVertexShader from '../../shaders/screen_vertex.glsl'
+import backgroundFractalFragmentShader from '../../shaders/backgroundFractal/fragment.glsl'
 
 export default class BackgroundFractal {
 
@@ -18,7 +18,6 @@ export default class BackgroundFractal {
             vertexShader: screenVertexShader,
             fragmentShader: backgroundFractalFragmentShader,
             side: THREE.DoubleSide,
-            transparent: false,
             uniforms: {
                 uTime: { value: 0 },
                 uSpeed: { value: 0.0001 },

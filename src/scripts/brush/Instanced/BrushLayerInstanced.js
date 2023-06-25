@@ -1,10 +1,9 @@
 import * as THREE from 'three'
 import { MathUtils } from 'three'
-import screenVertexShader from '../shaders/screen_vertex.glsl'
-import instancedVertexShader from '../shaders/instanced_vertex.glsl'
-import brushFragmentShader from '../shaders/brush/fragment.glsl'
+import instancedVertexShader from '../../../shaders/instanced_vertex.glsl'
+import brushFragmentShader from '../../../shaders/brush/fragment.glsl'
 
-export default class BrushLayer {
+export default class BrushLayerInstanced {
     constructor(brush, type) {
         this.brush = brush
         this.scene = this.brush.scene

@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import ExperienceBase from "../three.js-gist/Common/ExperienceBase"
+import ExperienceBase from "../../three.js-gist/Common/ExperienceBase"
 import Renderer from "./Renderer"
 import Camera from "./Camera";
 import World from "./World";

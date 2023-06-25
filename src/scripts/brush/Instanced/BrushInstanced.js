@@ -1,8 +1,8 @@
 import * as THREE from 'three'
 import { MathUtils } from 'three'
-import BrushLayerNew from './BrushLayerNew'
+import BrushLayerInstanced from './BrushLayerInstanced'
 
-export default class BrushNew {
+export default class BrushInstanced {
     constructor(generater, id) {
         this.id = id
 
@@ -13,27 +13,30 @@ export default class BrushNew {
 
         this.t = 0
         this.time = this.generater.experience.time
-        this.lifetime = MathUtils.randFloat(this.generater.lifetime.x, this.generater.lifetime.y)
+        this.lifetime = MathUtils.randFloat(this.generater.lifetime.x, this.generater.lifetime.y) * 1000
 
         var cameraWorldPos = new THREE.Vector3();
         this.camera.instance.getWorldPosition(cameraWorldPos)
 
         this.sizes = this.camera.getWorldSizeAtDistance(this.generater.distanceToCamera)
+
         this.position = new THREE.Vector3((Math.random() - 0.5) * this.sizes[0], (Math.random() - 0.5) * this.sizes[1], cameraWorldPos.z + this.generater.distanceToCamera)
-        // this.position.setX(0)
-        // this.position.setY(0)
+        this.position = new THREE.Vector3(0, 0, cameraWorldPos.z + this.generater.distanceToCamera)
         this.angle = Math.random() * Math.PI * 2
-        // this.angle = 0
+
 
         this.parameters = this.generater.parameters
 
-        this.bottomLayer = new BrushLayerNew(this, 'bottom')
-        this.upperLayer = new BrushLayerNew(this, 'upper')
+        this.brushSize = new THREE.Vector2(0.4, 2)
+
+        this.bottomLayer = new BrushLayerInstanced(this, 'bottom')
+
+        this.upperLayer = new BrushLayerInstanced(this, 'upper')
     }
 
 
     update() {
-        this.t += this.time.delta / 1000
+        this.t += this.time.delta
         this.age = this.t / this.lifetime
 
         if (this.upperLayer)
@@ -46,10 +49,8 @@ export default class BrushNew {
     }
 
     updateMaterials() {
-        if (this.upperLayer)
-            this.upperLayer.updateMaterial()
-        if (this.bottomLayer)
-            this.bottomLayer.updateMaterial()
+        this.upperLayer.updateMaterial()
+        this.bottomLayer.updateMaterial()
     }
 
     destroy() {

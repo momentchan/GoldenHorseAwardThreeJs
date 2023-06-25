@@ -1,10 +1,8 @@
 import * as THREE from 'three'
 import { MathUtils } from 'three'
-import instancedVertexShader from '../shaders/instanced_vertex.glsl'
-import brushFragmentShader from '../shaders/brush/fragment.glsl'
-import BrushLayer from './BrushLayer'
+import BrushLayerTiling from './BrushLayerTiling'
 
-export default class Brush {
+export default class BrushTiling {
     constructor(generater, id) {
         this.id = id
 
@@ -15,30 +13,27 @@ export default class Brush {
 
         this.t = 0
         this.time = this.generater.experience.time
-        this.lifetime = MathUtils.randFloat(this.generater.lifetime.x, this.generater.lifetime.y) * 1000
+        this.lifetime = MathUtils.randFloat(this.generater.lifetime.x, this.generater.lifetime.y)
 
         var cameraWorldPos = new THREE.Vector3();
         this.camera.instance.getWorldPosition(cameraWorldPos)
 
         this.sizes = this.camera.getWorldSizeAtDistance(this.generater.distanceToCamera)
-
         this.position = new THREE.Vector3((Math.random() - 0.5) * this.sizes[0], (Math.random() - 0.5) * this.sizes[1], cameraWorldPos.z + this.generater.distanceToCamera)
-        this.position = new THREE.Vector3(0, 0, cameraWorldPos.z + this.generater.distanceToCamera)
+        // this.position.setX(0)
+        // this.position.setY(0)
         this.angle = Math.random() * Math.PI * 2
-
+        // this.angle = 0
 
         this.parameters = this.generater.parameters
 
-        this.brushSize = new THREE.Vector2(0.4, 2)
-
-        this.bottomLayer = new BrushLayer(this, 'bottom')
-
-        this.upperLayer = new BrushLayer(this, 'upper')
+        this.bottomLayer = new BrushLayerTiling(this, 'bottom')
+        this.upperLayer = new BrushLayerTiling(this, 'upper')
     }
 
 
     update() {
-        this.t += this.time.delta
+        this.t += this.time.delta / 1000
         this.age = this.t / this.lifetime
 
         if (this.upperLayer)
@@ -51,8 +46,10 @@ export default class Brush {
     }
 
     updateMaterials() {
-        this.upperLayer.updateMaterial()
-        this.bottomLayer.updateMaterial()
+        if (this.upperLayer)
+            this.upperLayer.updateMaterial()
+        if (this.bottomLayer)
+            this.bottomLayer.updateMaterial()
     }
 
     destroy() {

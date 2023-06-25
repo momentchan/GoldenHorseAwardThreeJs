@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 import { MathUtils } from 'three'
-import screenVertexShader from '../shaders/screen_vertex.glsl'
-import fractalLayerFragmentShader from '../shaders/fractalLayer/fragment.glsl'
+import screenVertexShader from '../../shaders/screen_vertex.glsl'
+import fractalLayerFragmentShader from '../../shaders/fractalLayer/fragment.glsl'
 
 export default class FractalLayer {
     constructor(generater, id) {

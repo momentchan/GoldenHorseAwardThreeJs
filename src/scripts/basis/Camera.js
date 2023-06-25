@@ -1,7 +1,7 @@
 import * as THREE from 'three'
-import CameraBase from "../three.js-gist/Common/CameraBase"
-import { remap } from "../three.js-gist/Utils/Helper"
-import { isValueInRange } from "../three.js-gist/Utils/Helper"
+import CameraBase from "../../three.js-gist/Common/CameraBase"
+import { remap } from "../../three.js-gist/Utils/Helper"
+import { isValueInRange } from "../../three.js-gist/Utils/Helper"
 
 export default class Camera extends CameraBase {
     setInstance() {

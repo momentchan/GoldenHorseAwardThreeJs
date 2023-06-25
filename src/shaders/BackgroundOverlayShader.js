@@ -38,7 +38,7 @@ const BackgroundOverlayShader = {
             float overlay = texture2D(uTexture, vUv).r;
             vec4 col = texture2D(tDiffuse, vUv);
 
-            col.rgb = BlendOverLay(col.rgb, vec3(overlay), 0.5);
+            col.rgb = BlendOverLay(col.rgb, vec3(overlay), 1.0);
 			gl_FragColor = col;
 		}`
 };

@@ -1,10 +1,10 @@
 import * as THREE from 'three'
-import RendererBase from "../three.js-gist/Common/RendererBase"
+import RendererBase from "../../three.js-gist/Common/RendererBase"
 import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
 import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
 import { GammaCorrectionShader } from 'three/examples/jsm/shaders/GammaCorrectionShader.js';
-import { BackgroundOverlayShader } from '../shaders/BackgroundOverlayShader';
+import { BackgroundOverlayShader } from '../../shaders/BackgroundOverlayShader';
 
 
 export default class Renderer extends RendererBase {
