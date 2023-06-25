@@ -58,12 +58,6 @@ float smoothEdge(vec2 uv, vec2 smoothness) {
 	return smoothstep(0.0, smoothness.x, uv.x) * smoothstep(1.0, 1.0 - smoothness.x, uv.x) * smoothstep(0.0, smoothness.y, uv.y) * smoothstep(1.0, 1.0 - smoothness.y, uv.y);
 }
 
-float drawEllipse(vec2 uv, vec2 center, float width, float height) {
-	uv -= (center - 0.5);
-	float d = length((uv * 2.0 - 1.0) / vec2(width, height));
-	return clamp((1.0 - d) / fwidth(d), 0.0, 1.0);
-}
-
 vec3 hueShift(vec3 col, float Offset) {
 	vec4 K = vec4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);
 	vec4 P = mix(vec4(col.bg, K.wz), vec4(col.gb, K.xy), step(col.b, col.g));
@@ -80,12 +74,15 @@ vec3 hueShift(vec3 col, float Offset) {
 	return hsv.z * mix(K2.xxx, clamp(P2 - K2.xxx, 0.0, 1.0), hsv.y);
 }
 
+vec3 BlendOverLay(vec3 baseColor, vec3 blendColor, float lerp) {
+	return mix(baseColor, (2.0 * baseColor * blendColor), lerp);
+}
+
 varying vec2 vUv;
 
-uniform sampler2D uColorTex;
+uniform sampler2D uPaperTex;
 uniform sampler2D uStrokeTex;
 uniform float uStrength;
-uniform float uDrawRate;
 uniform float uHueShift;
 uniform float uColorStrength;
 uniform float uRatio;
@@ -93,11 +90,13 @@ uniform float uRatio;
 void main() {
 	vec2 uv = vUv;
 
-	vec4 stroke = texture2D(uStrokeTex, vUv);
+	vec4 col = texture2D(uStrokeTex, vUv);
+	vec4 paper = texture2D(uPaperTex, vUv);
 
 	float fade = 0.1 + mix(0.0, 1.9, smoothstep(0.5, 1.0, uRatio));
-	// col.a = b * smoothEdge(vUv, vec2(fade, 0.1));
+	col.a *= smoothEdge(vUv, vec2(fade, 0.1));
 	// col.a = 1.0;
+	col.rgb = BlendOverLay(col.rgb, paper.rgb, 1.0);
 
-	gl_FragColor = stroke;
+	gl_FragColor = col;
 }

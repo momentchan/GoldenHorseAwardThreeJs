@@ -1,5 +1,6 @@
 import * as THREE from 'three'
 import { MathUtils } from 'three'
+import { randomRange } from '../../../three.js-gist/Utils/Helper'
 import vertexShader from '../../../shaders/brushVideo/vertex.glsl'
 import fragmentShader from '../../../shaders/brushVideo/fragment.glsl'
 import VideoTexture from '../../../three.js-gist/Utils/VideoTexture'
@@ -12,38 +13,23 @@ export default class BrushVideo {
         this.scene = this.generater.scene
         this.camera = this.generater.camera
         this.items = this.generater.items
-
-        this.t = 0
         this.time = this.generater.experience.time
-        this.lifetime = MathUtils.randFloat(this.generater.lifetime.x, this.generater.lifetime.y)
-
-        var cameraWorldPos = new THREE.Vector3();
-        this.camera.instance.getWorldPosition(cameraWorldPos)
-
-        this.sizes = this.camera.getWorldSizeAtDistance(this.generater.distanceToCamera)
-        this.position = new THREE.Vector3((Math.random() - 0.5) * this.sizes[0], (Math.random() - 0.5) * this.sizes[1], cameraWorldPos.z + this.generater.distanceToCamera)
-        // this.position.setX(0)
-        // this.position.setY(0)
-        this.angle = Math.random() * Math.PI * 2
-        // this.angle = 0
-
+        this.experience = this.generater.experience
         this.parameters = this.generater.parameters
 
-        this.experience = this.generater.experience
+        this.t = 0
+        this.lifetime = randomRange(this.parameters.lifetime)
 
         this.videoTexture = new VideoTexture('videos/brush1.mp4')
+        this.videoTexture.setSpeed(randomRange(this.parameters.speed))
 
-        const sizes = this.parameters.sizes
-        const strength = this.parameters.strength
+        this.setupMesh()
+    }
 
-        const hueShift = this.parameters.hueShift
-        const colorStrength = this.parameters.colorStrength
 
-        const size = MathUtils.randFloat(sizes.x, sizes.y)
-        const distortionFrequency = this.parameters.distortionFrequency
-        const distortionStrength = this.parameters.distortionStrength
-
-        const geometry = new THREE.PlaneGeometry(0.25 * size, 1 * size, 1, 10)
+    setupMesh() {
+        const size = randomRange(this.parameters.size)
+        const geometry = new THREE.PlaneGeometry(0.25 * size, 1 * size, 1, 20)
 
         this.material = new THREE.ShaderMaterial({
             vertexShader: vertexShader,
@@ -51,28 +37,41 @@ export default class BrushVideo {
             transparent: true,
             blending: THREE.AdditiveBlending,
             uniforms: {
-                uDistortionFrequency: { value: distortionFrequency },
-                uDistortionStrength: { value: distortionStrength },
-
-                uColorTex: { value: this.items.backgroundTex },
+                uPaperTex: { value: this.items.paperTex },
                 uStrokeTex: { value: this.videoTexture.texture },
-                uStrength: { value: strength },
-                uDrawRate: { value: 0.0 },
-                uHueShift: { value: hueShift },
-                uColorStrength: { value: colorStrength },
+
+                uDistortionFrequency: { value: this.parameters.distortionFrequency },
+                uDistortionStrength: { value: this.parameters.distortionStrength },
+
+                uStrength: { value: this.parameters.strength },
+                uHueShift: { value: this.parameters.hueShift },
                 uRatio: { value: 0 }
             },
         })
 
-        this.mesh = new THREE.Mesh(geometry, this.material);
 
-        var cameraWorldPos = new THREE.Vector3();
+        const cameraWorldPos = new THREE.Vector3();
         this.camera.instance.getWorldPosition(cameraWorldPos)
+        const sizes = this.camera.getWorldSizeAtDistance(this.generater.distanceToCamera)
+        const position = new THREE.Vector3((Math.random() - 0.5) * sizes[0], (Math.random() - 0.5) * sizes[1], cameraWorldPos.z + this.generater.distanceToCamera)
+        const angle = Math.random() * Math.PI * 2
+        // this.position.setX(0)
+        // this.position.setY(0)
+        // this.angle = 0
 
+        this.mesh = new THREE.Mesh(geometry, this.material);
         this.mesh.rotateY(MathUtils.degToRad(180))
-        this.mesh.rotateZ(this.angle)
-        this.mesh.position.set(this.position.x, this.position.y, this.position.z)
+        this.mesh.rotateZ(angle)
+        this.mesh.position.set(position.x, position.y, position.z)
+
         this.scene.add(this.mesh);
+    }
+
+    updateMaterial() {
+        this.material.uniforms.uDistortionFrequency.value = this.parameters.distortionFrequency
+        this.material.uniforms.uDistortionStrength.value = this.parameters.distortionStrength
+        this.material.uniforms.uStrength.value = this.parameters.strength
+        this.material.uniforms.uHueShift.value = this.parameters.hueShift
     }
 
 
@@ -82,7 +81,6 @@ export default class BrushVideo {
         this.t += this.time.delta / 1000
         this.age = this.t / this.lifetime
 
-        this.material.uniforms.uDrawRate.value = this.t
         this.material.uniforms.uRatio.value = this.age
 
         if (this.age > 1)
@@ -91,21 +89,11 @@ export default class BrushVideo {
 
     destroy() {
         this.generater.removeBrushFromList(this.id)
-        this.scene.remove(this.mesh);
-        this.mesh.geometry.dispose();
-        this.mesh.material.dispose();
+        this.scene.remove(this.mesh)
+        this.mesh.geometry.dispose()
+        this.mesh.material.dispose()
+        this.videoTexture.destroy()
 
         delete this
     }
-
-    // updateMaterial() {
-    //     this.material.uniforms.uStrength.value = this.parameters.strength
-    //     this.material.uniforms.uColorStrength.value = this.parameters.colorStrength
-    //     this.material.uniforms.uHueShift.value = this.parameters.hueShift
-    //     this.material.uniforms.uDistortionFrequency.value = this.parameters.distortionFrequency
-    //     this.material.uniforms.uDistortionStrength.value = this.parameters.distortionStrength
-    //     this.material.uniforms.uCount.value = this.parameters.count
-    //     this.material.uniforms.uWitdh.value = this.parameters.width
-    //     this.material.uniforms.uHeight.value = this.parameters.height
-    // }
 }

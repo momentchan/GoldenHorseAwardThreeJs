@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 import { MathUtils } from 'three'
 import BrushVideo from "./BrushVideo"
+import { randomRange } from '../../../three.js-gist/Utils/Helper'
 
 
 export default class BrushGeneratorVideo {
@@ -12,8 +13,7 @@ export default class BrushGeneratorVideo {
         this.items = this.experience.resources.items
 
         this.distanceToCamera = 1
-        this.lifetime = new THREE.Vector2(20, 30)
-        this.generateInterval = new THREE.Vector2(10, 20)
+
 
         this.brushes = []
         this.brushId = 0
@@ -24,95 +24,61 @@ export default class BrushGeneratorVideo {
     }
 
     setupDebug() {
-        this.parameters = { }
+        this.parameters = {}
 
-        this.parameters.sizes = new THREE.Vector2(0.3, 0.4)
+        this.parameters.lifetime = new THREE.Vector2(20, 30)
+        this.parameters.generateInterval = new THREE.Vector2(10, 20)
+        this.parameters.size = new THREE.Vector2(0.3, 0.4)
+        this.parameters.speed = new THREE.Vector2(0.5, 1)
         this.parameters.distortionFrequency = 0.5
-        this.parameters.distortionStrength = 0.1
-        this.parameters.count = 4
-        this.parameters.layer = 30
+        this.parameters.distortionStrength = 0.05
         this.parameters.strength = 0.2
-        this.parameters.width = 0.9
-        this.parameters.height = 1
-        this.parameters.colorStrength = 4.3
         this.parameters.hueShift = -5
 
         this.debug = this.experience.debug
-        // // Debug
-        // if (this.debug.active) {
+        // Debug
+        if (this.debug.active) {
 
-        //     for (var key in this.parameters) {
-        //         this.debugFolder = this.debug.ui.addFolder(key)
-        //         this.debugFolder.add(this.parameters[key], 'distortionFrequency')
-        //             .name('distortionFrequency')
-        //             .min(0)
-        //             .max(5)
-        //             .step(0.01)
-        //             .onChange(() => this.updateBrushMaterials())
+            this.folder = this.debug.ui.addFolder('brush')
+            this.folder.add(this.parameters, 'distortionFrequency')
+                .name('distortionFrequency')
+                .min(0)
+                .max(2)
+                .step(0.01)
+                .onChange(() => this.updateBrushMaterials())
 
-        //         this.debugFolder.add(this.parameters[key], 'distortionStrength')
-        //             .name('distortionStrength')
-        //             .min(0)
-        //             .max(5)
-        //             .step(0.01)
-        //             .onChange(() => this.updateBrushMaterials())
+            this.folder.add(this.parameters, 'distortionStrength')
+                .name('distortionStrength')
+                .min(0)
+                .max(2)
+                .step(0.01)
+                .onChange(() => this.updateBrushMaterials())
 
-        //         this.debugFolder.add(this.parameters[key], 'strength')
-        //             .name('strength')
-        //             .min(0)
-        //             .max(5)
-        //             .step(0.001)
-        //             .onChange(() => this.updateBrushMaterials())
+            this.folder.add(this.parameters, 'strength')
+                .name('strength')
+                .min(0)
+                .max(2)
+                .step(0.01)
+                .onChange(() => this.updateBrushMaterials())
 
-        //         this.debugFolder.add(this.parameters[key], 'colorStrength')
-        //             .name('colorStrength')
-        //             .min(0)
-        //             .max(50)
-        //             .step(0.01)
-        //             .onChange(() => this.updateBrushMaterials())
-
-        //         this.debugFolder.add(this.parameters[key], 'hueShift')
-        //             .name('hueShift')
-        //             .min(-180)
-        //             .max(180)
-        //             .step(0.01)
-        //             .onChange(() => this.updateBrushMaterials())
-
-
-        //         this.debugFolder.add(this.parameters[key], 'width')
-        //             .name('width')
-        //             .min(0)
-        //             .max(10)
-        //             .step(0.1)
-        //             .onChange(() => this.updateBrushMaterials())
-
-
-        //         this.debugFolder.add(this.parameters[key], 'height')
-        //             .name('height')
-        //             .min(0)
-        //             .max(2)
-        //             .step(0.01)
-        //             .onChange(() => this.updateBrushMaterials())
-
-        //         this.debugFolder.add(this.parameters[key], 'count')
-        //             .name('count')
-        //             .min(0)
-        //             .max(100)
-        //             .step(1)
-        //             .onChange(() => this.updateBrushMaterials())
-        //     }
-        // }
+            this.folder.add(this.parameters, 'hueShift')
+                .name('hueShift')
+                .min(0)
+                .max(2)
+                .step(0.01)
+                .onChange(() => this.updateBrushMaterials())
+        }
     }
 
 
     updateBrushMaterials() {
         for (var brush of this.brushes) {
-            brush.updateMaterials()
+            brush.updateMaterial()
         }
     }
 
     startGenerateBrushes() {
-        const interval = MathUtils.randFloat(this.generateInterval.x, this.generateInterval.y) * 1000
+        const interval = randomRange(this.parameters.generateInterval) * 1000
         setTimeout(() => {
             this.generateBrush()
             this.startGenerateBrushes()

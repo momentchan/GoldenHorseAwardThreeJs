@@ -13,5 +13,10 @@ export default [
         name: 'strokeTex',
         type: 'texture',
         path: 'textures/stroke.png'
+    },
+    {
+        name: 'paperTex',
+        type: 'texture',
+        path: 'textures/paper.jpg'
     }
 ]

@@ -11,11 +11,11 @@ export default class World extends WorldBase {
 
         this.resources.on('ready', () => {
             this.backgroundFractal = new BackgroundFractal(this.experience)
-            this.fractalLayerGenerator = new FractalLayerGenerator(this.experience)
+            // this.fractalLayerGenerator = new FractalLayerGenerator(this.experience)
             // this.brushGenerator = new BrushGeneratorInstanced(this.experience)
             // this.brushGenerator = new BrushGeneratorTiling(this.experience)
             this.brushGenerator = new BrushGeneratorVideo(this.experience)
-        })
+        })   
     }
 
     update() {
