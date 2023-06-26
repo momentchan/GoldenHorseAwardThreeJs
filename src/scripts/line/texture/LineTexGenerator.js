@@ -1,8 +1,8 @@
 import * as THREE from 'three'
-import Line from "./Line"
-import { randomRange } from '../../three.js-gist/Utils/Helper'
+import LineTex from "./LineTex"
+import { randomRange } from '../../../three.js-gist/Utils/Helper'
 
-export default class LineGenerator {
+export default class LineTexGenerator {
 
     constructor(experience) {
         this.experience = experience
@@ -35,7 +35,6 @@ export default class LineGenerator {
 
     getRandomTex() {
         var randomIndex = Math.floor(Math.random() * this.textures.length);
-        console.log(randomIndex);
         return this.textures[randomIndex]
     }
 
@@ -49,7 +48,7 @@ export default class LineGenerator {
     };
 
     generateLine() {
-        const line = new Line(this, this.lineId)
+        const line = new LineTex(this, this.lineId)
         this.lines.push(line)
         this.lineId++
     }

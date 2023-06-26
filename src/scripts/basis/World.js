@@ -4,7 +4,7 @@ import FractalLayerGenerator from "../fractal/FractalLayerGenerator"
 import BrushGeneratorInstanced from "../brush/instanced/BrushGeneratorInstanced"
 import BrushGeneratorTiling from "../brush/tiling/BrushGeneratorTiling"
 import BrushGeneratorVideo from "../brush/video/BrushGeneratorVideo"
-import LineGenerator from "../line/LineGenerator"
+import LineTexGenerator from "../line/texture/LineTexGenerator"
 
 export default class World extends WorldBase {
     constructor(experience) {
@@ -16,7 +16,7 @@ export default class World extends WorldBase {
             // this.brushGenerator = new BrushGeneratorInstanced(this.experience)
             // this.brushGenerator = new BrushGeneratorTiling(this.experience)
             // this.brushGenerator = new BrushGeneratorVideo(this.experience)
-            this.lineGenerator = new LineGenerator(this.experience)
+            this.lineGenerator = new LineTexGenerator(this.experience)
         })   
     }
 

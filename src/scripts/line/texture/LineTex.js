@@ -1,10 +1,10 @@
 import * as THREE from 'three'
 import { MathUtils } from 'three'
-import screenVertexShader from '../../shaders/screen_vertex.glsl'
-import lineFragmentShader from '../../shaders/line/fragment.glsl'
+import screenVertexShader from '../../../shaders/screen_vertex.glsl'
+import lineFragmentShader from '../../../shaders/lineTex/fragment.glsl'
 
 
-export default class Line {
+export default class LineTex {
 
     constructor(generater, id) {
         this.id = id
@@ -27,11 +27,6 @@ export default class Line {
             side: THREE.DoubleSide,
             transparent: true,
             
-            // blending: THREE.CustomBlending,
-            // blendEquation: THREE.AddEquation,
-            // blendSrc: THREE.SrcAlphaFactor,
-            // blendDst: THREE.OneFactor,
-
             uniforms: {
                 uTime: { value: 0 },
                 uSpeed: { value: 0.00002 },
