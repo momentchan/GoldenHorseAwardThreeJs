@@ -23,5 +23,20 @@ export default [
         name: 'paperTex2',
         type: 'texture',
         path: 'textures/paper2.png'
+    },
+    {
+        name: 'lineTex1',
+        type: 'texture',
+        path: 'textures/texture01.png'
+    },
+    {
+        name: 'lineTex2',
+        type: 'texture',
+        path: 'textures/texture02.png'
+    },
+    {
+        name: 'lineTex3',
+        type: 'texture',
+        path: 'textures/texture03.png'
     }
 ]
