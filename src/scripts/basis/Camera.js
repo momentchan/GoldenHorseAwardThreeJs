@@ -15,9 +15,9 @@ export default class Camera extends CameraBase {
         this.instance.position.z = -15
         this.gyro = this.experience.gyro
 
-        this.gammaRange = new THREE.Vector2(-80, 80)
-        this.betaRange = new THREE.Vector2(30, 160)
-        this.moveRange = new THREE.Vector2(0.2, 0.2)
+        this.gammaRange = new THREE.Vector2(-180, 180)
+        this.betaRange = new THREE.Vector2(0, 180)
+        this.moveRange = new THREE.Vector2(0.1, 0.1)
 
         this.scene.add(this.cameraGroup)
     }
@@ -28,7 +28,7 @@ export default class Camera extends CameraBase {
     }
 
     update() {
-        this.cameraGroup.position.z -= 0.0001
+        this.cameraGroup.position.z -= 0.0005
         const pos = this.cameraGroup.position
 
         const x = isValueInRange(this.gyro.gamma, this.gammaRange.x, this.gammaRange.y) ? remap(this.gyro.gamma, this.gammaRange.x, this.gammaRange.y, -this.moveRange.x, this.moveRange.x) : pos.x

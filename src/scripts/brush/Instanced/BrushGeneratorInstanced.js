@@ -34,8 +34,8 @@ export default class BushGeneratorInstanced {
 
         this.parameters['upper'].count = 800
         this.parameters['upper'].widthScaler = 0.005,
-        this.parameters['upper'].strength = 0.05
-        this.parameters['upper'].colorStrength = 38
+        this.parameters['upper'].strength = 0.02
+        this.parameters['upper'].colorStrength = 3.8
         this.parameters['upper'].hueShift = -30
 
         this.debug = this.experience.debug
@@ -72,8 +72,6 @@ export default class BushGeneratorInstanced {
             }
         }
     }
-
-
 
 
     updateBrushMaterials() {

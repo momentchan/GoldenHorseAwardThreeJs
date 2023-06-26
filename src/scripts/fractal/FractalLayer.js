@@ -18,7 +18,7 @@ export default class FractalLayer {
 
         const size = this.camera.getWorldSizeAtDistance(this.generater.distanceToCamera)
         // const geometry = new THREE.PlaneGeometry(size[0], size[1]);
-        const geometry = new THREE.PlaneGeometry(1, 1);
+        const geometry = new THREE.PlaneGeometry(0.7, 0.7);
 
         this.material = new THREE.ShaderMaterial({
             vertexShader: screenVertexShader,

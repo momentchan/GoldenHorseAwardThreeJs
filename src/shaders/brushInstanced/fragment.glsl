@@ -69,7 +69,8 @@ void main() {
 	float b = drawBrush(uv, uTime, uStrength, vSeedBuffer, uRatio);
 
 	vec4 col = b * stroke * background;
-	col.a = b * 20.0 * smoothEdge(strokeUv, vec2(0.1, 0.1));
+	float fade = 0.1 + mix(0.0, 1.9, smoothstep(0.5, 1.0, uRatio));
+	col.a = b * 20.0 * smoothEdge(strokeUv, vec2(fade, 0.1));
 
 	// col.r = mix(vUvBuffer.x, vUvBuffer.y, vUv.x);
 	// col.g = mix(vUvBuffer.z, vUvBuffer.w, vUv.y);

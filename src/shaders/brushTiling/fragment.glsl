@@ -59,9 +59,13 @@ float smoothEdge(vec2 uv, vec2 smoothness) {
 }
 
 float drawEllipse(vec2 uv, vec2 center, float width, float height) {
-	uv -= (center - 0.5);
-	float d = length((uv * 2.0 - 1.0) / vec2(width, height));
-	return clamp((1.0 - d) / fwidth(d), 0.0, 1.0);
+    uv -= (center - 0.5);
+    float d = length((uv * 2.0 - 1.0) / vec2(width, height));
+    float pixelWidth = 1.0 / min(width, height);
+    float gradientWidth = 1.0 / pixelWidth;
+    float smoothStepStart = 0.5 - gradientWidth;
+    float smoothStepEnd = 0.5 + gradientWidth;
+    return clamp(smoothstep(smoothStepStart, smoothStepEnd, 1.0 - d), 0.0, 1.0);
 }
 
 vec3 hueShift(vec3 col, float Offset) {
@@ -101,12 +105,12 @@ float drawSingleBrush(vec2 uv, float n, float width, float height, float drawRat
 	return clamp(drawEllipse(uv + offset, vec2(x, y), w, h) * s * fade, 0.0, 1.0);
 }
 
-float drawBrush(vec2 uv, vec2 id, float layer, float width, float height, float ratio, float strength) {
+float drawBrush(vec2 uv, vec2 id, int layer, float width, float height, float ratio, float strength) {
 	float o = 0.0;
 	for(int x = -1; x <= 1; x++) {
 		vec2 offs = vec2(x, 0.0);
 
-		float n = nrand(id + offs + layer);
+		float n = nrand(id + offs + float(layer));
 		o += drawSingleBrush(uv - offs, n, width, height, ratio, strength) / 3.0;
 		o = clamp(o, 0.0, 1.0);
 	}
@@ -120,7 +124,7 @@ varying vec2 vUv;
 uniform sampler2D uColorTex;
 uniform sampler2D uStrokeTex;
 uniform float uCount;
-uniform float uLayer;
+uniform int uLayer;
 uniform float uWitdh;
 uniform float uHeight;
 uniform float uStrength;
@@ -134,8 +138,8 @@ void main() {
 	uv.x *= uCount;
 
 	float b = 0.0;
-	for(float l = 0.0; l < uLayer; l++) {
-		float n = nrand(vec2(l * 130.45, 0.0));
+	for(int l = 0; l < uLayer; l++) {
+		float n = nrand(vec2(l, 0.0));
 
 		vec2 uv0 = uv;
 		uv0.x += n * uCount;
@@ -161,5 +165,5 @@ void main() {
 	col.a = b * smoothEdge(vUv, vec2(fade, 0.1));
 	// col.a = 1.0;
 
-	gl_FragColor = col;
+	gl_FragColor =  col;//vec4(1.0);
 }

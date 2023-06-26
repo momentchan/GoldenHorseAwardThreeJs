@@ -53,6 +53,7 @@ export default class BrushLayerTiling {
                 uRatio: { value: 0 }
             },
         })
+        // this.material = new THREE.MeshBasicMaterial();
 
         this.mesh = new THREE.Mesh(geometry, this.material);
 

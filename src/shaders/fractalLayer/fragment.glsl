@@ -104,7 +104,7 @@ float noise(vec2 co) {
 }
 
 vec2 Scatter(vec2 uv, float radius) {
-	return -radius + vec2(noise(uv), noise(uv.yx)) * radius * 2.0;
+	return -radius + vec2(gradientNoise(uv, 2000.0), gradientNoise(uv.yx, 2000.0)) * radius * 2.0;
 }
 
 float smoothEdge(vec2 uv, vec2 smoothness) {
