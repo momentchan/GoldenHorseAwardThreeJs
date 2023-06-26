@@ -18,5 +18,10 @@ export default [
         name: 'paperTex',
         type: 'texture',
         path: 'textures/paper.jpg'
+    },
+    {
+        name: 'paperTex2',
+        type: 'texture',
+        path: 'textures/paper2.png'
     }
 ]

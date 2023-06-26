@@ -25,13 +25,19 @@ export default class FractalLayer {
             fragmentShader: fractalLayerFragmentShader,
             side: THREE.DoubleSide,
             transparent: true,
-            blending: THREE.AdditiveBlending,
+            
+            blending: THREE.CustomBlending,
+            blendEquation: THREE.AddEquation,
+            blendSrc: THREE.SrcAlphaFactor,
+            blendDst: THREE.OneFactor,
+
             uniforms: {
                 uTime: { value: 0 },
                 uSpeed: { value: 0.00002 },
                 uSeed: { value: Math.random() },
                 uRatio: { value: 0 },
-                uTexture: { value: this.generater.experience.resources.items.backgroundTex }
+                uColorTex: { value: this.generater.experience.resources.items.backgroundTex },
+                uPaperTex: { value: this.generater.experience.resources.items.paperTex2 }
             }
         })
 

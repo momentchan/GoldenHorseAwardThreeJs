@@ -111,8 +111,13 @@ float smoothEdge(vec2 uv, vec2 smoothness) {
 	return smoothstep(0.0, smoothness.x, uv.x) * smoothstep(1.0, 1.0 - smoothness.x, uv.x) * smoothstep(0.0, smoothness.y, uv.y) * smoothstep(1.0, 1.0 - smoothness.y, uv.y);
 }
 
+vec3 BlendOverLay(vec3 baseColor, vec3 blendColor, float lerp) {
+	return mix(baseColor, (2.0 * baseColor * blendColor), lerp);
+}
+
 varying vec2 vUv;
-uniform sampler2D uTexture;
+uniform sampler2D uColorTex;
+uniform sampler2D uPaperTex;
 uniform float uTime;
 uniform float uSpeed;
 uniform float uSeed;
@@ -130,14 +135,17 @@ float getFractal(vec2 uv) {
 }
 
 void main() {
-	vec4 textureColor = texture2D(uTexture, vUv);
+	vec4 color = texture2D(uColorTex, vUv);
+	vec4 paper = texture2D(uPaperTex, vUv);
 
 	vec2 turbulence = (vec2(gradientNoise(vUv, 100.0), gradientNoise(vUv + vec2(57.68, 0.0), 100.0)) - 0.5) * 2.0 * 0.01;
 
 	vec2 uv = vUv * 1.78 + Scatter(vUv, 0.02) + uSeed * 123.45 + turbulence;
 
 	float f = getFractal(uv);
-	vec4 col = vec4(f) * textureColor;
+	vec4 col = vec4(f) * color;
+	col.rgb = BlendOverLay(col.rgb, paper.rgb, 0.5);
+
 	float fade = smoothEdge(vUv, vec2(0.1)) * smoothstep(0.0, 0.05, uRatio) * smoothstep(1.0, 0.9, uRatio);
 	col.a *= fade;
 
