@@ -112,13 +112,23 @@ vec3 hueShift(vec3 col, float Offset) {
 vec3 BlendOverLay(vec3 baseColor, vec3 blendColor, float lerp) {
 	return mix(baseColor, (2.0 * baseColor * blendColor), lerp);
 }
+float remap(float In, vec2 InMinMax, vec2 OutMinMax)
+{
+    return OutMinMax.x + (In - InMinMax.x) * (OutMinMax.y - OutMinMax.x) / (InMinMax.y - InMinMax.x);
+}
+float Contrast(float In, float Contrast) {
+	float midpoint = pow(0.5, 2.2);
+	return (In - midpoint) * Contrast + midpoint;
+}
 
 float getFractal(vec2 uv, float time) {
 	vec3 p = vec3(uv, time);
 
 	float value;
 	value = simplex3d_fractal(p);
+	value = Contrast(value, 2.0);
 
+	value = remap(value, vec2(-1.0, 1.0), vec2(0.0, 1.0));
 	value = clamp(value, 0.0, 1.0);
 	return value;
 }
@@ -150,7 +160,7 @@ void main() {
 
 	float r = gradientNoise(uv, 2000.0);
 
-	float f = getFractal(uv, uTime * 0.1);
+	float f = getFractal(uv * 2.0, uTime * 0.05);
 
 	vec4 col = vec4(1.0);
 	col.rgb = BlendOverLay(col.rgb, background.rgb, 0.5);

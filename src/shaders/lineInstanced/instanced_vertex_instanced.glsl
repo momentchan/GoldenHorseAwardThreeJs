@@ -157,11 +157,14 @@ void main() {
 	vec4 pos = instanceMatrix * vec4(p1, 1.0);
 	vec4 worldPosition = modelMatrix * pos;
 	vec3 seed = vec3(worldPosition.xy + seedBuffer * 12.3, uTime * 0.1);
-	seed.xy *= 10.0;
+	
+	seed.xy *= 0.5;
+	float offset1 = simplex3d_fractal(seed) * 0.0;
 
-	float offset = simplex3d_fractal(seed) * 0.05;
+	seed.xy *= 5.0;
+	float offset2 = simplex3d_fractal(seed) * 0.05;
 
-	worldPosition.y += offset;
+	worldPosition.y += offset1 + offset2;
 
 	vec4 viewPosition = viewMatrix * worldPosition;
 	vec4 projectedPosition = projectionMatrix * viewPosition;
