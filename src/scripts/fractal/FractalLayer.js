@@ -26,10 +26,10 @@ export default class FractalLayer {
             side: THREE.DoubleSide,
             transparent: true,
             
-            blending: THREE.CustomBlending,
-            blendEquation: THREE.AddEquation,
-            blendSrc: THREE.SrcAlphaFactor,
-            blendDst: THREE.OneFactor,
+            // blending: THREE.CustomBlending,
+            // blendEquation: THREE.AddEquation,
+            // blendSrc: THREE.SrcAlphaFactor,
+            // blendDst: THREE.OneFactor,
 
             uniforms: {
                 uTime: { value: 0 },

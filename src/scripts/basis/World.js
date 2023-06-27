@@ -20,7 +20,7 @@ export default class World extends WorldBase {
             // this.brushGenerator = new BrushGeneratorVideo(this.experience)
             this.brushGenerator = new BrushStillGenerator(this.experience)
             // this.lineGenerator = new LineTexGenerator(this.experience)
-            // this.lineInstancedGenerator = new LineInstancedGenerator(this.experience)
+            this.lineInstancedGenerator = new LineInstancedGenerator(this.experience)
         })   
     }
 

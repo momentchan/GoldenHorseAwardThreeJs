@@ -43,5 +43,10 @@ export default [
         name: 'brushStillTex',
         type: 'texture',
         path: 'textures/brushStill.png'
+    },
+    {
+        name: 'noiseTex',
+        type: 'texture',
+        path: 'textures/perlinNoise.png'
     }
 ]

@@ -148,40 +148,29 @@ float simplex3d_fractal(vec3 m) {
 
 varying vec2 vUv;
 varying float vSeedBuffer;
-varying vec4 vUvBuffer;
-varying vec2 vScreenUV;
+varying vec4 vPos;
 uniform float uTime;
 attribute float seedBuffer;
-attribute vec4 uvBuffer;
 
 void main() {
-	vec2 strokeUv = vec2(mix(uvBuffer.x, uvBuffer.y, uv.x), mix(uvBuffer.z, uvBuffer.w, uv.y));
-
-
 	vec3 p1 = position;
 	vec4 pos = instanceMatrix * vec4(p1, 1.0);
-	// float offset = snoise(vec2(uv.x * 5.0, seedBuffer * 0.2)) * 0.1;
-
-
 	vec4 worldPosition = modelMatrix * pos;
-
-	vec3 seed = vec3(worldPosition.xy, uTime * 0.1);
+	vec3 seed = vec3(worldPosition.xy + seedBuffer * 12.3, uTime * 0.1);
 	seed.xy *= 10.0;
 
-	float offset = simplex3d_fractal(seed) * 0.02;
+	float offset = simplex3d_fractal(seed) * 0.05;
 
 	worldPosition.y += offset;
-
-
 
 	vec4 viewPosition = viewMatrix * worldPosition;
 	vec4 projectedPosition = projectionMatrix * viewPosition;
 
+
 	gl_Position = projectedPosition;
 
-	vScreenUV = gl_Position.xy * 0.5 + 0.5;
+	vPos = projectedPosition;
 	vUv = uv;
 
-	vUvBuffer = uvBuffer;
 	vSeedBuffer = seedBuffer;
 }

@@ -26,7 +26,7 @@ export default class LineInstancedGenerator {
     setupDebug() {
 
         this.parameters = { 'bottom': {}, 'upper': {} }
-        this.parameters['bottom'].count = 200
+        this.parameters['bottom'].count = 400
         this.parameters['bottom'].widthScaler = 0.1
         this.parameters['bottom'].strength = 0.01
         this.parameters['bottom'].colorStrength = 15

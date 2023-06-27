@@ -98,11 +98,6 @@ float Contrast(float In, float Contrast) {
 	return (In - midpoint) * Contrast + midpoint;
 }
 
-float noise(vec2 co) {
-	vec2 seed = vec2(sin(co.x), cos(co.y));
-	return fract(sin(dot(seed, vec2(12.9898, 78.233))) * 43758.5453);
-}
-
 vec2 Scatter(vec2 uv, float radius) {
 	return -radius + vec2(gradientNoise(uv, 2000.0), gradientNoise(uv.yx, 2000.0)) * radius * 2.0;
 }

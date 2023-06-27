@@ -3,6 +3,7 @@ import { MathUtils } from 'three'
 import BrushLayerInstanced from './BrushLayerInstanced'
 import instancedVertexShader from '../../../shaders/lineInstanced/instanced_vertex_instanced.glsl'
 import brushFragmentShader from '../../../shaders/lineInstanced/fragment.glsl'
+import { randFloat } from 'three/src/math/MathUtils'
 
 
 export default class LineInstanced {
@@ -25,20 +26,12 @@ export default class LineInstanced {
 
         this.sizes = this.camera.getWorldSizeAtDistance(this.generater.distanceToCamera)
 
-        this.position = new THREE.Vector3((Math.random() - 0.5) * this.sizes[0], (Math.random() - 0.5) * this.sizes[1], cameraWorldPos.z + this.generater.distanceToCamera)
-        this.position = new THREE.Vector3(0, 0, cameraWorldPos.z + this.generater.distanceToCamera)
-        this.angle = Math.PI * 0.
-
+        this.position = new THREE.Vector3(0, 0, 0)
+        this.angle = Math.PI * 0.0
 
         this.parameters = this.generater.parameters
 
         this.brushSize = new THREE.Vector2(0.4, 2)
-
-        // this.bottomLayer = new BrushLayerInstanced(this, 'bottom')
-
-        // this.upperLayer = new BrushLayerInstanced(this, 'upper')
-
-
 
         const geometry = new THREE.PlaneGeometry(1, 1, 100, 1);
 
@@ -47,9 +40,7 @@ export default class LineInstanced {
             fragmentShader: brushFragmentShader,
             side: THREE.DoubleSide,
             transparent: true,
-            // blending: THREE.AdditiveBlending,
-            // wireframe: true,
-            // blending: THREE.AdditiveBlending,
+            blending: THREE.AdditiveBlending,
             uniforms: {
                 uTime: { value: 0 },
                 uSpeed: { value: 0.00002 },
@@ -60,45 +51,40 @@ export default class LineInstanced {
                 uHueShift: { value: this.parameters[this.type].hueShift },
                 uStrokeTex: { value: this.items.strokeTex },
                 uPaperTex: { value: this.items.paperTex },
+                uNoiseTex: { value: this.items.noiseTex },
                 uBackgroundTex: { value: this.items.backgroundTex }
             }
         })
 
         const count = this.parameters[this.type].count
-        const wRange = new THREE.Vector2(0.5, 1).multiplyScalar(0.5)
-        const hRange = new THREE.Vector2(0.3, 1).multiplyScalar(0.005)
+        const wRange = new THREE.Vector2(0.5, 1).multiplyScalar(2.5)
+        const hRange = new THREE.Vector2(0.3, 0.5).multiplyScalar(0.01)
 
         this.mesh = new THREE.InstancedMesh(geometry, this.material, count)
         const seedBuffer = new THREE.InstancedBufferAttribute(new Float32Array(count), 1);
-        const uvBuffer = new THREE.InstancedBufferAttribute(new Float32Array(count * 4), 4);
-
         this.mesh.geometry.setAttribute('seedBuffer', seedBuffer)
-        this.mesh.geometry.setAttribute('uvBuffer', uvBuffer) // x0, x1, y0, y1
         this.mesh.rotateZ(this.angle)
 
-        // var rotationMatrix = new THREE.Matrix4().makeRotationZ(this.angle)
-        // this.mesh.applyMatrix4(rotationMatrix)
-        // this.mesh.rotateY(MathUtils.degToRad(180))
-
-        this.scene.add(this.mesh)
+        this.camera.cameraGroup.add(this.mesh)
 
         for (let i = 0; i < count; i++) {
 
             const w = MathUtils.randFloat(wRange.x, wRange.y)
             const h = MathUtils.randFloat(hRange.x, hRange.y)
+            const angle = MathUtils.degToRad(MathUtils.randFloat(0, 2));
 
             const x = Math.random()
             const y = Math.random()
 
             const position = this.position.clone()
                 .add(new THREE.Vector3(
-                    (x - 0.5) * this.brushSize.x,
-                    (y - 0.5) * 0.5,
+                    (x - 0.5) * 2,
+                    (y - 0.5) * 5,
                     0
                 ))
 
             const quaternion = new THREE.Quaternion()
-            quaternion.setFromEuler(new THREE.Euler(0, Math.PI , 0))
+            quaternion.setFromEuler(new THREE.Euler(0, Math.PI, angle))
 
             const matrix = new THREE.Matrix4()
 
@@ -106,10 +92,6 @@ export default class LineInstanced {
 
             this.mesh.setMatrixAt(i, matrix)
             seedBuffer.setX(i, Math.random())
-            uvBuffer.setX(i, x - w / this.brushSize.x * 0.5)
-            uvBuffer.setY(i, x + w / this.brushSize.x * 0.5)
-            uvBuffer.setZ(i, 0.5 - h / this.brushSize.y * 0.5)
-            uvBuffer.setW(i, 0.5 + h / this.brushSize.y * 0.5)
         }
     }
 
