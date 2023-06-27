@@ -38,5 +38,10 @@ export default [
         name: 'lineTex3',
         type: 'texture',
         path: 'textures/texture03.png'
+    },
+    {
+        name: 'brushStillTex',
+        type: 'texture',
+        path: 'textures/brushStill.png'
     }
 ]
