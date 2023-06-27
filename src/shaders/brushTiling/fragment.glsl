@@ -88,9 +88,9 @@ float drawSingleBrush(vec2 uv, float n, float width, float height, float drawRat
 	float offset = snoise(vec2(n, uv.y * 2.0)) * 0.1;
 
 	float x = mix(-0.2, 0.2, n);
-	float y = mix(-0.5, 0.5, fract(n * 132.0));
-	float w = mix(0.5, 1.5, fract(n * 43.3)) * width;
-	float h = mix(0.6, 1.0, fract(n * 123.8)) * height;
+	float y = mix(-0.2, 0.2, fract(n * 132.0));
+	float w = mix(0.8, 1.2, fract(n * 43.3)) * width;
+	float h = mix(0.8, 1.1, fract(n * 123.8)) * height;
 
 	float s = mix(0.1, 1.0, fract(n * 35.5)) * strength;
 

@@ -27,11 +27,11 @@ export default class BrushStillGenerator {
         this.parameters = {}
 
         this.parameters.lifetime = new THREE.Vector2(20, 30)
-        this.parameters.generateInterval = new THREE.Vector2(10, 20)
-        this.parameters.size = new THREE.Vector2(0.3, 0.4)
+        this.parameters.generateInterval = new THREE.Vector2(5, 10)
+        this.parameters.size = new THREE.Vector2(0.5, 0.6)
         this.parameters.speed = new THREE.Vector2(0.5, 1)
-        this.parameters.distortionFrequency = 0.5
-        this.parameters.distortionStrength = 0.05
+        this.parameters.distortionFrequency = 1.0
+        this.parameters.distortionStrength = 0.1
         this.parameters.strength = 0.2
         this.parameters.hueShift = -5
 

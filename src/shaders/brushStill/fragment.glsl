@@ -134,7 +134,7 @@ void main() {
 	r -= pow(abs(vUv.x - 0.5), 1.5);
 	r +=  uRatio * 3.0;
 
-	float alpha = smoothstep(r + 0.2, r, vUv.y);
+	float alpha = smoothstep(0.0, 1.0, length(col.rgb)) * smoothstep(r + 0.2, r, vUv.y);
 
 	// make edge less visible
 	float mask = smoothstep(alpha, 1.0, 0.95);

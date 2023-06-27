@@ -25,13 +25,13 @@ export default class BrushStill {
 
     setupMesh() {
         const size = randomRange(this.parameters.size)
-        const geometry = new THREE.PlaneGeometry(0.25 * size, 1 * size, 1, 20)
+        const geometry = new THREE.PlaneGeometry(0.2 * size, 1 * size, 1, 20)
 
         this.material = new THREE.ShaderMaterial({
             vertexShader: vertexShader,
             fragmentShader: fragmentShader,
             transparent: true,
-            blending: THREE.AdditiveBlending,
+            // blending: THREE.AdditiveBlending,
             uniforms: {
                 uPaperTex: { value: this.items.paperTex },
                 uStrokeTex: { value: this.items.brushStillTex },
