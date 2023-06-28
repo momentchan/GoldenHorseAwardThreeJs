@@ -133,19 +133,10 @@ float getFractal(vec2 uv, float time) {
 	return value;
 }
 
-varying vec2 vUv;
-varying float vSeedBuffer;
-varying vec4 vUvBuffer;
 varying vec4 vPos;
-
-uniform sampler2D uPaperTex;
 uniform sampler2D uBackgroundTex;
-uniform sampler2D uStrokeTex;
-uniform float uStrength;
 uniform float uTime;
 uniform float uRatio;
-uniform float uHueShift;
-uniform float uColorStrength;
 
 void main() {
 	vec2 vCoords = vPos.xy;
@@ -154,9 +145,6 @@ void main() {
 	vec2 uv = fract(vCoords * 1.0);
 
 	vec4 background = texture2D(uBackgroundTex, uv);
-
-	float stroke = texture2D(uStrokeTex, uv).r;
-	float paper = texture2D(uPaperTex, uv).r;
 
 	float r = gradientNoise(uv, 2000.0);
 
