@@ -3,26 +3,10 @@ import { MathUtils } from 'three'
 import { randomRange } from '../../../three.js-gist/Utils/Helper'
 import vertexShader from '../../../shaders/brushStill/vertex.glsl'
 import fragmentShader from '../../../shaders/brushStill/fragment.glsl'
+import Instance from '../../basis/Instance'
 
-export default class BrushStill {
-    constructor(generater, id) {
-        this.id = id
-
-        this.generater = generater
-        this.scene = this.generater.scene
-        this.camera = this.generater.camera
-        this.items = this.generater.items
-        this.time = this.generater.experience.time
-        this.experience = this.generater.experience
-        this.parameters = this.generater.parameters
-
-        this.t = 0
-        this.lifetime = randomRange(this.parameters.lifetime)
-
-        this.setupMesh()
-    }
-
-
+export default class BrushStill extends Instance {
+    
     setupMesh() {
         const size = randomRange(this.parameters.size)
         const geometry = new THREE.PlaneGeometry(0.2 * size, 1 * size, 1, 20)
@@ -48,12 +32,15 @@ export default class BrushStill {
 
         const cameraWorldPos = new THREE.Vector3();
         this.camera.instance.getWorldPosition(cameraWorldPos)
-        const sizes = this.camera.getWorldSizeAtDistance(this.generater.distanceToCamera)
-        const position = new THREE.Vector3((Math.random() - 0.5) * sizes[0], (Math.random() - 0.5) * sizes[1], cameraWorldPos.z + this.generater.distanceToCamera)
-        const angle = Math.random() * Math.PI * 2
+
+        const sizes = this.camera.getWorldSizeAtDistance(this.parameters.distanceToCamera)
+        const position = new THREE.Vector3((Math.random() - 0.5) * sizes[0], 
+                                           (Math.random() - 0.5) * sizes[1], 
+                                           cameraWorldPos.z + this.parameters.distanceToCamera)
+
         // position.setX(0)
         // position.setY(0)
-        // this.angle = 0
+        const angle = Math.random() * Math.PI * 2
 
         this.mesh = new THREE.Mesh(geometry, this.material);
         this.mesh.rotateY(MathUtils.degToRad(180))
@@ -72,21 +59,11 @@ export default class BrushStill {
 
 
     update() {
-        this.t += this.time.delta / 1000
-        this.age = this.t / this.lifetime
+        super.update()
 
         this.material.uniforms.uRatio.value = this.age
 
         if (this.age > 1)
             this.destroy()
-    }
-
-    destroy() {
-        this.generater.removeBrushFromList(this.id)
-        this.scene.remove(this.mesh)
-        this.mesh.geometry.dispose()
-        this.mesh.material.dispose()
-
-        delete this
     }
 }

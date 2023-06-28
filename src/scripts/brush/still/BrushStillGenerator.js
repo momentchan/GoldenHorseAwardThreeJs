@@ -1,30 +1,21 @@
 import * as THREE from 'three'
-import { MathUtils } from 'three'
 import BrushStill from "./BrushStill"
-import { randomRange } from '../../../three.js-gist/Utils/Helper'
+import Generator from '../../basis/Generator'
 
 
-export default class BrushStillGenerator {
+export default class BrushStillGenerator extends Generator {
 
     constructor(experience) {
-        this.experience = experience
-        this.scene = this.experience.scene
-        this.camera = this.experience.camera
-        this.items = this.experience.resources.items
-
-        this.distanceToCamera = 1
-
-
-        this.brushes = []
-        this.brushId = 0
+        super(experience)
 
         this.setupDebug()
-        this.generateBrush()
-        this.startGenerateBrushes()
+        this.generateInstance()
+        this.startGenerateInstances()
     }
-
-    setupDebug() {
-        this.parameters = {}
+    
+    setupParameters() {
+        super.setupParameters()
+        this.parameters.distanceToCamera = 1
 
         this.parameters.lifetime = new THREE.Vector2(20, 30)
         this.parameters.generateInterval = new THREE.Vector2(5, 10)
@@ -34,7 +25,12 @@ export default class BrushStillGenerator {
         this.parameters.distortionStrength = 0.1
         this.parameters.strength = 0.2
         this.parameters.hueShift = -5
+    }
 
+    getInstance() {
+        return new BrushStill(this, this.brushId)
+    }
+    setupDebug() {
         this.debug = this.experience.debug
         // Debug
         if (this.debug.active) {
@@ -70,35 +66,9 @@ export default class BrushStillGenerator {
         }
     }
 
-
     updateBrushMaterials() {
         for (var brush of this.brushes) {
             brush.updateMaterial()
         }
-    }
-
-    startGenerateBrushes() {
-        const interval = randomRange(this.parameters.generateInterval) * 1000
-        setTimeout(() => {
-            this.generateBrush()
-            this.startGenerateBrushes()
-        }, interval);
-    };
-
-    generateBrush() {
-        const brush = new BrushStill(this, this.brushId)
-        this.brushes.push(brush)
-        this.brushId++
-    }
-
-    update() {
-        for (var brush of this.brushes) {
-            brush.update()
-        }
-    }
-
-    removeBrushFromList(id) {
-        // console.log(id);
-        this.brushes = this.brushes.filter(item => item.id !== id)
     }
 }
