@@ -19,7 +19,13 @@ export default class Generator {
         this.parameters = {}
      }
 
-    generateInstance() { }
+    getInstance() { }
+
+    generateInstance() {
+        const instance = this.getInstance()
+        this.instances.push(instance)
+        this.instanceId++
+    }
 
     startGenerateInstances() {
         const interval = MathUtils.randFloat(this.parameters.generateInterval.x, this.parameters.generateInterval.y) * 1000

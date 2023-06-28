@@ -1,47 +1,25 @@
 import * as THREE from 'three'
-import { MathUtils } from 'three'
+import Generator from '../basis/Generator'
 import FractalLayer from './FractalLayer'
 
-export default class FractalLayerGenerator {
+export default class FractalLayerGenerator extends Generator {
 
     constructor(experience) {
-        this.experience = experience
-        this.scene = this.experience.scene
-        this.camera = this.experience.camera
-
-        this.distanceToCamera = 1
-        this.lifetime = new THREE.Vector2(20, 30)
-        this.generateInterval = new THREE.Vector2(5, 15)
-
-        this.layers = []
-        this.layerId = 0
-
-        this.generateLayer()
-        this.startGenerateLayers()
+        super(experience)
+        this.generateInstance()
+        this.startGenerateInstances()
     }
 
-    startGenerateLayers() {
-        const interval = MathUtils.randFloat(this.generateInterval.x, this.generateInterval.y) * 1000
-        setTimeout(() => {
-            this.generateLayer()
-            this.startGenerateLayers()
-        }, interval);
-    };
+    setupParameters() {
+        super.setupParameters()
 
-    generateLayer() {
-        const layer = new FractalLayer(this, this.layerId)
-        this.layers.push(layer)
-        this.layerId++
+        this.parameters.count = 400
+        this.parameters.distanceToCamera = 1
+        this.parameters.lifetime = new THREE.Vector2(20, 30)
+        this.parameters.generateInterval = new THREE.Vector2(5, 15)
     }
 
-    update() {
-        for (var layer of this.layers) {
-            layer.update()
-        }
-    }
-
-    removeLayerFromList(id) {
-        // console.log(id);
-        this.layers = this.layers.filter(item => item.id !== id)
+    getInstance() { 
+        return new FractalLayer(this, this.instanceId)
     }
 }

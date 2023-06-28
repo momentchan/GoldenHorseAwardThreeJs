@@ -21,15 +21,7 @@ export default class LineInstancedGenerator extends Generator {
         this.parameters.hRange = new THREE.Vector2(0.3, 0.5).multiplyScalar(0.01)
     }
 
-    generateInstance() {
-        const instance = new LineInstanced(this, this.instanceId)
-        this.instances.push(instance)
-        this.instanceId++
-    }
-
-    updateBrushMaterials() {
-        for (var line of this.lines) {
-            line.updateMaterials()
-        }
+    getInstance() { 
+        return new LineInstanced(this, this.instanceId)
     }
 }

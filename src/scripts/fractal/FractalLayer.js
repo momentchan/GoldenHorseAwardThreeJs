@@ -1,23 +1,10 @@
 import * as THREE from 'three'
-import { MathUtils } from 'three'
 import screenVertexShader from '../../shaders/screen_vertex.glsl'
 import fractalLayerFragmentShader from '../../shaders/fractalLayer/fragment.glsl'
+import Instance from '../basis/Instance'
 
-export default class FractalLayer {
-    constructor(generater, id) {
-        this.id = id
-
-        this.generater = generater
-
-        this.t = 0
-        this.time = this.generater.experience.time
-        this.lifetime = MathUtils.randFloat(this.generater.lifetime.x, this.generater.lifetime.y) * 1000
-
-        this.scene = this.generater.scene
-        this.camera = this.generater.camera
-
-        const size = this.camera.getWorldSizeAtDistance(this.generater.distanceToCamera)
-        // const geometry = new THREE.PlaneGeometry(size[0], size[1]);
+export default class FractalLayer extends Instance {
+    setupMesh(){
         const geometry = new THREE.PlaneGeometry(0.7, 0.7);
 
         this.material = new THREE.ShaderMaterial({
@@ -36,8 +23,8 @@ export default class FractalLayer {
                 uSpeed: { value: 0.00002 },
                 uSeed: { value: Math.random() },
                 uRatio: { value: 0 },
-                uColorTex: { value: this.generater.experience.resources.items.backgroundTex },
-                uPaperTex: { value: this.generater.experience.resources.items.paperTex2 }
+                uColorTex: { value: this.items.backgroundTex },
+                uPaperTex: { value: this.items.paperTex2 }
             }
         })
 
@@ -46,7 +33,7 @@ export default class FractalLayer {
         var cameraWorldPos = new THREE.Vector3();
         this.camera.instance.getWorldPosition(cameraWorldPos)
 
-        this.mesh.position.z = cameraWorldPos.z + this.generater.distanceToCamera;
+        this.mesh.position.z = cameraWorldPos.z + this.parameters.distanceToCamera;
         this.scene.add(this.mesh);
     }
 
@@ -60,18 +47,5 @@ export default class FractalLayer {
         if (r > 1) {
             this.destroy()
         }
-    }
-
-    destroy() {
-        this.generater.removeLayerFromList(this.id)
-
-        // Remove the plane from the scene
-        this.scene.remove(this.mesh);
-
-        // Dispose the plane's geometry and material
-        this.mesh.geometry.dispose();
-        this.mesh.material.dispose();
-
-        delete this
     }
 }

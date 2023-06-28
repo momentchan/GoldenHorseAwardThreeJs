@@ -19,20 +19,25 @@ export default class Instance {
         this.setupMesh()
     }
 
-    setupMesh() {
+    setupMesh() { }
 
-    }
+    updateMaterials() { }
 
     update() {
         this.t += this.time.delta
         this.age = this.t / this.lifetime
     }
 
-    updateMaterials() {
-    }
-
     destroy() {
         this.generater.removeInstance(this.id)
+
+        if (this.mesh)
+            this.scene.remove(this.mesh);
+        if (this.mesh.geometry)
+            this.mesh.geometry.dispose();
+        if (this.mesh.material)
+            this.mesh.material.dispose();
+
         delete this
     }
 }
