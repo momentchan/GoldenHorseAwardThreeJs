@@ -4,9 +4,14 @@ import Generator from '../../basis/Generator'
 
 export default class LineInstancedGenerator extends Generator {
 
+    constructor(experience) {
+        super(experience)
+        this.generateInstance()
+    }
+
     setupParameters() {
         super.setupParameters()
-        
+
         this.parameters.count = 400
         this.parameters.distanceToCamera = 4
         this.parameters.lifetime = new THREE.Vector2(20, 30)
@@ -16,15 +21,15 @@ export default class LineInstancedGenerator extends Generator {
         this.parameters.hRange = new THREE.Vector2(0.3, 0.5).multiplyScalar(0.01)
     }
 
-    updateBrushMaterials() {
-        for (var line of this.lines) {
-            line.updateMaterials()
-        }
-    }
-
     generateInstance() {
         const instance = new LineInstanced(this, this.instanceId)
         this.instances.push(instance)
         this.instanceId++
+    }
+
+    updateBrushMaterials() {
+        for (var line of this.lines) {
+            line.updateMaterials()
+        }
     }
 }

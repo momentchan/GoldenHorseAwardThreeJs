@@ -13,8 +13,6 @@ export default class Generator {
         this.instanceId = 0
 
         this.setupParameters()
-        this.generateInstance()
-        this.startGenerateInstances()
     }
 
     setupParameters() {
