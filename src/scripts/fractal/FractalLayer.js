@@ -1,6 +1,6 @@
 import * as THREE from 'three'
-import screenVertexShader from '../../shaders/screen_vertex.glsl'
-import fractalLayerFragmentShader from '../../shaders/fractalLayer/fragment.glsl'
+import vertexShader from '../../shaders/screen_vertex.glsl'
+import fragmentShader from '../../shaders/fractalLayer/fragment.glsl'
 import Instance from '../basis/Instance'
 
 export default class FractalLayer extends Instance {
@@ -8,19 +8,14 @@ export default class FractalLayer extends Instance {
         const geometry = new THREE.PlaneGeometry(0.7, 0.7);
 
         this.material = new THREE.ShaderMaterial({
-            vertexShader: screenVertexShader,
-            fragmentShader: fractalLayerFragmentShader,
+            vertexShader: vertexShader,
+            fragmentShader: fragmentShader,
             side: THREE.DoubleSide,
             transparent: true,
-            
-            // blending: THREE.CustomBlending,
-            // blendEquation: THREE.AddEquation,
-            // blendSrc: THREE.SrcAlphaFactor,
-            // blendDst: THREE.OneFactor,
 
             uniforms: {
                 uTime: { value: 0 },
-                uSpeed: { value: 0.00002 },
+                uSpeed: { value: this.parameters.speed },
                 uSeed: { value: Math.random() },
                 uRatio: { value: 0 },
                 uColorTex: { value: this.items.backgroundTex },

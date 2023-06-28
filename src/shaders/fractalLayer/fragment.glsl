@@ -138,11 +138,11 @@ void main() {
 	vec2 uv = vUv * 1.78 + Scatter(vUv, 0.02) + uSeed * 123.45 + turbulence;
 
 	float f = getFractal(uv);
-	vec4 col = vec4(f) * color;
+	vec4 col = color * 1.2;
 	col.rgb = BlendOverLay(col.rgb, paper.rgb, 0.5);
 
 	float fade = smoothEdge(vUv, vec2(0.1)) * smoothstep(0.0, 0.05, uRatio) * smoothstep(1.0, 0.9, uRatio);
-	col.a *= fade;
+	col.a = f * fade;
 
 	gl_FragColor = col;
 }
