@@ -7,6 +7,7 @@ import BrushGeneratorVideo from "../brush/video/BrushGeneratorVideo"
 import LineTexGenerator from "../line/texture/LineTexGenerator"
 import LineInstancedGenerator from "../line/instanced/LineInstancedGenerator"
 import BrushStillGenerator from "../brush/still/BrushStillGenerator"
+import LineFractal from "../line/instanced/LineFractal"
 
 export default class World extends WorldBase {
     constructor(experience) {
@@ -20,6 +21,7 @@ export default class World extends WorldBase {
             // this.brushGenerator = new BrushGeneratorVideo(this.experience)
             this.brushGenerator = new BrushStillGenerator(this.experience)
             // this.lineGenerator = new LineTexGenerator(this.experience)
+
             this.lineInstancedGenerator = new LineInstancedGenerator(this.experience)
         })   
     }

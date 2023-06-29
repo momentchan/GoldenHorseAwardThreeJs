@@ -6,10 +6,8 @@ import Instance from '../../basis/Instance'
 
 
 export default class LineInstanced extends Instance {
-    setupMesh(){
-        
+    setupMesh() {
         const position = new THREE.Vector3(0, 0, 0)
-
         const geometry = new THREE.PlaneGeometry(1, 1, 100, 1);
 
         this.material = new THREE.ShaderMaterial({
@@ -20,7 +18,8 @@ export default class LineInstanced extends Instance {
             uniforms: {
                 uTime: { value: 0 },
                 uRatio: { value: 0 },
-                uBackgroundTex: { value: this.items.backgroundTex }
+                uBackgroundTex: { value: this.items.backgroundTex },
+                uFractalTex: { value: this.generater.lineFractal.getTexture() }
             }
         })
 

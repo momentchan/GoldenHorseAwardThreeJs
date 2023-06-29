@@ -1,4 +1,3 @@
-import * as THREE from 'three'
 import RendererBase from "../../three.js-gist/Common/RendererBase"
 import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
@@ -6,13 +5,13 @@ import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
 import { GammaCorrectionShader } from 'three/examples/jsm/shaders/GammaCorrectionShader.js';
 import { FXAAShader } from 'three/examples/jsm/shaders/FXAAShader.js';
 import { ToneMapShader } from 'three/examples/jsm/shaders/ToneMapShader';
-import { BackgroundOverlayShader } from '../../shaders/postProcessing/BackgroundOverlayShader';
+import { backgroundOverlayShader } from '../../shaders/postProcessing/backgroundOverlayShader';
 
 export default class Renderer extends RendererBase {
 
     setInstance() {
         super.setInstance()
-        this.composer = new EffectComposer(this.instance);
+        this.composer = new EffectComposer(this.instance)
         this.resources = this.experience.resources
 
         this.params = {
@@ -29,7 +28,7 @@ export default class Renderer extends RendererBase {
             this.composer.addPass(renderPass)
 
             // Custom Pass
-            const overlayPass = new ShaderPass(BackgroundOverlayShader)
+            const overlayPass = new ShaderPass(backgroundOverlayShader)
             overlayPass.material.uniforms.uTexture.value = this.experience.resources.items.backgroundOverlay
             this.composer.addPass(overlayPass)
 
@@ -51,7 +50,6 @@ export default class Renderer extends RendererBase {
             //         .onChange(() => toneMapPass.uniforms.middleGrey.value = this.params.middleGrey)
             // }
 
-
             const fxaaPass = new ShaderPass(FXAAShader);
 
             fxaaPass.material.uniforms['resolution'].value.x = 1 / (this.sizes.width * this.sizes.pixelRatio);
@@ -62,6 +60,7 @@ export default class Renderer extends RendererBase {
 
     update() {
         this.instance.toneMappingExposure = this.params.exposure;
+
         this.composer.render()
     }
 }

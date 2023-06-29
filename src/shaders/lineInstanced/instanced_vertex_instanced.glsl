@@ -49,7 +49,6 @@ float snoise(vec2 v) {
 	return 130.0 * dot(m, g);
 }
 
-
 vec2 gradientNoise_dir(vec2 p) {
 	p = mod(p, 289.0);
 	float x = mod((34.0 * p.x + 1.0) * p.x, 289.0) + p.y;
@@ -145,7 +144,6 @@ float simplex3d_fractal(vec3 m) {
 	return 0.5333333 * simplex3d(m * rot1) + 0.2666667 * simplex3d(2.0 * m * rot2);
 }
 
-
 varying vec2 vUv;
 varying float vSeedBuffer;
 varying vec4 vPos;
@@ -157,18 +155,19 @@ void main() {
 	vec4 pos = instanceMatrix * vec4(p1, 1.0);
 	vec4 worldPosition = modelMatrix * pos;
 	vec3 seed = vec3(worldPosition.xy + seedBuffer * 12.3, uTime * 0.1);
-	
+
 	seed.xy *= 0.5;
 	float offset1 = simplex3d_fractal(seed) * 0.0;
 
 	seed.xy *= 5.0;
 	float offset2 = simplex3d_fractal(seed) * 0.05;
 
-	worldPosition.y += offset1 + offset2;
+	float up = sin(uTime * 0.1 + seedBuffer * 23.45) * 0.1;
+
+	worldPosition.y += offset1 + offset2 + up;
 
 	vec4 viewPosition = viewMatrix * worldPosition;
 	vec4 projectedPosition = projectionMatrix * viewPosition;
-
 
 	gl_Position = projectedPosition;
 

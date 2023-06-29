@@ -6,6 +6,7 @@ export default class Instance {
         this.id = id
 
         this.generater = generater
+        this.experience = this.generater.experience
         this.scene = this.generater.scene
         this.camera = this.generater.camera
         this.items = this.generater.items

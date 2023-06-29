@@ -4,10 +4,14 @@ import Renderer from "./Renderer"
 import Camera from "./Camera";
 import World from "./World";
 import Gyroscoe from './Gyroscope';
+import BufferCamera from './BufferCamera';
 
 export default class Experience extends ExperienceBase {
     constructor(canvas, sources) {
         super(canvas, sources)
+
+        this.bufferScene = new THREE.Scene()
+        this.bufferCamera = new BufferCamera(this)
 
         this.gyro = new Gyroscoe()
         this.camera = new Camera(this)

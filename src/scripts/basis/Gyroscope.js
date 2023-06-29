@@ -14,8 +14,6 @@ export default class Gyroscoe {
         // hide debugText
         this.debugText.style.visibility = 'hidden'
 
-
-
         if (window.DeviceMotionEvent && typeof window.DeviceMotionEvent.requestPermission === 'function') {
             this.banner = document.createElement('div')
             this.banner.innerHTML = `<div style="z-index: 1; position: absolute; width: 100%; background-color:#000; color: #fff"><p style="padding: 10px">Click here to enable DeviceMotion</p></div>`

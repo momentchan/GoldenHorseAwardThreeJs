@@ -1,11 +1,11 @@
-const BackgroundOverlayShader = {
+const backgroundOverlayShader = {
 
     name: 'BackgroundOverlayShader',
 
     uniforms: {
 
         'tDiffuse': { value: null },
-        'uTexture': { value: null }
+        'uTexture': { value: null },
     },
 
     vertexShader: /* glsl */`
@@ -44,4 +44,4 @@ const BackgroundOverlayShader = {
 		}`
 };
 
-export { BackgroundOverlayShader };
+export { backgroundOverlayShader };
