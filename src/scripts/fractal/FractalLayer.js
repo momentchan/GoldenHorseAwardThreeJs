@@ -19,7 +19,6 @@ export default class FractalLayer extends Instance {
                 uSeed: { value: Math.random() },
                 uRatio: { value: 0 },
                 uColorTex: { value: this.items.backgroundTex },
-                uPaperTex: { value: this.items.paperTex2 }
             }
         })
 
