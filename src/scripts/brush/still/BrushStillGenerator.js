@@ -9,7 +9,7 @@ export default class BrushStillGenerator extends Generator {
         super(experience)
 
         this.setupDebug()
-        this.generateInstance()
+        this.addInstance()
         this.startGenerateInstances()
     }
     
@@ -18,18 +18,19 @@ export default class BrushStillGenerator extends Generator {
         this.parameters.distanceToCamera = 1
 
         this.parameters.lifetime = new THREE.Vector2(20, 30)
-        this.parameters.generateInterval = new THREE.Vector2(5, 10)
-        this.parameters.size = new THREE.Vector2(0.5, 0.6)
+        this.parameters.generateInterval = new THREE.Vector2(2, 5)
+        this.parameters.size = new THREE.Vector2(0.4, 0.5)
         this.parameters.speed = new THREE.Vector2(0.5, 1)
-        this.parameters.distortionFrequency = 1.0
-        this.parameters.distortionStrength = 0.1
-        this.parameters.strength = 0.2
+        this.parameters.distortionFrequency = new THREE.Vector2(0.5, 1)
+        this.parameters.distortionStrength = new THREE.Vector2(0.1, 0.3)
+        this.parameters.strength = new THREE.Vector2(0.2, 0.5)
         this.parameters.hueShift = -5
     }
 
-    getInstance() {
-        return new BrushStill(this, this.brushId)
+    getInstance(id) {
+        return new BrushStill(this, id)
     }
+
     setupDebug() {
         this.debug = this.experience.debug
         // Debug

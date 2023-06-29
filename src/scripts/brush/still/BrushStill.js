@@ -6,7 +6,7 @@ import fragmentShader from '../../../shaders/brushStill/fragment.glsl'
 import Instance from '../../basis/Instance'
 
 export default class BrushStill extends Instance {
-    
+
     setupMesh() {
         const size = randomRange(this.parameters.size)
         const geometry = new THREE.PlaneGeometry(0.2 * size, 1 * size, 1, 20)
@@ -15,17 +15,18 @@ export default class BrushStill extends Instance {
             vertexShader: vertexShader,
             fragmentShader: fragmentShader,
             transparent: true,
-            // blending: THREE.AdditiveBlending,
+            blending: THREE.AdditiveBlending,
             uniforms: {
-                uPaperTex: { value: this.items.paperTex },
+                uPaperTex: { value: this.items.backgroundTex },
                 uStrokeTex: { value: this.items.brushStillTex },
 
-                uDistortionFrequency: { value: this.parameters.distortionFrequency },
-                uDistortionStrength: { value: this.parameters.distortionStrength },
+                uDistortionFrequency: { value: randomRange(this.parameters.distortionFrequency) },
+                uDistortionStrength: { value: randomRange(this.parameters.distortionStrength) },
 
-                uStrength: { value: this.parameters.strength },
+                uStrength: { value: randomRange(this.parameters.strength) },
                 uHueShift: { value: this.parameters.hueShift },
-                uRatio: { value: 0 }
+                uRatio: { value: 0 },
+                uSeed: { value: Math.random() }
             },
         })
 
@@ -34,9 +35,9 @@ export default class BrushStill extends Instance {
         this.camera.instance.getWorldPosition(cameraWorldPos)
 
         const sizes = this.camera.getWorldSizeAtDistance(this.parameters.distanceToCamera)
-        const position = new THREE.Vector3((Math.random() - 0.5) * sizes[0], 
-                                           (Math.random() - 0.5) * sizes[1], 
-                                           cameraWorldPos.z + this.parameters.distanceToCamera)
+        const position = new THREE.Vector3((Math.random() - 0.5) * sizes[0],
+            (Math.random() - 0.5) * sizes[1],
+            cameraWorldPos.z + this.parameters.distanceToCamera)
 
         // position.setX(0)
         // position.setY(0)

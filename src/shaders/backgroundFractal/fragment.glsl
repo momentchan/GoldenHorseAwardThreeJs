@@ -111,7 +111,10 @@ float noise(vec2 co) {
 vec2 Scatter(vec2 uv, float radius) {
 	return -radius + vec2(noise(uv), noise(uv.yx)) * radius * 2.0;
 }
-
+float remap(float In, vec2 InMinMax, vec2 OutMinMax)
+{
+    return OutMinMax.x + (In - InMinMax.x) * (OutMinMax.y - OutMinMax.x) / (InMinMax.y - InMinMax.x);
+}
 varying vec2 vUv;
 uniform sampler2D uTexture;
 uniform float uTime;
@@ -125,6 +128,7 @@ float getFractal(vec2 uv) {
 	value = 0.5 + 0.5 * value;
 
 	value = Contrast(value, 118.0) * 0.02;
+	value = remap(value, vec2(0.0, 1.0), vec2(0.0, 1.0));
 	return value;
 }
 
@@ -135,16 +139,10 @@ void main() {
 	vec2 uv1 = vUv * 0.5 + Scatter(vUv, 0.1) + turbulence;
 	vec2 uv2 = uv1 + 123.45 + turbulence; // random seed
 
-	float v1 = getFractal(uv1);
-	float v2 = getFractal(uv2);
+	float f1 = getFractal(uv1);
+	float f2 = getFractal(uv2);
 
-	vec4 col1 = textureColor * v1;
-	col1.a = v1;
-
-	vec4 col2 = textureColor * v2;
-	col2.a = v2;
-
-	vec4 col = col1 * col1.a + col2 * col2.a;
+	vec4 col = textureColor * (f1 + f2);
 	col.a = 1.0;
 	gl_FragColor = col;
 

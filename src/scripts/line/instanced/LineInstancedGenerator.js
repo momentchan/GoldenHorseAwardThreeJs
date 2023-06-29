@@ -6,7 +6,7 @@ export default class LineInstancedGenerator extends Generator {
 
     constructor(experience) {
         super(experience)
-        this.generateInstance()
+        this.addInstance()
     }
 
     setupParameters() {
@@ -21,7 +21,7 @@ export default class LineInstancedGenerator extends Generator {
         this.parameters.hRange = new THREE.Vector2(0.3, 0.5).multiplyScalar(0.01)
     }
 
-    getInstance() { 
-        return new LineInstanced(this, this.instanceId)
+    getInstance(id) { 
+        return new LineInstanced(this, id)
     }
 }

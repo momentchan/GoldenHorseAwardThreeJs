@@ -6,7 +6,7 @@ export default class FractalLayerGenerator extends Generator {
 
     constructor(experience) {
         super(experience)
-        this.generateInstance()
+        this.addInstance()
         this.startGenerateInstances()
     }
 
@@ -20,7 +20,7 @@ export default class FractalLayerGenerator extends Generator {
         this.parameters.speed = 0.00002
     }
 
-    getInstance() { 
-        return new FractalLayer(this, this.instanceId)
+    getInstance(id) { 
+        return new FractalLayer(this, id)
     }
 }

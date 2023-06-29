@@ -139,7 +139,7 @@ void main() {
 
 	float f = getFractal(uv);
 	vec4 col = color * 1.2;
-	col.rgb = BlendOverLay(col.rgb, paper.rgb, 0.5);
+	// col.rgb = BlendOverLay(col.rgb, paper.rgb, 0.5);
 
 	float fade = smoothEdge(vUv, vec2(0.1)) * smoothstep(0.0, 0.05, uRatio) * smoothstep(1.0, 0.9, uRatio);
 	col.a = f * fade;

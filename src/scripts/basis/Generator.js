@@ -19,10 +19,12 @@ export default class Generator {
         this.parameters = {}
      }
 
-    getInstance() { }
+    getInstance(instanceId) { }
 
-    generateInstance() {
-        const instance = this.getInstance()
+    addInstance() {
+        console.log(`${this.constructor.name}: add ${this.instanceId}`);
+
+        const instance = this.getInstance(this.instanceId)
         this.instances.push(instance)
         this.instanceId++
     }
@@ -30,7 +32,7 @@ export default class Generator {
     startGenerateInstances() {
         const interval = MathUtils.randFloat(this.parameters.generateInterval.x, this.parameters.generateInterval.y) * 1000
         setTimeout(() => {
-            this.generateInstance()
+            this.addInstance()
             this.startGenerateInstances()
         }, interval);
     };
@@ -42,7 +44,7 @@ export default class Generator {
     }
 
     removeInstance(id) {
-        // console.log(id);
+        console.log(`${this.constructor.name}: remove ${id}`);
         this.instances = this.instances.filter(item => item.id !== id)
     }
 }
