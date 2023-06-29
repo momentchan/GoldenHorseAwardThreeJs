@@ -9,22 +9,24 @@ export default class BrushStill extends Instance {
 
     setupMesh() {
         const size = randomRange(this.parameters.size)
-        const geometry = new THREE.PlaneGeometry(0.2 * size, 1 * size, 1, 20)
+        const ratio = randomRange(this.parameters.ratio)
+        const geometry = new THREE.PlaneGeometry(0.2 * size, 0.2 * size * ratio, 1, 40)
 
         this.material = new THREE.ShaderMaterial({
             vertexShader: vertexShader,
             fragmentShader: fragmentShader,
             transparent: true,
-            blending: THREE.AdditiveBlending,
+            // blending: THREE.AdditiveBlending,
             uniforms: {
                 uPaperTex: { value: this.items.backgroundTex },
                 uStrokeTex: { value: this.items.brushStillTex },
 
                 uDistortionFrequency: { value: randomRange(this.parameters.distortionFrequency) },
                 uDistortionStrength: { value: randomRange(this.parameters.distortionStrength) },
-
                 uStrength: { value: randomRange(this.parameters.strength) },
-                uHueShift: { value: this.parameters.hueShift },
+                uHue: { value: randomRange(this.parameters.hue) },
+                uSaturation: { value: this.parameters.saturation },
+                uValue: { value: this.parameters.value },
                 uRatio: { value: 0 },
                 uSeed: { value: Math.random() }
             },
@@ -52,10 +54,12 @@ export default class BrushStill extends Instance {
     }
 
     updateMaterial() {
-        this.material.uniforms.uDistortionFrequency.value = this.parameters.distortionFrequency
-        this.material.uniforms.uDistortionStrength.value = this.parameters.distortionStrength
-        this.material.uniforms.uStrength.value = this.parameters.strength
-        this.material.uniforms.uHueShift.value = this.parameters.hueShift
+        // this.material.uniforms.uDistortionFrequency.value = this.parameters.distortionFrequency
+        // this.material.uniforms.uDistortionStrength.value = this.parameters.distortionStrength
+        // this.material.uniforms.uStrength.value = this.parameters.strength
+        this.material.uniforms.uHue.value = this.parameters.hue
+        this.material.uniforms.uSaturation.value = this.parameters.saturation
+        this.material.uniforms.uValue.value = this.parameters.value
     }
 
 

@@ -55,19 +55,19 @@ void main() {
 	vec2 vCoords = vPos.xy;
 	vCoords /= vPos.w;
 	vCoords = vCoords * 0.5 + 0.5;
-	vec2 uv = fract(vCoords * 1.0);
+	vec2 screenUv = fract(vCoords * 1.0);
 
-	vec4 background = texture2D(uBackgroundTex, uv);
+	vec4 background = texture2D(uBackgroundTex, screenUv);
 
-	float r = remap(gradientNoise(vUv, 2.0), vec2(0.0, 1.0), vec2(0.5, 1.0));
+	float noise = remap(gradientNoise(vUv, 2.0), vec2(0.0, 1.0), vec2(0.5, 1.0));
 
-	float f = texture2D(uFractalTex, uv).r;
+	float fractal = texture2D(uFractalTex, screenUv).r;
 
 	vec4 col = vec4(1.0);
-	col.rgb = BlendOverLay(col.rgb, background.rgb, 0.5) * 0.5;
+	col.rgb = BlendOverLay(col.rgb, background.rgb, 0.5) * 0.1;
 	// // col.rgb *= mix(1.0, 1.5, smoothstep(uRatio, uRatio + 0.05, uv.y));
 	
-	col.a *= r * f;
+	col.a *= noise * fractal;
 
 	// if(col.a < 0.3)
 	// 	discard;

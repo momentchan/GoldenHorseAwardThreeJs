@@ -1,32 +1,28 @@
-vec2 gradientNoise_dir(vec2 p)
-{
-    p = mod(p, 289.0);
-    float x = mod((34.0 * p.x + 1.0) * p.x, 289.0) + p.y;
-    x = mod((34.0 * x + 1.0) * x, 289.0);
-    x = fract(x / 41.0) * 2.0 - 1.0;
-    return normalize(vec2(x - floor(x + 0.5), abs(x) - 0.5));
+vec2 gradientNoise_dir(vec2 p) {
+	p = mod(p, 289.0);
+	float x = mod((34.0 * p.x + 1.0) * p.x, 289.0) + p.y;
+	x = mod((34.0 * x + 1.0) * x, 289.0);
+	x = fract(x / 41.0) * 2.0 - 1.0;
+	return normalize(vec2(x - floor(x + 0.5), abs(x) - 0.5));
 }
 
-float gradientNoise(vec2 p)
-{
-    vec2 ip = floor(p);
-    vec2 fp = fract(p);
-    float d00 = dot(gradientNoise_dir(ip), fp);
-    float d01 = dot(gradientNoise_dir(ip + vec2(0.0, 1.0)), fp - vec2(0.0, 1.0));
-    float d10 = dot(gradientNoise_dir(ip + vec2(1.0, 0.0)), fp - vec2(1.0, 0.0));
-    float d11 = dot(gradientNoise_dir(ip + vec2(1.0, 1.0)), fp - vec2(1.0, 1.0));
-    fp = fp * fp * fp * (fp * (fp * 6.0 - 15.0) + 10.0);
-    return mix(mix(d00, d01, fp.y), mix(d10, d11, fp.y), fp.x);
+float gradientNoise(vec2 p) {
+	vec2 ip = floor(p);
+	vec2 fp = fract(p);
+	float d00 = dot(gradientNoise_dir(ip), fp);
+	float d01 = dot(gradientNoise_dir(ip + vec2(0.0, 1.0)), fp - vec2(0.0, 1.0));
+	float d10 = dot(gradientNoise_dir(ip + vec2(1.0, 0.0)), fp - vec2(1.0, 0.0));
+	float d11 = dot(gradientNoise_dir(ip + vec2(1.0, 1.0)), fp - vec2(1.0, 1.0));
+	fp = fp * fp * fp * (fp * (fp * 6.0 - 15.0) + 10.0);
+	return mix(mix(d00, d01, fp.y), mix(d10, d11, fp.y), fp.x);
 }
 
-float gradientNoise(vec2 UV, float Scale)
-{
-    return gradientNoise(UV * Scale) + 0.5;
+float gradientNoise(vec2 UV, float Scale) {
+	return gradientNoise(UV * Scale) + 0.5;
 }
 
-float remap(float In, vec2 InMinMax, vec2 OutMinMax)
-{
-    return OutMinMax.x + (In - InMinMax.x) * (OutMinMax.y - OutMinMax.x) / (InMinMax.y - InMinMax.x);
+float remap(float In, vec2 InMinMax, vec2 OutMinMax) {
+	return OutMinMax.x + (In - InMinMax.x) * (OutMinMax.y - OutMinMax.x) / (InMinMax.y - InMinMax.x);
 }
 
 vec3 mod289(vec3 x) {
@@ -108,13 +104,37 @@ vec3 hueShift(vec3 col, float Offset) {
 vec3 BlendOverLay(vec3 baseColor, vec3 blendColor, float lerp) {
 	return mix(baseColor, (2.0 * baseColor * blendColor), lerp);
 }
+vec3 hsv2rgb(vec3 c) {
+	vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
+	vec3 p = abs(fract(c.xxx + K.xyz) * 6.0 - K.www);
+	return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);
+}
+
+vec3 rgb2hsv(vec3 c) {
+	vec4 K = vec4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);
+	vec4 p = mix(vec4(c.bg, K.wz), vec4(c.gb, K.xy), step(c.b, c.g));
+	vec4 q = mix(vec4(p.xyw, c.r), vec4(c.r, p.yzx), step(p.x, c.r));
+
+	float d = q.x - min(q.w, q.y);
+	float e = 1.0e-10;
+	return vec3(abs(q.z + (q.w - q.y) / (6.0 * d + e)), d / (q.x + e), q.x);
+}
+
+vec3 HSVShift(vec3 baseColor, vec3 shift) {
+	vec3 hsv = rgb2hsv(baseColor);
+	hsv = hsv + shift.xyz;
+	hsv.yz = clamp(hsv.yz, 0.0, 1.0);
+	return hsv2rgb(hsv);
+}
 
 varying vec2 vUv;
 
 uniform sampler2D uPaperTex;
 uniform sampler2D uStrokeTex;
 uniform float uStrength;
-uniform float uHueShift;
+uniform float uHue;
+uniform float uSaturation;
+uniform float uValue;
 uniform float uColorStrength;
 uniform float uRatio;
 uniform float uSeed;
@@ -125,17 +145,18 @@ void main() {
 
 	col.rgb = BlendOverLay(col.rgb, paper.rgb, 1.0);
 
+	col.rgb = HSVShift(col.rgb, vec3(uHue, 1.0, 0.0));
 
 	// alpha animation
 	float n = gradientNoise(vec2(vUv.x) + uSeed * 123.45, 50.0);
 	n = remap(n, vec2(0.0, 1.0), vec2(-0.3, 0.0));
-	
+
 	float r = n;
 	// ramp
 	r -= pow(abs(vUv.x - 0.5), 1.5);
-	r +=  uRatio * 3.0;
+	r += uRatio * 3.0;
 
-	float alpha = smoothstep(0.0, 1.0, length(col.rgb)) * smoothstep(r + 0.2, r, vUv.y);
+	float alpha = col.a * smoothstep(r + 0.2, r, vUv.y);
 
 	// make edge less visible
 	float mask = smoothstep(alpha, 1.0, 0.95);
@@ -143,8 +164,9 @@ void main() {
 	mask *= alpha;
 	alpha += mask;
 
-	float fade = 0.1 + mix(0.0, 1.9, smoothstep(0.5, 1.0, uRatio));
-	alpha *= smoothEdge(vUv, vec2(fade, 0.1));
+	float fade = 0.3 + mix(0.0, 1.9, smoothstep(0.5, 1.0, uRatio));
+	alpha *= smoothEdge(vUv, vec2(fade, 0.2));
+
 	col.a = alpha * uStrength;
 	// col.a = 1.0;
 	gl_FragColor = col;
