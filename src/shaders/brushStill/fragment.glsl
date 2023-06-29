@@ -168,6 +168,9 @@ void main() {
 	alpha *= smoothEdge(vUv, vec2(fade, 0.2));
 
 	col.a = alpha * uStrength;
+
+	// col.rg = vUv;
+	// col.b=0.0;
 	// col.a = 1.0;
 	gl_FragColor = col;
 }

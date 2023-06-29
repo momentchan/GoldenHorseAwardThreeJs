@@ -22,8 +22,13 @@ export default class BrushStillGenerator extends Generator {
         this.parameters.ratio = new THREE.Vector2(1, 5)
         this.parameters.size = new THREE.Vector2(0.4, 0.8)
         this.parameters.speed = new THREE.Vector2(0.5, 1)
-        this.parameters.distortionFrequency = new THREE.Vector2(0.3, 0.6)
-        this.parameters.distortionStrength = new THREE.Vector2(0.1, 0.2)
+        this.parameters.distortionFrequency = new THREE.Vector2(3.0, 5.0)
+        this.parameters.distortionStrength = new THREE.Vector2(0.01, 0.03)
+
+        // this.parameters.distortionFrequency = 1
+        // this.parameters.distortionStrength = 0.01
+
+
         this.parameters.strength = new THREE.Vector2(0.5, 1.5)
 
         this.parameters.hue = new THREE.Vector2(0.9, 1)
@@ -48,14 +53,14 @@ export default class BrushStillGenerator extends Generator {
             // this.folder.add(this.parameters, 'distortionFrequency')
             //     .name('distortionFrequency')
             //     .min(0)
-            //     .max(2)
+            //     .max(10)
             //     .step(0.01)
             //     .onChange(() => this.updateBrushMaterials())
 
             // this.folder.add(this.parameters, 'distortionStrength')
             //     .name('distortionStrength')
             //     .min(0)
-            //     .max(2)
+            //     .max(0.1)
             //     .step(0.01)
             //     .onChange(() => this.updateBrushMaterials())
 
