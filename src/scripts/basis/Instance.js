@@ -12,6 +12,7 @@ export default class Instance {
         this.items = this.generater.items
         this.parameters = this.generater.parameters
         this.time = this.generater.time
+        this.sizes = this.generater.sizes
 
         this.t = 0
 

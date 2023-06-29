@@ -16,7 +16,7 @@ export default class LineInstancedGenerator extends Generator {
         super.setupParameters()
 
         this.parameters.count = 400
-        this.parameters.fractalSpeed = 0.1
+        this.parameters.fractalSpeed = 0.05
         this.parameters.distanceToCamera = 4
         this.parameters.lifetime = new THREE.Vector2(20, 30)
         this.parameters.generateInterval = new THREE.Vector2(10, 20)

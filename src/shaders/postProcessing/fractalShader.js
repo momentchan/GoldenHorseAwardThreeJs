@@ -115,7 +115,7 @@ const fractalShader = {
         
             float value;
             value = simplex3d_fractal(p);
-            value = Contrast(value, 2.0);
+            value = Contrast(value, 5.0);
         
             value = remap(value, vec2(-1.0, 1.0), vec2(0.0, 1.0));
             value = clamp(value, 0.0, 1.0);
@@ -124,7 +124,7 @@ const fractalShader = {
 
 		void main() {
 
-            vec4 col = vec4(getFractal(vUv * 2.0 * vec2(uAspect, 1.0), uTime * uSpeed));
+            vec4 col = vec4(getFractal(vUv * 1.5 * vec2(uAspect, 1.0), uTime * uSpeed));
             col.a = 1.0;
             
 			gl_FragColor = col;

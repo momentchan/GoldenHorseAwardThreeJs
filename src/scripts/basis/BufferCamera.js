@@ -7,4 +7,9 @@ export default class BufferCamera extends CameraBase {
         this.instance.position.set(0,0,10)
         this.instance.lookAt(0, 0, 0)
     }
+
+    setOrbitControl() {
+        super.setOrbitControl()
+        this.controls.enabled = false
+    }
 }

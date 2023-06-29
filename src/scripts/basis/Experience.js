@@ -18,6 +18,7 @@ export default class Experience extends ExperienceBase {
         this.renderer = new Renderer(this)
         this.world = new World(this)
     }
+    
     resize() {
         super.resize()
         this.camera.resize()

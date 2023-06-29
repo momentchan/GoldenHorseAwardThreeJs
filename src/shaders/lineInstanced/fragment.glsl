@@ -44,6 +44,7 @@ float remap(float In, vec2 InMinMax, vec2 OutMinMax)
     return OutMinMax.x + (In - InMinMax.x) * (OutMinMax.y - OutMinMax.x) / (InMinMax.y - InMinMax.x);
 }
 
+varying vec2 vUv;
 varying vec4 vPos;
 uniform sampler2D uBackgroundTex;
 uniform sampler2D uFractalTex;
@@ -58,18 +59,18 @@ void main() {
 
 	vec4 background = texture2D(uBackgroundTex, uv);
 
-	float r = gradientNoise(uv, 2000.0);
+	float r = remap(gradientNoise(vUv, 2.0), vec2(0.0, 1.0), vec2(0.5, 1.0));
 
 	float f = texture2D(uFractalTex, uv).r;
 
 	vec4 col = vec4(1.0);
-	col.rgb = BlendOverLay(col.rgb, background.rgb, 0.5);
+	col.rgb = BlendOverLay(col.rgb, background.rgb, 0.5) * 0.5;
 	// // col.rgb *= mix(1.0, 1.5, smoothstep(uRatio, uRatio + 0.05, uv.y));
 	
 	col.a *= r * f;
 
-	if(col.a < 0.3)
-		discard;
+	// if(col.a < 0.3)
+	// 	discard;
 
 	gl_FragColor = col;
 }

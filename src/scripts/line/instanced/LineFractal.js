@@ -9,12 +9,11 @@ export default class LineFractal extends Instance {
         this.bufferScene = this.experience.bufferScene
         this.bufferCamera = this.experience.bufferCamera
 
-        const geometry = new THREE.PlaneGeometry(window.innerWidth, window.innerHeight)
-        this.rtTexture = new THREE.WebGLRenderTarget(window.innerWidth * 0.05, window.innerHeight * 0.05)
-        console.log(this.rtTexture);
+        const geometry = new THREE.PlaneGeometry(this.sizes.width, this.sizes.height)
+        this.rtTexture = new THREE.WebGLRenderTarget(this.sizes.width * 0.02, this.sizes.height * 0.02)
 
         this.material = new THREE.ShaderMaterial(fractalShader)
-        this.material.uniforms.uAspect.value = window.innerWidth / window.innerHeight
+        this.material.uniforms.uAspect.value = this.sizes.aspect
 
         this.mesh = new THREE.Mesh(geometry, this.material)
         this.bufferScene.add(this.mesh)

@@ -8,6 +8,7 @@ export default class Generator {
         this.camera = this.experience.camera
         this.items = this.experience.resources.items
         this.time = this.experience.time
+        this.sizes = this.experience.sizes
 
         this.instances = []
         this.instanceId = 0
