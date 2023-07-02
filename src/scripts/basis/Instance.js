@@ -2,23 +2,21 @@ import { MathUtils } from 'three'
 
 
 export default class Instance {
-    constructor(generater, id) {
+    constructor(generator, id) {
         this.id = id
 
-        this.generater = generater
-        this.experience = this.generater.experience
-        this.scene = this.generater.scene
-        this.camera = this.generater.camera
-        this.items = this.generater.items
-        this.parameters = this.generater.parameters
-        this.time = this.generater.time
-        this.sizes = this.generater.sizes
+        this.generator = generator
+        this.experience = this.generator.experience
+        this.scene = this.generator.scene
+        this.camera = this.generator.camera
+        this.items = this.generator.items
+        this.parameters = this.generator.parameters
+        this.time = this.generator.time
+        this.sizes = this.generator.sizes
 
         this.t = 0
 
         this.lifetime = MathUtils.randFloat(this.parameters.lifetime.x, this.parameters.lifetime.y) * 1000
-
-        this.setupMesh()
     }
 
     setupMesh() { }
@@ -31,7 +29,7 @@ export default class Instance {
     }
 
     destroy() {
-        this.generater.removeInstance(this.id)
+        this.generator.removeInstance(this.id)
 
         if (this.mesh)
             this.scene.remove(this.mesh);

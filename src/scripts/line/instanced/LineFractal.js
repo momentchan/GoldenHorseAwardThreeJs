@@ -3,7 +3,10 @@ import { fractalShader } from '../../../shaders/postProcessing/fractalShader'
 import Instance from '../../basis/Instance';
 
 export default class LineFractal extends Instance {
-
+    constructor(generator, id) {
+        super(generator, id)
+        this.setupMesh()
+    }
     setupMesh() {
         this.renderer = this.experience.renderer.instance
         this.bufferScene = this.experience.bufferScene

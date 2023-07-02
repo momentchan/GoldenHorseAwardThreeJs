@@ -5,16 +5,30 @@ import vertexShader from '../../../shaders/brushStill/vertex.glsl'
 import fragmentShader from '../../../shaders/brushStill/fragment.glsl'
 import Instance from '../../basis/Instance'
 
-export default class BrushStill extends Instance {
-    constructor(generator, id) {
-        super(generator, id)
-        this.setupMesh()
+export default class InteractiveBrush extends Instance {
+
+    constructor(generater, id, from, to) {
+        super(generater, id)
+        this.lifetime = 5000
+        this.setupMesh(from, to)
     }
 
-    setupMesh() {
-        const size = randomRange(this.parameters.size)
-        const ratio = randomRange(this.parameters.ratio)
-        const geometry = new THREE.PlaneGeometry(0.2 * size, 0.2 * size * ratio, 1, 40)
+    setupMesh(from, to) {
+
+        const wfrom = this.getWorldPosFromNDC(from, 5)
+        const wto = this.getWorldPosFromNDC(to, 5)
+
+        var distance = wfrom.distanceTo(wto);
+        console.log('Distance:', distance);
+
+        var direction = new THREE.Vector3();
+        direction.subVectors(wto, wfrom).normalize();
+        console.log('Direction:', direction);
+
+        var center = new THREE.Vector3();
+        center.lerpVectors(wfrom, wto, 0.5);
+
+        const geometry = new THREE.PlaneGeometry(distance * 0.2, distance, 1, 40)
 
         this.material = new THREE.ShaderMaterial({
             vertexShader: vertexShader,
@@ -36,36 +50,21 @@ export default class BrushStill extends Instance {
             },
         })
 
+        // this.material = new THREE.MeshBasicMaterial()
 
         const cameraWorldPos = new THREE.Vector3();
         this.camera.instance.getWorldPosition(cameraWorldPos)
 
-        const sizes = this.camera.getWorldSizeAtDistance(this.parameters.distanceToCamera)
-        const position = new THREE.Vector3((Math.random() - 0.5) * sizes[0],
-            (Math.random() - 0.5) * sizes[1],
-            cameraWorldPos.z + this.parameters.distanceToCamera)
-
-        // position.setX(0)
-        // position.setY(0)
-        const angle = Math.random() * Math.PI * 2
+        const angle = -Math.atan2(direction.y, direction.x)
 
         this.mesh = new THREE.Mesh(geometry, this.material);
         this.mesh.rotateY(MathUtils.degToRad(180))
         this.mesh.rotateZ(angle)
-        this.mesh.position.set(position.x, position.y, position.z)
+        this.mesh.rotateZ(MathUtils.degToRad(90))
+        this.mesh.position.set(center.x, center.y, center.z)
 
         this.scene.add(this.mesh);
     }
-
-    updateMaterial() {
-        // this.material.uniforms.uDistortionFrequency.value = this.parameters.distortionFrequency
-        // this.material.uniforms.uDistortionStrength.value = this.parameters.distortionStrength
-        // this.material.uniforms.uStrength.value = this.parameters.strength
-        this.material.uniforms.uHue.value = this.parameters.hue
-        this.material.uniforms.uSaturation.value = this.parameters.saturation
-        this.material.uniforms.uValue.value = this.parameters.value
-    }
-
 
     update() {
         super.update()
@@ -74,5 +73,19 @@ export default class BrushStill extends Instance {
 
         if (this.age > 1)
             this.destroy()
+    }
+
+    getWorldPosFromNDC(ndc, distance) {
+        var vector = new THREE.Vector3(ndc.x, ndc.y, 0.2);
+
+        const cameraWorldPos = new THREE.Vector3();
+        this.camera.instance.getWorldPosition(cameraWorldPos)
+
+        vector.unproject(this.camera.instance);
+
+        var direction = vector.sub(cameraWorldPos).normalize();
+
+        var position = cameraWorldPos.clone().add(direction.multiplyScalar(distance));
+        return position
     }
 }

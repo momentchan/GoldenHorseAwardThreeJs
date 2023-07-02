@@ -8,6 +8,7 @@ import LineTexGenerator from "../line/texture/LineTexGenerator"
 import LineInstancedGenerator from "../line/instanced/LineInstancedGenerator"
 import BrushStillGenerator from "../brush/still/BrushStillGenerator"
 import LineFractal from "../line/instanced/LineFractal"
+import TouchDetector from "../Interaction/TouchDetector"
 
 export default class World extends WorldBase {
     constructor(experience) {
@@ -23,6 +24,7 @@ export default class World extends WorldBase {
             // this.lineGenerator = new LineTexGenerator(this.experience)
 
             this.lineInstancedGenerator = new LineInstancedGenerator(this.experience)
+            this.touchDetector = new TouchDetector(this.experience, this.brushGenerator)
         })   
     }
 

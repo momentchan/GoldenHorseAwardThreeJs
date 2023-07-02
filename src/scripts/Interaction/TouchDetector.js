@@ -1,6 +1,10 @@
+import * as THREE from 'three'
+
 export default class TouchDetector {
-    constructor(experience) {
+    constructor(experience, generator) {
         this.experience = experience
+        this.generator = generator
+
         this.canvas = this.experience.canvas
 
         this.startX = 0
@@ -15,6 +19,7 @@ export default class TouchDetector {
         this.canvas.addEventListener('touchmove', e => this.onTouchMove(e))
         this.canvas.addEventListener('touchend', e => this.onTouchEnd(e))
         this.canvas.addEventListener('touchcancel', e => this.onTouchEnd(e))
+
     }
 
     onTouchStart(event) {
@@ -32,13 +37,15 @@ export default class TouchDetector {
             this.getTouchPosition(event.touches[0])
             const diffX = this.touchX - this.startX
             const diffY = this.touchY - this.startY
-            
-            console.log(`${diffX} ${diffY}`);
+
+
         }
     }
 
     onTouchEnd(event) {
         this.isSwiped = false
+
+        this.generator.addInteractiveBrush(new THREE.Vector2(this.startX, this.startY), new THREE.Vector2(this.touchX, this.touchY))
     }
 
     getTouchPosition(touch) {
@@ -47,14 +54,13 @@ export default class TouchDetector {
         const screenX = touch.clientX - rect.left
         const screenY = touch.clientY - rect.top
 
-        const ndcX = (screenX / this.canvas.width) * 2
-        const ndcY = -(screenY / this.canvas.height) * 2 + 1
+        const ndcX = (screenX / rect.width) * 2 - 1
+        const ndcY = -(screenY / rect.height) * 2 + 1
 
         this.touchX = ndcX
         this.touchY = ndcY
 
-        // console.log(ndcX)
-        // console.log(ndcY)
-
+        // (-1, 1)
+        // console.log(`${this.touchX} ${this.touchY}`);
     }
 }

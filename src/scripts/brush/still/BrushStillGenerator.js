@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 import BrushStill from "./BrushStill"
 import Generator from '../../basis/Generator'
+import InteractiveBrush from './InteractiveBrush'
 
 
 export default class BrushStillGenerator extends Generator {
@@ -41,6 +42,13 @@ export default class BrushStillGenerator extends Generator {
 
     getInstance(id) {
         return new BrushStill(this, id)
+    }
+
+    addInteractiveBrush(from, to) {
+        console.log(`${this.constructor.name}: add ${this.instanceId}`);
+        const instance = new InteractiveBrush(this, this.instanceId, from, to)
+        this.instances.push(instance)
+        this.instanceId++
     }
 
     setupDebug() {
