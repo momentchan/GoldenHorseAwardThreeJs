@@ -44,9 +44,9 @@ export default class BrushStillGenerator extends Generator {
         return new BrushStill(this, id)
     }
 
-    addInteractiveBrush(from, to) {
+    addInteractiveBrush(touches) {
         console.log(`${this.constructor.name}: add ${this.instanceId}`);
-        const instance = new InteractiveBrush(this, this.instanceId, from, to)
+        const instance = new InteractiveBrush(this, this.instanceId, touches)
         this.instances.push(instance)
         this.instanceId++
     }

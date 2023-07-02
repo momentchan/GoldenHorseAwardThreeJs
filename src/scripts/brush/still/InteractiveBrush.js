@@ -1,29 +1,41 @@
 import * as THREE from 'three'
 import { MathUtils } from 'three'
 import { randomRange } from '../../../three.js-gist/Utils/Helper'
-import vertexShader from '../../../shaders/brushStill/vertex.glsl'
-import fragmentShader from '../../../shaders/brushStill/fragment.glsl'
+import vertexShader from '../../../shaders/brushInteractive/vertex.glsl'
+import fragmentShader from '../../../shaders/brushInteractive/fragment.glsl'
 import Instance from '../../basis/Instance'
 
 export default class InteractiveBrush extends Instance {
 
-    constructor(generater, id, from, to) {
+    constructor(generater, id, touches) {
         super(generater, id)
         this.lifetime = 5000
-        this.setupMesh(from, to)
+        this.setupMesh(touches)
     }
 
-    setupMesh(from, to) {
+    setupMesh(touches) {
+        const from = touches[0]
+        const to = touches[touches.length - 1]
+
+        const positionData = new Float32Array(touches.length * 3);
+
+        for (var i = 0; i < touches.length; i++) {
+            const pos = this.getWorldPosFromNDC(touches[i], 5)
+            positionData[3 * i] = pos.x
+            positionData[3 * i + 1] = pos.y
+            positionData[3 * i + 2] = pos.z
+        }
+        console.log(positionData);
 
         const wfrom = this.getWorldPosFromNDC(from, 5)
         const wto = this.getWorldPosFromNDC(to, 5)
 
         var distance = wfrom.distanceTo(wto);
-        console.log('Distance:', distance);
+        // console.log('Distance:', distance);
 
         var direction = new THREE.Vector3();
         direction.subVectors(wto, wfrom).normalize();
-        console.log('Direction:', direction);
+        // console.log('Direction:', direction);
 
         var center = new THREE.Vector3();
         center.lerpVectors(wfrom, wto, 0.5);
@@ -34,6 +46,7 @@ export default class InteractiveBrush extends Instance {
             vertexShader: vertexShader,
             fragmentShader: fragmentShader,
             transparent: true,
+            side: THREE.DoubleSide,
             // blending: THREE.AdditiveBlending,
             uniforms: {
                 uPaperTex: { value: this.items.backgroundTex },

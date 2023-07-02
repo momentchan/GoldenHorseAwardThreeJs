@@ -20,6 +20,7 @@ export default class BrushStill extends Instance {
             vertexShader: vertexShader,
             fragmentShader: fragmentShader,
             transparent: true,
+            side: THREE.DoubleSide,
             // blending: THREE.AdditiveBlending,
             uniforms: {
                 uPaperTex: { value: this.items.backgroundTex },

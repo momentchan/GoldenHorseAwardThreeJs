@@ -7,9 +7,6 @@ export default class TouchDetector {
 
         this.canvas = this.experience.canvas
 
-        this.startX = 0
-        this.startY = 0
-
         this.touchX = 0
         this.touchY = 0
 
@@ -20,14 +17,14 @@ export default class TouchDetector {
         this.canvas.addEventListener('touchend', e => this.onTouchEnd(e))
         this.canvas.addEventListener('touchcancel', e => this.onTouchEnd(e))
 
+        this.touches = []
     }
 
     onTouchStart(event) {
         this.isSwiped = true
         this.getTouchPosition(event.touches[0])
 
-        this.startX = this.touchX
-        this.startY = this.touchY
+        this.touches.length = 0
     }
 
     onTouchMove(event) {
@@ -35,17 +32,14 @@ export default class TouchDetector {
 
         if (this.isSwiped) {
             this.getTouchPosition(event.touches[0])
-            const diffX = this.touchX - this.startX
-            const diffY = this.touchY - this.startY
-
-
+            this.touches.push(new THREE.Vector2(this.touchX, this.touchY))
         }
     }
 
     onTouchEnd(event) {
         this.isSwiped = false
-
-        this.generator.addInteractiveBrush(new THREE.Vector2(this.startX, this.startY), new THREE.Vector2(this.touchX, this.touchY))
+        this.generator.addInteractiveBrush(this.touches)
+        // console.log(this.touches);
     }
 
     getTouchPosition(touch) {
