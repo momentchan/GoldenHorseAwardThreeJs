@@ -4,6 +4,11 @@ import fragmentShader from '../../shaders/fractalLayer/fragment.glsl'
 import Instance from '../basis/Instance'
 
 export default class FractalLayer extends Instance {
+    constructor(generator, id) {
+        super(generator, id)
+        this.setupMesh()
+    }
+    
     setupMesh(){
         const geometry = new THREE.PlaneGeometry(0.7, 0.7);
 

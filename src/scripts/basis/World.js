@@ -9,12 +9,14 @@ import LineInstancedGenerator from "../line/instanced/LineInstancedGenerator"
 import BrushStillGenerator from "../brush/still/BrushStillGenerator"
 import LineFractal from "../line/instanced/LineFractal"
 import TouchDetector from "../Interaction/TouchDetector"
+import AudioReactive from "../Interaction/AudioReactive"
 
 export default class World extends WorldBase {
     constructor(experience) {
         super(experience)
 
         this.resources.on('ready', () => {
+            this.audioInput = new AudioReactive()
             this.backgroundFractal = new BackgroundFractal(this.experience)
             this.fractalLayerGenerator = new FractalLayerGenerator(this.experience)
             // this.brushGenerator = new BrushGeneratorInstanced(this.experience)
@@ -47,6 +49,10 @@ export default class World extends WorldBase {
 
         if(this.lineInstancedGenerator){
             this.lineInstancedGenerator.update()
+        }
+
+        if(this.audioInput){
+            this.audioInput.update()
         }
     }
 }

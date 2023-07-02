@@ -6,6 +6,13 @@ import Instance from '../../basis/Instance'
 
 
 export default class LineInstanced extends Instance {
+    constructor(generator, id) {
+        super(generator, id)
+
+        this.audioInput = this.generator.audioInput
+        this.setupMesh()
+    }
+
     setupMesh() {
         const position = new THREE.Vector3(0, 0, 0)
         const geometry = new THREE.PlaneGeometry(1, 1, 100, 1);
@@ -19,7 +26,8 @@ export default class LineInstanced extends Instance {
                 uTime: { value: 0 },
                 uRatio: { value: 0 },
                 uBackgroundTex: { value: this.items.backgroundTex },
-                uFractalTex: { value: this.generater.lineFractal.getTexture() }
+                uFractalTex: { value: this.generator.lineFractal.getTexture() },
+                uAudioTex: { value: this.generator.audioInput.getTexture() }
             }
         })
 

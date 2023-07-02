@@ -48,6 +48,7 @@ varying vec2 vUv;
 varying vec4 vPos;
 uniform sampler2D uBackgroundTex;
 uniform sampler2D uFractalTex;
+uniform sampler2D uAudioTex;
 uniform float uTime;
 uniform float uRatio;
 
@@ -63,8 +64,10 @@ void main() {
 
 	float fractal = texture2D(uFractalTex, screenUv).r;
 
+	float audio = texture2D(uAudioTex, vec2(screenUv.y*0.25, 0.5)).r;
+
 	vec4 col = vec4(1.0);
-	col.rgb = BlendOverLay(col.rgb, background.rgb, 0.5) * 0.1;
+	col.rgb = BlendOverLay(col.rgb, background.rgb, 0.5) * (0.1 + audio * 5.0);
 	// // col.rgb *= mix(1.0, 1.5, smoothstep(uRatio, uRatio + 0.05, uv.y));
 	
 	col.a *= noise * fractal;

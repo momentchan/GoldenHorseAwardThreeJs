@@ -7,7 +7,11 @@ export default class LineInstancedGenerator extends Generator {
 
     constructor(experience) {
         super(experience)
+
+
         this.lineFractal = new LineFractal(this, 0)
+
+        this.audioInput = this.experience.world.audioInput
 
         this.addInstance()
     }
