@@ -138,6 +138,7 @@ uniform float uValue;
 uniform float uColorStrength;
 uniform float uRatio;
 uniform float uSeed;
+uniform sampler2D uPositionTex;
 
 void main() {
 	vec4 col = texture2D(uStrokeTex, vUv);
@@ -169,8 +170,9 @@ void main() {
 
 	col.a = alpha * uStrength;
 
-	col.rg = vUv;
-	col.b=0.0;
-	col.a = 1.0;
+	// col.rg = vUv;
+	// col.b = 0.0;
+	// col.a = 1.0;
+
 	gl_FragColor = col;
 }

@@ -1,4 +1,5 @@
 import * as THREE from 'three'
+import TrailRenderer from '../../TrailRenderer'
 
 export default class TouchDetector {
     constructor(experience, generator) {
@@ -10,6 +11,8 @@ export default class TouchDetector {
         this.touchX = 0
         this.touchY = 0
 
+        this.minimunTouches = 10
+
         this.isSwiped = false
 
         this.canvas.addEventListener('touchstart', e => this.onTouchStart(e))
@@ -19,6 +22,7 @@ export default class TouchDetector {
 
         this.touches = []
     }
+    
 
     onTouchStart(event) {
         this.isSwiped = true
@@ -38,7 +42,9 @@ export default class TouchDetector {
 
     onTouchEnd(event) {
         this.isSwiped = false
-        this.generator.addInteractiveBrush(this.touches)
+
+        if (this.touches.length > this.minimunTouches)
+            this.generator.addInteractiveBrush(this.touches)
         // console.log(this.touches);
     }
 
