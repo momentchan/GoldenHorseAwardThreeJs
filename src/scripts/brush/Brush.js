@@ -8,6 +8,7 @@ import Instance from '../basis/Instance'
 export default class Brush extends Instance {
     constructor(generator, id) {
         super(generator, id)
+
         this.setupMesh()
     }
 

@@ -7,10 +7,15 @@ import Instance from '../basis/Instance'
 
 export default class InteractiveBrush extends Instance {
 
-    constructor(generater, id, touches) {
+    constructor(generater, id, touches, delay) {
         super(generater, id)
 
-        this.setupMesh(touches)
+        this.isSpawned = false
+
+        setTimeout(() => {
+            this.setupMesh(touches)
+            this.isSpawned = true
+        }, delay)
     }
 
     setupMesh(touches) {
@@ -52,8 +57,8 @@ export default class InteractiveBrush extends Instance {
         const offsetY = randomRange(this.parameters.offsetY)
 
         center.addVectors(center, new THREE.Vector3(offsetX * Math.sin(angle) + offsetY * Math.cos(angle),
-                                                    offsetX * Math.cos(angle) + offsetY * Math.sin(angle), 
-                                                    0))
+            offsetX * Math.cos(angle) + offsetY * Math.sin(angle),
+            0))
 
         this.mesh = new THREE.Mesh(geometry, this.material);
         this.mesh.rotateY(MathUtils.degToRad(180))
@@ -65,6 +70,8 @@ export default class InteractiveBrush extends Instance {
     }
 
     update() {
+        if (!this.isSpawned)
+            return
         super.update()
 
         this.material.uniforms.uRatio.value = this.age

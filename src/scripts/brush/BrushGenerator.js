@@ -2,6 +2,7 @@ import * as THREE from 'three'
 import Brush from "./Brush"
 import InteractiveBrush from './InteractiveBrush'
 import Generator from '../basis/Generator'
+import { randomRange } from '../../three.js-gist/Utils/Helper'
 
 export default class BrushGenerator extends Generator {
     constructor(experience) {
@@ -13,8 +14,10 @@ export default class BrushGenerator extends Generator {
 
         this.touch = this.experience.touch
 
+        this.counts = [5, 3] // (ontime, delay)
+
         this.touch.on('touchend', () => {
-            this.addInteractiveBrush(this.touch.touches, 5)
+            this.addInteractiveBrush(this.touch.touches)
         })
     }
 
@@ -34,8 +37,11 @@ export default class BrushGenerator extends Generator {
 
         this.parameters.hue = new THREE.Vector2(0.9, 1)
 
+        // interactive
         this.parameters.offsetX = new THREE.Vector2(-0.02, 0.02)
         this.parameters.offsetY = new THREE.Vector2(-0.05, 0.05)
+
+        this.parameters.delay = new THREE.Vector2(1000, 3000)
     }
 
     getInstance(id) {
@@ -43,9 +49,16 @@ export default class BrushGenerator extends Generator {
     }
 
     addInteractiveBrush(touches, count) {
-        for (var i = 0; i < count; i++) {
+        for (var i = 0; i < this.counts[0]; i++) {
             console.log(`${this.constructor.name}: add ${this.instanceId}`);
-            const instance = new InteractiveBrush(this, this.instanceId, touches)
+            const instance = new InteractiveBrush(this, this.instanceId, touches, 0)
+            this.instances.push(instance)
+            this.instanceId++
+        }
+
+        for (var i = 0; i < this.counts[1]; i++) {
+            console.log(`${this.constructor.name}: add ${this.instanceId}`);
+            const instance = new InteractiveBrush(this, this.instanceId, touches, randomRange(this.parameters.delay))
             this.instances.push(instance)
             this.instanceId++
         }
