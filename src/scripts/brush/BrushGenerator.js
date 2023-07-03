@@ -51,14 +51,14 @@ export default class BrushGenerator extends Generator {
     addInteractiveBrush(touches, count) {
         for (var i = 0; i < this.counts[0]; i++) {
             console.log(`${this.constructor.name}: add ${this.instanceId}`);
-            const instance = new InteractiveBrush(this, this.instanceId, touches, 0)
+            const instance = new InteractiveBrush(this, this.instanceId, touches, false)
             this.instances.push(instance)
             this.instanceId++
         }
 
         for (var i = 0; i < this.counts[1]; i++) {
             console.log(`${this.constructor.name}: add ${this.instanceId}`);
-            const instance = new InteractiveBrush(this, this.instanceId, touches, randomRange(this.parameters.delay))
+            const instance = new InteractiveBrush(this, this.instanceId, touches, true)
             this.instances.push(instance)
             this.instanceId++
         }

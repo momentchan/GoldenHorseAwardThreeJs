@@ -10,12 +10,13 @@ export default class InteractiveBrush extends Instance {
     constructor(generater, id, touches, delay) {
         super(generater, id)
 
+        this.isDelay = delay
         this.isSpawned = false
 
         setTimeout(() => {
             this.setupMesh(touches)
             this.isSpawned = true
-        }, delay)
+        }, this.isDelay ? randomRange(this.parameters.delay) : 0)
     }
 
     setupMesh(touches) {
@@ -54,7 +55,9 @@ export default class InteractiveBrush extends Instance {
         const angle = -Math.atan2(direction.y, direction.x)
 
         const offsetX = randomRange(this.parameters.offsetX)
-        const offsetY = randomRange(this.parameters.offsetY)
+        var offsetY = randomRange(this.parameters.offsetY)
+
+        offsetY += this.isDelay ? 0.05 : 0
 
         center.addVectors(center, new THREE.Vector3(offsetX * Math.sin(angle) + offsetY * Math.cos(angle),
             offsetX * Math.cos(angle) + offsetY * Math.sin(angle),
