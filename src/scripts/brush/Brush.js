@@ -29,8 +29,6 @@ export default class Brush extends Instance {
                 uDistortionStrength: { value: randomRange(this.parameters.distortionStrength) },
                 uStrength: { value: randomRange(this.parameters.strength) },
                 uHue: { value: randomRange(this.parameters.hue) },
-                uSaturation: { value: this.parameters.saturation },
-                uValue: { value: this.parameters.value },
                 uRatio: { value: 0 },
                 uSeed: { value: Math.random() },
                 uSpeed: { value: 3 }

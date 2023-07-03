@@ -4,7 +4,6 @@ import InteractiveBrush from './InteractiveBrush'
 import Generator from '../basis/Generator'
 
 export default class BrushGenerator extends Generator {
-
     constructor(experience) {
         super(experience)
 
@@ -35,7 +34,8 @@ export default class BrushGenerator extends Generator {
 
         this.parameters.hue = new THREE.Vector2(0.9, 1)
 
-        this.parameters.offset = new THREE.Vector2(-0.05, 0.05)
+        this.parameters.offsetX = new THREE.Vector2(-0.02, 0.02)
+        this.parameters.offsetY = new THREE.Vector2(-0.05, 0.05)
     }
 
     getInstance(id) {
@@ -43,7 +43,6 @@ export default class BrushGenerator extends Generator {
     }
 
     addInteractiveBrush(touches, count) {
-
         for (var i = 0; i < count; i++) {
             console.log(`${this.constructor.name}: add ${this.instanceId}`);
             const instance = new InteractiveBrush(this, this.instanceId, touches)

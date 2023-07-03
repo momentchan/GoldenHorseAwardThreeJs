@@ -17,13 +17,11 @@ export default class InteractiveBrush extends Instance {
         const from = touches[0]
         const to = touches[touches.length - 1]
 
-        const {center, direction} = this.computeCenterDirection(from, to)
+        const { center, direction } = this.computeCenterDirection(from, to)
         const distance = direction.length(0)
 
-        const ratio = MathUtils.randFloat(0.2, 0.4)
         const size = randomRange(this.parameters.size)
-
-        const geometry = new THREE.PlaneGeometry(Math.max(distance * ratio, 0.05) * MathUtils.randFloat(0.5, 1.5), distance, 1, 50)
+        const geometry = new THREE.PlaneGeometry(size, distance, 1, 50)
 
         this.material = new THREE.ShaderMaterial({
             vertexShader: vertexShader,
@@ -33,9 +31,8 @@ export default class InteractiveBrush extends Instance {
             uniforms: {
                 uPaperTex: { value: this.items.backgroundTex },
                 uStrokeTex: { value: this.items.brushStillTex },
-
                 uDistortionFrequency: { value: randomRange(this.parameters.distortionFrequency) },
-                uDistortionStrength: { value: 0.02 },
+                uDistortionStrength: { value: randomRange(this.parameters.distortionStrength) },
                 uStrength: { value: randomRange(this.parameters.strength) },
                 uHue: { value: randomRange(this.parameters.hue) },
                 uSaturation: { value: this.parameters.saturation },
@@ -51,10 +48,12 @@ export default class InteractiveBrush extends Instance {
 
         const angle = -Math.atan2(direction.y, direction.x)
 
-        const offsetX = MathUtils.randFloat(this.parameters.offset.x, this.parameters.offset.y)
-        const offsetY = MathUtils.randFloat(this.parameters.offset.x, this.parameters.offset.y)
+        const offsetX = randomRange(this.parameters.offsetX)
+        const offsetY = randomRange(this.parameters.offsetY)
 
-        center.addVectors(center, new THREE.Vector3(offsetX, offsetY, offsetX))
+        center.addVectors(center, new THREE.Vector3(offsetX * Math.sin(angle) + offsetY * Math.cos(angle),
+                                                    offsetX * Math.cos(angle) + offsetY * Math.sin(angle), 
+                                                    0))
 
         this.mesh = new THREE.Mesh(geometry, this.material);
         this.mesh.rotateY(MathUtils.degToRad(180))
