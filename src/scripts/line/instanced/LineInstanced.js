@@ -27,7 +27,7 @@ export default class LineInstanced extends Instance {
                 uRatio: { value: 0 },
                 uBackgroundTex: { value: this.items.backgroundTex },
                 uFractalTex: { value: this.generator.lineFractal.getTexture() },
-                uAudioTex: { value: this.generator.audioInput.getTexture() }
+                uAudioTex: { value: this.generator.audio.getTexture() }
             }
         })
 

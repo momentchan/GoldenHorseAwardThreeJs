@@ -5,6 +5,8 @@ import Camera from "./Camera";
 import World from "./World";
 import Gyroscoe from './Gyroscope';
 import BufferCamera from './BufferCamera';
+import Touch from "../../three.js-gist/Utils/Touch"
+import Audio from '../../three.js-gist/Utils/Audio';
 
 export default class Experience extends ExperienceBase {
     constructor(canvas, sources) {
@@ -17,8 +19,11 @@ export default class Experience extends ExperienceBase {
         this.camera = new Camera(this)
         this.renderer = new Renderer(this)
         this.world = new World(this)
+
+        this.audio = new Audio()
+        this.touch = new Touch(this.canvas)
     }
-    
+
     resize() {
         super.resize()
         this.camera.resize()
