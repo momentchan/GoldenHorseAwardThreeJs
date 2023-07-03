@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 import { MathUtils } from 'three'
 import BrushVideo from "./BrushVideo"
-import { randomRange } from '../../../three.js-gist/Utils/Helper'
+import { randomRange } from '../../../../three.js-gist/Utils/Helper'
 
 
 export default class BrushGeneratorVideo {

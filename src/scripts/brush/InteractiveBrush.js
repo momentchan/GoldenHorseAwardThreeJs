@@ -1,49 +1,29 @@
 import * as THREE from 'three'
 import { MathUtils } from 'three'
-import { randomRange } from '../../../three.js-gist/Utils/Helper'
-import vertexShader from '../../../shaders/brushInteractive/vertex.glsl'
-import fragmentShader from '../../../shaders/brushInteractive/fragment.glsl'
-import Instance from '../../basis/Instance'
+import { randomRange } from '../../three.js-gist/Utils/Helper'
+import vertexShader from '../../shaders/brushStill/vertex.glsl'
+import fragmentShader from '../../shaders/brushStill/fragment.glsl'
+import Instance from '../basis/Instance'
 
 export default class InteractiveBrush extends Instance {
 
     constructor(generater, id, touches) {
         super(generater, id)
-        this.lifetime = 5000
-        this.distanceToCamera = 3
+
         this.setupMesh(touches)
-        
-
-
-
-
-       
-
     }
-
-
-
-
-
-
 
     setupMesh(touches) {
         const from = touches[0]
         const to = touches[touches.length - 1]
 
-        this.computeDataTexture(touches)
-        
-        const wfrom = this.getWorldPosFromNDC(from, 5)
-        const wto = this.getWorldPosFromNDC(to, 5)
-        var distance = wfrom.distanceTo(wto);
+        const {center, direction} = this.computeCenterDirection(from, to)
+        const distance = direction.length(0)
 
-        var direction = new THREE.Vector3();
-        direction.subVectors(wto, wfrom).normalize();
+        const ratio = MathUtils.randFloat(0.2, 0.4)
+        const size = randomRange(this.parameters.size)
 
-        var center = new THREE.Vector3();
-        center.lerpVectors(wfrom, wto, 0.5);
-
-        const geometry = new THREE.PlaneGeometry(distance * 0.2, distance, 1, 50)
+        const geometry = new THREE.PlaneGeometry(Math.max(distance * ratio, 0.05) * MathUtils.randFloat(0.5, 1.5), distance, 1, 50)
 
         this.material = new THREE.ShaderMaterial({
             vertexShader: vertexShader,
@@ -53,16 +33,16 @@ export default class InteractiveBrush extends Instance {
             uniforms: {
                 uPaperTex: { value: this.items.backgroundTex },
                 uStrokeTex: { value: this.items.brushStillTex },
-                uPositionTex: { value: this.positionTex },
-                uNormalTex: { value: this.normalTex },
 
+                uDistortionFrequency: { value: randomRange(this.parameters.distortionFrequency) },
+                uDistortionStrength: { value: 0.02 },
                 uStrength: { value: randomRange(this.parameters.strength) },
                 uHue: { value: randomRange(this.parameters.hue) },
                 uSaturation: { value: this.parameters.saturation },
                 uValue: { value: this.parameters.value },
                 uRatio: { value: 0 },
                 uSeed: { value: Math.random() },
-                uWorldCenter: { value: wfrom }
+                uSpeed: { value: 10 }
             },
         })
 
@@ -70,6 +50,11 @@ export default class InteractiveBrush extends Instance {
         this.camera.instance.getWorldPosition(cameraWorldPos)
 
         const angle = -Math.atan2(direction.y, direction.x)
+
+        const offsetX = MathUtils.randFloat(this.parameters.offset.x, this.parameters.offset.y)
+        const offsetY = MathUtils.randFloat(this.parameters.offset.x, this.parameters.offset.y)
+
+        center.addVectors(center, new THREE.Vector3(offsetX, offsetY, offsetX))
 
         this.mesh = new THREE.Mesh(geometry, this.material);
         this.mesh.rotateY(MathUtils.degToRad(180))
@@ -87,6 +72,33 @@ export default class InteractiveBrush extends Instance {
 
         if (this.age > 1)
             this.destroy()
+    }
+
+    computeCenterDirection(from, to) {
+        const wfrom = this.getWorldPosFromNDC(from, this.parameters.distanceToCamera)
+        const wto = this.getWorldPosFromNDC(to, this.parameters.distanceToCamera)
+
+        const center = new THREE.Vector3();
+        center.lerpVectors(wfrom, wto, 0.5);
+
+        const direction = new THREE.Vector3();
+        direction.subVectors(wto, wfrom);
+
+        return { center, direction }
+    }
+
+    getWorldPosFromNDC(ndc, distance) {
+        var vector = new THREE.Vector3(ndc.x, ndc.y, 0.2);
+
+        const cameraWorldPos = new THREE.Vector3();
+        this.camera.instance.getWorldPosition(cameraWorldPos)
+
+        vector.unproject(this.camera.instance);
+
+        var direction = vector.sub(cameraWorldPos).normalize();
+
+        var position = cameraWorldPos.clone().add(direction.multiplyScalar(distance));
+        return position
     }
 
     computeDataTexture(touches) {
@@ -137,18 +149,4 @@ export default class InteractiveBrush extends Instance {
         // console.log(this.positionTex);
     }
 
-
-    getWorldPosFromNDC(ndc, distance) {
-        var vector = new THREE.Vector3(ndc.x, ndc.y, 0.2);
-
-        const cameraWorldPos = new THREE.Vector3();
-        this.camera.instance.getWorldPosition(cameraWorldPos)
-
-        vector.unproject(this.camera.instance);
-
-        var direction = vector.sub(cameraWorldPos).normalize();
-
-        var position = cameraWorldPos.clone().add(direction.multiplyScalar(distance));
-        return position
-    }
 }

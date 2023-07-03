@@ -1,11 +1,11 @@
 import * as THREE from 'three'
 import { MathUtils } from 'three'
-import { randomRange } from '../../../three.js-gist/Utils/Helper'
-import vertexShader from '../../../shaders/brushStill/vertex.glsl'
-import fragmentShader from '../../../shaders/brushStill/fragment.glsl'
-import Instance from '../../basis/Instance'
+import { randomRange } from '../../three.js-gist/Utils/Helper'
+import vertexShader from '../../shaders/brushStill/vertex.glsl'
+import fragmentShader from '../../shaders/brushStill/fragment.glsl'
+import Instance from '../basis/Instance'
 
-export default class BrushStill extends Instance {
+export default class Brush extends Instance {
     constructor(generator, id) {
         super(generator, id)
         this.setupMesh()
@@ -14,14 +14,13 @@ export default class BrushStill extends Instance {
     setupMesh() {
         const size = randomRange(this.parameters.size)
         const ratio = randomRange(this.parameters.ratio)
-        const geometry = new THREE.PlaneGeometry(0.2 * size, 0.2 * size * ratio, 1, 40)
+        const geometry = new THREE.PlaneGeometry(size, size * ratio, 1, 40)
 
         this.material = new THREE.ShaderMaterial({
             vertexShader: vertexShader,
             fragmentShader: fragmentShader,
             transparent: true,
             side: THREE.DoubleSide,
-            // blending: THREE.AdditiveBlending,
             uniforms: {
                 uPaperTex: { value: this.items.backgroundTex },
                 uStrokeTex: { value: this.items.brushStillTex },
@@ -33,7 +32,8 @@ export default class BrushStill extends Instance {
                 uSaturation: { value: this.parameters.saturation },
                 uValue: { value: this.parameters.value },
                 uRatio: { value: 0 },
-                uSeed: { value: Math.random() }
+                uSeed: { value: Math.random() },
+                uSpeed: { value: 3 }
             },
         })
 

@@ -133,11 +133,9 @@ uniform sampler2D uPaperTex;
 uniform sampler2D uStrokeTex;
 uniform float uStrength;
 uniform float uHue;
-uniform float uSaturation;
-uniform float uValue;
-uniform float uColorStrength;
 uniform float uRatio;
 uniform float uSeed;
+uniform float uSpeed;
 
 void main() {
 	vec4 col = texture2D(uStrokeTex, vUv);
@@ -154,7 +152,7 @@ void main() {
 	float r = n;
 	// ramp
 	r -= pow(abs(vUv.x - 0.5), 1.5);
-	r += uRatio * 3.0;
+	r += uRatio * uSpeed;
 
 	float alpha = col.a * smoothstep(r + 0.2, r, vUv.y);
 

@@ -1,9 +1,9 @@
 import * as THREE from 'three'
 import { MathUtils } from 'three'
-import { randomRange } from '../../../three.js-gist/Utils/Helper'
+import { randomRange } from '../../../../three.js-gist/Utils/Helper'
 import vertexShader from '../../../shaders/brushVideo/vertex.glsl'
 import fragmentShader from '../../../shaders/brushVideo/fragment.glsl'
-import VideoTexture from '../../../three.js-gist/Utils/VideoTexture'
+import VideoTexture from '../../../../three.js-gist/Utils/VideoTexture'
 
 export default class BrushVideo {
     constructor(generater, id) {
