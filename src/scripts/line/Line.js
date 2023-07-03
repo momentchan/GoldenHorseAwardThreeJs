@@ -1,11 +1,11 @@
 import * as THREE from 'three'
 import { MathUtils } from 'three'
-import vertexShader from '../../../shaders/lineInstanced/instanced_vertex_instanced.glsl'
-import fragmentShader from '../../../shaders/lineInstanced/fragment.glsl'
-import Instance from '../../basis/Instance'
+import vertexShader from '../../shaders/lineInstanced/instanced_vertex_instanced.glsl'
+import fragmentShader from '../../shaders/lineInstanced/fragment.glsl'
+import Instance from '../basis/Instance'
 
 
-export default class LineInstanced extends Instance {
+export default class Line extends Instance {
     constructor(generator, id) {
         super(generator, id)
 

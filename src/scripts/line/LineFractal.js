@@ -1,6 +1,6 @@
 import * as THREE from 'three'
-import { fractalShader } from '../../../shaders/postProcessing/fractalShader'
-import Instance from '../../basis/Instance';
+import { fractalShader } from '../../shaders/postProcessing/fractalShader'
+import Instance from '../basis/Instance';
 
 export default class LineFractal extends Instance {
     constructor(generator, id) {

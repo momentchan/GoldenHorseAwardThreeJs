@@ -1,9 +1,9 @@
 import * as THREE from 'three'
-import LineInstanced from "./LineInstanced"
-import Generator from '../../basis/Generator'
+import Line from "./Line"
+import Generator from '../basis/Generator'
 import LineFractal from './LineFractal'
 
-export default class LineInstancedGenerator extends Generator {
+export default class LineGenerator extends Generator {
 
     constructor(experience) {
         super(experience)
@@ -30,7 +30,7 @@ export default class LineInstancedGenerator extends Generator {
     }
 
     getInstance(id) {
-        return new LineInstanced(this, id)
+        return new Line(this, id)
     }
 
     update() {

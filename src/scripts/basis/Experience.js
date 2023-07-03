@@ -35,6 +35,7 @@ export default class Experience extends ExperienceBase {
         this.world.update()
         this.camera.update()
         this.renderer.update()
+        this.audio.update()
     }
 
     destroy() {
