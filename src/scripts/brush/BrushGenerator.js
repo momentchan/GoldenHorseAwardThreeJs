@@ -11,13 +11,13 @@ export default class BrushGenerator extends Generator {
         this.setupDebug()
         this.addInstance()
         this.startGenerateInstances()
-
+        
         this.touch = this.experience.touch
         this.minTouches = 10
         this.minLength = 0.05
-
+        
         this.counts = [5, 3] // (ontime, delay)
-
+        
         this.touch.on('touchend', () => {
             if (this.touch.touches.length > this.minTouches) {
                 const touches = this.touch.touches

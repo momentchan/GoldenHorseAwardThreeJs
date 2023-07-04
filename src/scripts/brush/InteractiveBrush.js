@@ -85,8 +85,8 @@ export default class InteractiveBrush extends Instance {
     }
 
     computeCenterDirection(from, to) {
-        const wfrom = this.getWorldPosFromNDC(from, this.parameters.distanceToCamera)
-        const wto = this.getWorldPosFromNDC(to, this.parameters.distanceToCamera)
+        const wfrom = this.camera.getWorldPosFromNDC(from, this.parameters.distanceToCamera)
+        const wto = this.camera.getWorldPosFromNDC(to, this.parameters.distanceToCamera)
 
         const center = new THREE.Vector3();
         center.lerpVectors(wfrom, wto, 0.5);
@@ -97,19 +97,6 @@ export default class InteractiveBrush extends Instance {
         return { center, direction }
     }
 
-    getWorldPosFromNDC(ndc, distance) {
-        var vector = new THREE.Vector3(ndc.x, ndc.y, 0.2);
-
-        const cameraWorldPos = new THREE.Vector3();
-        this.camera.instance.getWorldPosition(cameraWorldPos)
-
-        vector.unproject(this.camera.instance);
-
-        var direction = vector.sub(cameraWorldPos).normalize();
-
-        var position = cameraWorldPos.clone().add(direction.multiplyScalar(distance));
-        return position
-    }
 
     computeDataTexture(touches) {
         const count = touches.length - 2; // ommit the first and last point to compute the normal
