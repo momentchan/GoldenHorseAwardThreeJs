@@ -18,9 +18,9 @@ export default class BrushInstanced {
         var cameraWorldPos = new THREE.Vector3();
         this.camera.instance.getWorldPosition(cameraWorldPos)
 
-        this.sizes = this.camera.getWorldSizeAtDistance(this.generater.distanceToCamera)
+        const { w, h } = this.camera.getWorldSizeAtDistance(this.generater.distanceToCamera)
 
-        this.position = new THREE.Vector3((Math.random() - 0.5) * this.sizes[0], (Math.random() - 0.5) * this.sizes[1], cameraWorldPos.z + this.generater.distanceToCamera)
+        this.position = new THREE.Vector3((Math.random() - 0.5) * w, (Math.random() - 0.5) * h, cameraWorldPos.z + this.generater.distanceToCamera)
         this.position = new THREE.Vector3(0, 0, cameraWorldPos.z + this.generater.distanceToCamera)
         this.angle = Math.random() * Math.PI * 2
 

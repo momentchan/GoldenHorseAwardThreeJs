@@ -52,8 +52,8 @@ export default class BrushVideo {
 
         const cameraWorldPos = new THREE.Vector3();
         this.camera.instance.getWorldPosition(cameraWorldPos)
-        const sizes = this.camera.getWorldSizeAtDistance(this.generater.distanceToCamera)
-        const position = new THREE.Vector3((Math.random() - 0.5) * sizes[0], (Math.random() - 0.5) * sizes[1], cameraWorldPos.z + this.generater.distanceToCamera)
+        const { w, h } = this.camera.getWorldSizeAtDistance(this.generater.distanceToCamera)
+        const position = new THREE.Vector3((Math.random() - 0.5) * w, (Math.random() - 0.5) * h, cameraWorldPos.z + this.generater.distanceToCamera)
         const angle = Math.random() * Math.PI * 2
         // this.position.setX(0)
         // this.position.setY(0)

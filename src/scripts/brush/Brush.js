@@ -40,9 +40,9 @@ export default class Brush extends Instance {
         const cameraWorldPos = new THREE.Vector3();
         this.camera.instance.getWorldPosition(cameraWorldPos)
 
-        const sizes = this.camera.getWorldSizeAtDistance(this.parameters.distanceToCamera)
-        const position = new THREE.Vector3((Math.random() - 0.5) * sizes[0],
-            (Math.random() - 0.5) * sizes[1],
+        const { w, h } = this.camera.getWorldSizeAtDistance(this.parameters.distanceToCamera)
+        const position = new THREE.Vector3((Math.random() - 0.5) * w,
+            (Math.random() - 0.5) * h,
             cameraWorldPos.z + this.parameters.distanceToCamera)
 
         // position.setX(0)

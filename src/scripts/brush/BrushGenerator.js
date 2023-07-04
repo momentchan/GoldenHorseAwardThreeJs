@@ -13,11 +13,21 @@ export default class BrushGenerator extends Generator {
         this.startGenerateInstances()
 
         this.touch = this.experience.touch
+        this.minTouches = 10
+        this.minLength = 0.05
 
         this.counts = [5, 3] // (ontime, delay)
 
         this.touch.on('touchend', () => {
-            this.addInteractiveBrush(this.touch.touches)
+            if (this.touch.touches.length > this.minTouches) {
+                const touches = this.touch.touches
+                const from = touches[0]
+                const to = touches[touches.length - 1]
+                const distance = from.distanceTo(to)
+                if (distance > this.minLength) {
+                    this.addInteractiveBrush(from, to)
+                }
+            }
         })
     }
 
@@ -48,17 +58,17 @@ export default class BrushGenerator extends Generator {
         return new Brush(this, id)
     }
 
-    addInteractiveBrush(touches, count) {
+    addInteractiveBrush(from, to) {
         for (var i = 0; i < this.counts[0]; i++) {
             console.log(`${this.constructor.name}: add ${this.instanceId}`);
-            const instance = new InteractiveBrush(this, this.instanceId, touches, false)
+            const instance = new InteractiveBrush(this, this.instanceId, from, to, false)
             this.instances.push(instance)
             this.instanceId++
         }
 
         for (var i = 0; i < this.counts[1]; i++) {
             console.log(`${this.constructor.name}: add ${this.instanceId}`);
-            const instance = new InteractiveBrush(this, this.instanceId, touches, true)
+            const instance = new InteractiveBrush(this, this.instanceId, from, to, true)
             this.instances.push(instance)
             this.instanceId++
         }

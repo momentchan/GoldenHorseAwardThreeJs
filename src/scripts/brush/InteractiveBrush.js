@@ -7,24 +7,25 @@ import Instance from '../basis/Instance'
 
 export default class InteractiveBrush extends Instance {
 
-    constructor(generater, id, touches, delay) {
+    constructor(generater, id, from, to, delay) {
         super(generater, id)
 
         this.isDelay = delay
         this.isSpawned = false
 
         setTimeout(() => {
-            this.setupMesh(touches)
+            this.setupMesh(from, to)
             this.isSpawned = true
         }, this.isDelay ? randomRange(this.parameters.delay) : 0)
     }
 
-    setupMesh(touches) {
-        const from = touches[0]
-        const to = touches[touches.length - 1]
-
+    setupMesh(from, to) {
         const { center, direction } = this.computeCenterDirection(from, to)
         const distance = direction.length(0)
+
+        const h = this.camera.getWorldSizeAtDistance(this.parameters.distanceToCamera).h
+        const ratio = distance / h
+        // console.log(ratio);
 
         const size = randomRange(this.parameters.size)
         const geometry = new THREE.PlaneGeometry(size, distance, 1, 50)
@@ -38,7 +39,7 @@ export default class InteractiveBrush extends Instance {
                 uPaperTex: { value: this.items.backgroundTex },
                 uStrokeTex: { value: this.items.brushStillTex },
                 uDistortionFrequency: { value: randomRange(this.parameters.distortionFrequency) },
-                uDistortionStrength: { value: randomRange(this.parameters.distortionStrength) },
+                uDistortionStrength: { value: randomRange(this.parameters.distortionStrength) * ratio },
                 uStrength: { value: randomRange(this.parameters.strength) },
                 uHue: { value: randomRange(this.parameters.hue) },
                 uSaturation: { value: this.parameters.saturation },
@@ -57,7 +58,7 @@ export default class InteractiveBrush extends Instance {
         const offsetX = randomRange(this.parameters.offsetX)
         var offsetY = randomRange(this.parameters.offsetY)
 
-        offsetY += this.isDelay ? 0.05 : 0
+        offsetY += this.isDelay ? distance : 0
 
         center.addVectors(center, new THREE.Vector3(offsetX * Math.sin(angle) + offsetY * Math.cos(angle),
             offsetX * Math.cos(angle) + offsetY * Math.sin(angle),
