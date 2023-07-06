@@ -3,7 +3,6 @@ import ExperienceBase from "../../three.js-gist/Common/ExperienceBase"
 import Renderer from "./Renderer"
 import Camera from "./Camera";
 import World from "./World";
-import Gyroscoe from './Gyroscope';
 import BufferCamera from './BufferCamera';
 import Touch from "../../three.js-gist/Utils/Touch"
 import Audio from '../../three.js-gist/Utils/Audio';

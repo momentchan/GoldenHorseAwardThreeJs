@@ -13,11 +13,6 @@ export default class Camera extends CameraBase {
         this.cameraGroup = new THREE.Group()
         this.cameraGroup.add(this.instance)
         this.instance.position.z = -15
-
-        this.gammaRange = new THREE.Vector2(-180, 180)
-        this.betaRange = new THREE.Vector2(0, 180)
-        this.moveRange = new THREE.Vector2(0.1, 0.1)
-
         this.scene.add(this.cameraGroup)
     }
 

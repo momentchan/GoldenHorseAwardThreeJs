@@ -18,7 +18,7 @@ export default class BrushGenerator extends Generator {
         
         this.counts = [5, 3] // (ontime, delay)
         
-        this.touch.on('touchend', () => {
+        this.touch.on('onEnd', () => {
             if (this.touch.touches.length > this.minTouches) {
                 const touches = this.touch.touches
                 const from = touches[0]
