@@ -116,6 +116,7 @@ uniform float uTime;
 uniform float uSpeed;
 uniform float uSeed;
 uniform float uRatio;
+uniform float uWtoH;
 
 float getFractal(vec2 uv) {
 	vec3 p = vec3(uv, uTime * uSpeed);
@@ -132,11 +133,15 @@ void main() {
 	vec4 col = texture2D(uColorTex, vUv) * 1.5;
 
 	vec2 turbulence = (vec2(gradientNoise(vUv, 100.0), gradientNoise(vUv + vec2(57.68, 0.0), 100.0)) - 0.5) * 2.0 * 0.01;
-	vec2 uv = vUv * 1.78 + Scatter(vUv, 0.02) + uSeed * 123.45 + turbulence;
+
+	vec2 uv = vUv * vec2(uWtoH, 1.0);
+	uv = uv * 1.5 + Scatter(uv, 0.02) + uSeed * 123.45 + turbulence;
+
 	float fractal = getFractal(uv);
 
 	float fade = smoothEdge(vUv, vec2(0.1)) * smoothstep(0.0, 0.05, uRatio) * smoothstep(1.0, 0.9, uRatio);
 	col.a = fractal * fade;
+	// col.rgba = vec4(1.0);
 	// col.a = 1.0;
 
 	gl_FragColor = col;

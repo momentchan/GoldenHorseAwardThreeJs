@@ -8,9 +8,10 @@ export default class FractalLayer extends Instance {
         super(generator, id)
         this.setupMesh()
     }
-    
-    setupMesh(){
-        const geometry = new THREE.PlaneGeometry(0.7, 0.7);
+
+    setupMesh() {
+        const { w, h } = this.camera.getWorldSizeAtDistance(this.parameters.distanceToCamera)
+        const geometry = new THREE.PlaneGeometry(w * 1.5, h * 1.5);
 
         this.material = new THREE.ShaderMaterial({
             vertexShader: vertexShader,
@@ -24,6 +25,7 @@ export default class FractalLayer extends Instance {
                 uSeed: { value: Math.random() },
                 uRatio: { value: 0 },
                 uColorTex: { value: this.items.backgroundTex },
+                uWtoH: { value: w / h }
             }
         })
 
