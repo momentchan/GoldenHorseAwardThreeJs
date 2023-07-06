@@ -9,7 +9,6 @@ export default class Line extends Instance {
     constructor(generator, id) {
         super(generator, id)
 
-        this.audioInput = this.generator.audioInput
         this.setupMesh()
     }
 
@@ -27,7 +26,6 @@ export default class Line extends Instance {
                 uRatio: { value: 0 },
                 uBackgroundTex: { value: this.items.backgroundTex },
                 uFractalTex: { value: this.generator.lineFractal.getTexture() },
-                uAudioTex: { value: this.generator.audio.getTexture() }
             }
         })
 
