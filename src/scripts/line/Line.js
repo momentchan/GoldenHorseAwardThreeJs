@@ -29,26 +29,28 @@ export default class Line extends Instance {
             }
         })
 
-        const count = this.parameters.count
+        this.count = this.parameters.count
         const wRange = this.parameters.wRange
         const hRange = this.parameters.hRange
 
-        this.mesh = new THREE.InstancedMesh(geometry, this.material, count)
+        this.mesh = new THREE.InstancedMesh(geometry, this.material, this.count)
         this.camera.cameraGroup.add(this.mesh)
 
-        const seedBuffer = new THREE.InstancedBufferAttribute(new Float32Array(count), 1);
+        const seedBuffer = new THREE.InstancedBufferAttribute(new Float32Array(this.count), 1);
         this.mesh.geometry.setAttribute('seedBuffer', seedBuffer)
+        const { w, h } = this.camera.getWorldSizeAtDistance(Math.abs(this.camera.instance.position.z))
 
-        for (let i = 0; i < count; i++) {
+        for (let i = 0; i < this.count; i++) {
 
-            const w = MathUtils.randFloat(wRange.x, wRange.y)
-            const h = MathUtils.randFloat(hRange.x, hRange.y)
-            const angle = MathUtils.degToRad(MathUtils.randFloat(0, 2));
+            const seed = Math.random()
+            const length = MathUtils.lerp(wRange.x, wRange.y, seed * 1.23 % 1)
+            const thickness = MathUtils.lerp(hRange.x, hRange.y, seed * 4.56 % 1)
+            const angle = MathUtils.degToRad(MathUtils.lerp(-2, 2, seed * 7.89 % 1));
 
             const p = position.clone()
                 .add(new THREE.Vector3(
-                    (Math.random() - 0.5) * 2,
-                    (Math.random() - 0.5) * 5,
+                    (seed * 12.34 % 1 - 0.5) * w,
+                    (seed * 34.5 % 1 - 0.5) * h,
                     0
                 ))
 
@@ -57,11 +59,37 @@ export default class Line extends Instance {
 
             const matrix = new THREE.Matrix4()
 
-            matrix.compose(p, q, new THREE.Vector3(w, h, 1.0))
+            matrix.compose(p, q, new THREE.Vector3(length, thickness, 1.0))
 
             this.mesh.setMatrixAt(i, matrix)
-            seedBuffer.setX(i, Math.random())
+            seedBuffer.setX(i, seed)
         }
+
+    }
+
+
+    resize() {
+        const position = new THREE.Vector3(0, 0, 0)
+        const { w, h } = this.camera.getWorldSizeAtDistance(Math.abs(this.camera.instance.position.z))
+
+        const seedBuffer = this.mesh.geometry.getAttribute('seedBuffer')
+        for (let i = 0; i < this.count; i++) {
+
+            const seed = seedBuffer.getX(i)
+            const matrix = new THREE.Matrix4()
+            this.mesh.getMatrixAt(i, matrix)
+            const p = position.clone()
+                .add(new THREE.Vector3(
+                    (seed * 12.34 % 1 - 0.5) * w,
+                    (seed * 34.5 % 1 - 0.5) * h,
+                    0
+                ))
+
+            matrix.setPosition(p)
+            this.mesh.setMatrixAt(i, matrix)
+            this.mesh.updateMatrix()
+        }
+        this.mesh.instanceMatrix.needsUpdate = true;
     }
 
     update() {

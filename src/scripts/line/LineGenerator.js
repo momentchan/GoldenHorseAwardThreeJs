@@ -10,6 +10,10 @@ export default class LineGenerator extends Generator {
 
         this.lineFractal = new LineFractal(this, 0)
         this.addInstance()
+
+        this.experience.sizes.on('resize', () => {
+            this.instances[0].resize()
+        })
     }
 
     setupParameters() {

@@ -39,9 +39,8 @@ vec3 hueShift(vec3 col, float Offset) {
 vec3 BlendOverLay(vec3 baseColor, vec3 blendColor, float lerp) {
 	return mix(baseColor, (2.0 * baseColor * blendColor), lerp);
 }
-float remap(float In, vec2 InMinMax, vec2 OutMinMax)
-{
-    return OutMinMax.x + (In - InMinMax.x) * (OutMinMax.y - OutMinMax.x) / (InMinMax.y - InMinMax.x);
+float remap(float In, vec2 InMinMax, vec2 OutMinMax) {
+	return OutMinMax.x + (In - InMinMax.x) * (OutMinMax.y - OutMinMax.x) / (InMinMax.y - InMinMax.x);
 }
 
 varying vec2 vUv;
@@ -65,8 +64,7 @@ void main() {
 
 	vec4 col = vec4(1.0);
 	col.rgb = BlendOverLay(col.rgb, background.rgb, 0.5) * 0.1;
-	// // col.rgb *= mix(1.0, 1.5, smoothstep(uRatio, uRatio + 0.05, uv.y));
-	
+
 	col.a *= noise * fractal;
 
 	// if(col.a < 0.3)

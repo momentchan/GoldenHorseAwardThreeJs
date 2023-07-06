@@ -23,7 +23,7 @@ export default class Generator {
     getInstance(instanceId) { }
 
     addInstance() {
-        console.log(`${this.constructor.name}: add ${this.instanceId}`);
+        // console.log(`${this.constructor.name}: add ${this.instanceId}`);
 
         const instance = this.getInstance(this.instanceId)
         this.instances.push(instance)
@@ -45,7 +45,8 @@ export default class Generator {
     }
 
     removeInstance(id) {
-        console.log(`${this.constructor.name}: remove ${id}`);
+        // console.log(`${this.constructor.name}: remove ${id}`);
+        
         this.instances = this.instances.filter(item => item.id !== id)
     }
 }
