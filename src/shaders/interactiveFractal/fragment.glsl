@@ -138,7 +138,7 @@ float drawCircle(vec2 uv) {
 	float distance = length(uv - center);
 
   // Calculate the gradient value based on the distance from the center
-	float gradient = smoothstep(radius, radius - 0.3, distance);
+	float gradient = smoothstep(radius, radius - 0.2, distance);
 
 	return gradient;
 }

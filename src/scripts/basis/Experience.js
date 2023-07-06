@@ -15,7 +15,6 @@ export default class Experience extends ExperienceBase {
         this.bufferScene = new THREE.Scene()
         this.bufferCamera = new BufferCamera(this)
 
-        this.gyro = new Gyroscoe()
         this.camera = new Camera(this)
         this.renderer = new Renderer(this)
         this.world = new World(this)

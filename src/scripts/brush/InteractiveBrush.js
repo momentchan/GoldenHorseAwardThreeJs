@@ -13,6 +13,7 @@ export default class InteractiveBrush extends Instance {
         this.isDelay = delay
         this.isSpawned = false
 
+
         setTimeout(() => {
             this.setupMesh(from, to)
             this.isSpawned = true
@@ -58,7 +59,7 @@ export default class InteractiveBrush extends Instance {
         const offsetX = randomRange(this.parameters.offsetX)
         var offsetY = randomRange(this.parameters.offsetY)
 
-        offsetY += this.isDelay ? distance : 0
+        offsetY += this.isDelay ? Math.random(0.5, 1.0) * distance : 0
 
         center.addVectors(center, new THREE.Vector3(offsetX * Math.sin(angle) + offsetY * Math.cos(angle),
             offsetX * Math.cos(angle) + offsetY * Math.sin(angle),
