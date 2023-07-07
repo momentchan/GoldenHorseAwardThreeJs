@@ -23,7 +23,7 @@ export default class Brush extends Instance {
             transparent: true,
             side: THREE.DoubleSide,
             uniforms: {
-                uPaperTex: { value: this.items.backgroundTex },
+                uBackgroundTex: { value: this.items.backgroundTex },
                 uStrokeTex: { value: this.items.brushStillTex },
 
                 uDistortionFrequency: { value: randomRange(this.parameters.distortionFrequency) },

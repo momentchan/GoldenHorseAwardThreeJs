@@ -129,7 +129,7 @@ vec3 HSVShift(vec3 baseColor, vec3 shift) {
 
 varying vec2 vUv;
 
-uniform sampler2D uPaperTex;
+uniform sampler2D uBackgroundTex;
 uniform sampler2D uStrokeTex;
 uniform float uStrength;
 uniform float uHue;
@@ -139,9 +139,9 @@ uniform float uSpeed;
 
 void main() {
 	vec4 col = texture2D(uStrokeTex, vUv);
-	vec4 paper = texture2D(uPaperTex, vUv);
+	vec4 bg = texture2D(uBackgroundTex, vUv);
 
-	col.rgb = BlendOverLay(col.rgb, paper.rgb, 1.0);
+	col.rgb = BlendOverLay(col.rgb, bg.rgb, 1.0);
 
 	col.rgb = HSVShift(col.rgb, vec3(uHue, 1.0, 0.0));
 

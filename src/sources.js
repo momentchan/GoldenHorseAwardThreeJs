@@ -15,39 +15,9 @@ export default [
         path: 'textures/stroke.png'
     },
     {
-        name: 'paperTex',
-        type: 'texture',
-        path: 'textures/paper.jpg'
-    },
-    {
-        name: 'paperTex2',
-        type: 'texture',
-        path: 'textures/paper2.png'
-    },
-    {
-        name: 'lineTex1',
-        type: 'texture',
-        path: 'textures/texture01.png'
-    },
-    {
-        name: 'lineTex2',
-        type: 'texture',
-        path: 'textures/texture02.png'
-    },
-    {
-        name: 'lineTex3',
-        type: 'texture',
-        path: 'textures/texture03.png'
-    },
-    {
         name: 'brushStillTex',
         type: 'texture',
         path: 'textures/brushStill.png'
-    },
-    {
-        name: 'noiseTex',
-        type: 'texture',
-        path: 'textures/perlinNoise.png'
     },
     {
         name: 'lightTex1',

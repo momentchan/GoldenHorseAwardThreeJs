@@ -37,7 +37,7 @@ export default class InteractiveBrush extends Instance {
             transparent: true,
             side: THREE.DoubleSide,
             uniforms: {
-                uPaperTex: { value: this.items.backgroundTex },
+                uBackgroundTex: { value: this.items.backgroundTex },
                 uStrokeTex: { value: this.items.brushStillTex },
                 uDistortionFrequency: { value: randomRange(this.parameters.distortionFrequency) },
                 uDistortionStrength: { value: randomRange(this.parameters.distortionStrength) * ratio },

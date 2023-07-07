@@ -2,7 +2,6 @@ import * as THREE from 'three'
 import Brush from "./Brush"
 import InteractiveBrush from './InteractiveBrush'
 import Generator from '../basis/Generator'
-import { randomRange } from '../../three.js-gist/Utils/Helper'
 
 export default class BrushGenerator extends Generator {
     constructor(experience) {

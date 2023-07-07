@@ -136,7 +136,7 @@ float drawCircle(vec2 uv) {
 }
 
 void main() {
-	vec4 col = texture2D(uLightTex, vUv) * 0.5;
+	vec4 col = texture2D(uLightTex, vUv) * 0.2;
 
 	float fade = smoothEdge(vUv, vec2(0.1)) * smoothstep(0.0, 0.3, uRatio) * smoothstep(1.0, 0.5, uRatio);
 	float c = drawCircle(vUv) * fade;
