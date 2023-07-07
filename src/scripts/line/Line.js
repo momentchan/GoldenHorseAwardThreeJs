@@ -25,7 +25,7 @@ export default class Line extends Instance {
                 uTime: { value: 0 },
                 uRatio: { value: 0 },
                 uBackgroundTex: { value: this.items.backgroundTex },
-                uFractalTex: { value: this.generator.lineFractal.getTexture() },
+                uFractalTex: { value: this.generator.fractalMask.getTexture() },
             }
         })
 

@@ -3,19 +3,17 @@ import ExperienceBase from "../../three.js-gist/Common/ExperienceBase"
 import Renderer from "./Renderer"
 import Camera from "./Camera";
 import World from "./World";
-import BufferCamera from './BufferCamera';
 import Touch from "../../three.js-gist/Utils/Touch"
 import Audio from '../../three.js-gist/Utils/Audio';
+import FractalMask from '../../three.js-gist/Feature/FractalMask';
 
 export default class Experience extends ExperienceBase {
     constructor(canvas, sources) {
         super(canvas, sources)
 
-        this.bufferScene = new THREE.Scene()
-        this.bufferCamera = new BufferCamera(this)
-
         this.camera = new Camera(this)
         this.renderer = new Renderer(this)
+        this.fractalMask = new FractalMask(this)
         this.world = new World(this)
 
         this.audio = new Audio()
@@ -26,7 +24,7 @@ export default class Experience extends ExperienceBase {
         super.resize()
         this.camera.resize()
         this.renderer.resize()
-        this.bufferCamera.resize()
+        this.fractalMask.resize()
     }
 
     update() {
@@ -35,6 +33,7 @@ export default class Experience extends ExperienceBase {
         this.camera.update()
         this.renderer.update()
         this.audio.update()
+        this.fractalMask.update()
     }
 
     destroy() {
