@@ -13,7 +13,7 @@ export default class LightGenerator extends Generator {
         this.experience.renderer.composer.passes[1].uniforms.uLightTex.value = this.writer.getTexture()
 
         this.touch.on('click', () => {
-            this.addInteractiveFractal(this.touch.click)
+            this.addLight(this.touch.click)
         })
 
     }
@@ -37,8 +37,8 @@ export default class LightGenerator extends Generator {
         this.parameters.fractalStrength = new THREE.Vector2(0.1, 0.3)
     }
 
-    addInteractiveFractal(pos) {
-        console.log(`${this.constructor.name}: add ${this.instanceId}`);
+    addLight(pos) {
+        // console.log(`${this.constructor.name}: add ${this.instanceId}`);
         const instance = new Light(this, this.instanceId, pos)
         this.instances.push(instance)
         this.instanceId++

@@ -10,6 +10,8 @@ export default class Experience extends ExperienceBase {
     constructor(canvas, sources) {
         super(canvas, sources)
 
+        this.isNight = this.getMode()
+
         this.camera = new Camera(this)
         this.renderer = new Renderer(this)
         this.fractalMask = new FractalMask(this)
@@ -17,6 +19,12 @@ export default class Experience extends ExperienceBase {
 
         this.audio = new Audio()
         this.touch = new Touch(this.canvas)
+    }
+
+    getMode() {
+        var now = new Date();
+        var currentHour = now.getHours();
+        return currentHour >= 17
     }
 
     resize() {

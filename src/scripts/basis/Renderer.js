@@ -12,13 +12,6 @@ export default class Renderer extends RendererBase {
         this.composer = new EffectComposer(this.instance)
         this.resources = this.experience.resources
 
-        this.params = {
-            averageLuminance: 1.0,
-            maxLuminance: 2.0,
-            minLuminance: 0.01,
-            middleGrey: 0.6
-        };
-
         this.debug = this.experience.debug
         this.resources.on('ready', () => {
             // Render pass
@@ -39,8 +32,6 @@ export default class Renderer extends RendererBase {
     }
 
     update() {
-        this.instance.toneMappingExposure = this.params.exposure;
-
         this.composer.render()
     }
 }

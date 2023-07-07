@@ -13,6 +13,7 @@ export default class Instance {
         this.parameters = this.generator.parameters
         this.time = this.generator.time
         this.sizes = this.generator.sizes
+        this.isNight = this.generator.isNight
 
         this.t = 0
 

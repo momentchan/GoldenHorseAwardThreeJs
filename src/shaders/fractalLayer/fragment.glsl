@@ -111,7 +111,7 @@ vec3 BlendOverLay(vec3 baseColor, vec3 blendColor, float lerp) {
 }
 
 varying vec2 vUv;
-uniform sampler2D uColorTex;
+uniform sampler2D uBackgroundTex;
 uniform float uTime;
 uniform float uSpeed;
 uniform float uSeed;
@@ -130,7 +130,7 @@ float getFractal(vec2 uv) {
 }
 
 void main() {
-	vec4 col = texture2D(uColorTex, vUv) * 1.5;
+	vec4 col = texture2D(uBackgroundTex, vUv) * 1.5;
 
 	vec2 turbulence = (vec2(gradientNoise(vUv, 100.0), gradientNoise(vUv + vec2(57.68, 0.0), 100.0)) - 0.5) * 2.0 * 0.01;
 

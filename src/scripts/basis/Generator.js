@@ -9,6 +9,7 @@ export default class Generator {
         this.items = this.experience.resources.items
         this.time = this.experience.time
         this.sizes = this.experience.sizes
+        this.isNight = this.experience.isNight
 
         this.instances = []
         this.instanceId = 0
@@ -46,7 +47,7 @@ export default class Generator {
 
     removeInstance(id) {
         // console.log(`${this.constructor.name}: remove ${id}`);
-        
+
         this.instances = this.instances.filter(item => item.id !== id)
     }
 }

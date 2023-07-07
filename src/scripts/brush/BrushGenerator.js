@@ -44,7 +44,7 @@ export default class BrushGenerator extends Generator {
 
         this.parameters.strength = new THREE.Vector2(0.5, 1.5)
 
-        this.parameters.hue = new THREE.Vector2(0.9, 1)
+        this.parameters.hue = this.isNight ? new THREE.Vector2(0.97, 1.05) : new THREE.Vector2(0.9, 1.0)
 
         // interactive
         this.parameters.offsetX = new THREE.Vector2(-0.02, 0.02)
@@ -59,14 +59,14 @@ export default class BrushGenerator extends Generator {
 
     addInteractiveBrush(from, to) {
         for (var i = 0; i < this.counts[0]; i++) {
-            console.log(`${this.constructor.name}: add ${this.instanceId}`);
+            // console.log(`${this.constructor.name}: add ${this.instanceId}`);
             const instance = new InteractiveBrush(this, this.instanceId, from, to, false)
             this.instances.push(instance)
             this.instanceId++
         }
 
         for (var i = 0; i < this.counts[1]; i++) {
-            console.log(`${this.constructor.name}: add ${this.instanceId}`);
+            // console.log(`${this.constructor.name}: add ${this.instanceId}`);
             const instance = new InteractiveBrush(this, this.instanceId, from, to, true)
             this.instances.push(instance)
             this.instanceId++

@@ -9,6 +9,8 @@ export default class BackgroundFractal {
         this.experience = experience
         this.camera = this.experience.camera
         this.audio = this.experience.audio
+        this.items = this.experience.resources.items
+        this.isNight = this.experience.isNight
         this.cameraGroup = this.camera.cameraGroup
 
         this.sizes = this.experience.sizes
@@ -24,7 +26,7 @@ export default class BackgroundFractal {
             uniforms: {
                 uTime: { value: 0 },
                 uSpeed: { value: 0.0001 },
-                uTexture: { value: this.experience.resources.items.backgroundTex },
+                uTexture: { value: this.isNight? this.items.backgroundRedTex : this.items.backgroundBlueTex },
                 uAudioStrength: { value: 0 }
             }
         })
