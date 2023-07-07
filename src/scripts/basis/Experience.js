@@ -5,7 +5,7 @@ import Camera from "./Camera";
 import World from "./World";
 import Touch from "../../three.js-gist/Utils/Touch"
 import Audio from '../../three.js-gist/Utils/Audio';
-import FractalMask from '../../three.js-gist/Feature/FractalMask';
+import FractalMask from '../../three.js-gist/Feature/RTWriter/FractalMask';
 
 export default class Experience extends ExperienceBase {
     constructor(canvas, sources) {

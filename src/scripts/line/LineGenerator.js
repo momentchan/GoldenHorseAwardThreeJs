@@ -1,7 +1,6 @@
 import * as THREE from 'three'
 import Line from "./Line"
 import Generator from '../basis/Generator'
-import FractalMask from '../../three.js-gist/Feature/FractalMask'
 
 export default class LineGenerator extends Generator {
 
