@@ -2,9 +2,7 @@ import RendererBase from "../../three.js-gist/Common/RendererBase"
 import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
 import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
-import { GammaCorrectionShader } from 'three/examples/jsm/shaders/GammaCorrectionShader.js';
 import { FXAAShader } from 'three/examples/jsm/shaders/FXAAShader.js';
-import { ToneMapShader } from 'three/examples/jsm/shaders/ToneMapShader';
 import { backgroundOverlayShader } from '../../shaders/postProcessing/backgroundOverlayShader';
 
 export default class Renderer extends RendererBase {
@@ -27,31 +25,13 @@ export default class Renderer extends RendererBase {
             const renderPass = new RenderPass(this.scene, this.camera.instance)
             this.composer.addPass(renderPass)
 
-            // Custom Pass
+            // Overlay Pass
             const overlayPass = new ShaderPass(backgroundOverlayShader)
             overlayPass.material.uniforms.uTexture.value = this.experience.resources.items.backgroundOverlay
             this.composer.addPass(overlayPass)
 
-            const GammaCorrectionPass = new ShaderPass(GammaCorrectionShader)
-            //  this.composer.addPass(GammaCorrectionPass)
-
-            // const toneMapPass = new ShaderPass(ToneMapShader)
-            // this.composer.addPass(toneMapPass)
-
-            // if (this.debug.active) {
-            //     this.folder = this.debug.ui.addFolder("postprocessing")
-            //     this.folder.add(this.params, 'averageLuminance', 0, 2)
-            //         .onChange(() => toneMapPass.uniforms.averageLuminance.value = this.params.averageLuminance)
-            //         this.folder.add(this.params, 'maxLuminance', 0, 5)
-            //         .onChange(() => toneMapPass.uniforms.maxLuminance.value = this.params.maxLuminance)
-            //         this.folder.add(this.params, 'minLuminance', 0, 1)
-            //         .onChange(() => toneMapPass.uniforms.minLuminance.value = this.params.minLuminance)
-            //         this.folder.add(this.params, 'middleGrey', 0, 2)
-            //         .onChange(() => toneMapPass.uniforms.middleGrey.value = this.params.middleGrey)
-            // }
-
+            // FXAA
             const fxaaPass = new ShaderPass(FXAAShader);
-
             fxaaPass.material.uniforms['resolution'].value.x = 1 / (this.sizes.width * this.sizes.pixelRatio);
             fxaaPass.material.uniforms['resolution'].value.y = 1 / (this.sizes.height * this.sizes.pixelRatio);
             this.composer.addPass(fxaaPass);

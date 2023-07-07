@@ -1,7 +1,5 @@
 import * as THREE from 'three'
 import CameraBase from "../../three.js-gist/Common/CameraBase"
-import { remap } from "../../three.js-gist/Utils/Helper"
-import { isValueInRange } from "../../three.js-gist/Utils/Helper"
 
 export default class Camera extends CameraBase {
     setInstance() {
@@ -23,6 +21,5 @@ export default class Camera extends CameraBase {
 
     update() {
         this.cameraGroup.position.z -= 0.0003
-        const pos = this.cameraGroup.position
     }
 }

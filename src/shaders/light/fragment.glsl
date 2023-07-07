@@ -111,22 +111,14 @@ vec3 BlendOverLay(vec3 baseColor, vec3 blendColor, float lerp) {
 }
 
 varying vec2 vUv;
-uniform sampler2D uColorTex;
 uniform float uTime;
 uniform float uSpeed;
-uniform float uSeed;
 uniform float uRatio;
 uniform float uFractalScale;
 uniform float uFractalStrength;
-
+uniform sampler2D uLightTex;
 
 float drawCircle(vec2 uv) {
-	vec3 p = vec3(uv * uFractalScale, uTime * uSpeed);
-
-	float value;
-	value = simplex3d_fractal(p) * uFractalStrength;
-
-	uv.xy += value;
 
 	// Center position of the circle
 	vec2 center = vec2(0.5, 0.5);
@@ -144,11 +136,12 @@ float drawCircle(vec2 uv) {
 }
 
 void main() {
-	vec4 col = texture2D(uColorTex, vUv * 0.2) * 1.5;
+	vec4 col = texture2D(uLightTex, vUv) * 0.5;
 
-	float fade = smoothEdge(vUv, vec2(0.1)) * smoothstep(0.0, 0.05, uRatio) * smoothstep(1.0, 0.9, uRatio);
+	float fade = smoothEdge(vUv, vec2(0.1)) * smoothstep(0.0, 0.3, uRatio) * smoothstep(1.0, 0.5, uRatio);
 	float c = drawCircle(vUv) * fade;
-	col.a = c * fade;
+	col.rgb = vec3(c);
+	// col.a = c * fade;
 	// col.rg = vUv;
 	// col.a=1.0;
 	gl_FragColor = col;

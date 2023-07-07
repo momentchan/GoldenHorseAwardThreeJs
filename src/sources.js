@@ -48,5 +48,15 @@ export default [
         name: 'noiseTex',
         type: 'texture',
         path: 'textures/perlinNoise.png'
+    },
+    {
+        name: 'lightTex1',
+        type: 'texture',
+        path: 'textures/light1.png'
+    },
+    {
+        name: 'lightTex2',
+        type: 'texture',
+        path: 'textures/light2.png'
     }
 ]

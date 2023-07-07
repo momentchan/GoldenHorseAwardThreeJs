@@ -6,6 +6,7 @@ const backgroundOverlayShader = {
 
         'tDiffuse': { value: null },
         'uTexture': { value: null },
+        'uLightTex': { value: null },
     },
 
     vertexShader: /* glsl */`
@@ -25,6 +26,7 @@ const backgroundOverlayShader = {
 
 		uniform sampler2D tDiffuse;
 		uniform sampler2D uTexture;
+		uniform sampler2D uLightTex;
 
 		varying vec2 vUv;
 
@@ -36,9 +38,11 @@ const backgroundOverlayShader = {
 		void main() {
 
             float overlay = texture2D(uTexture, vUv).r;
+            vec3 light = texture2D(uLightTex, vUv).rgb;
             vec4 col = texture2D(tDiffuse, vUv);
 
             col.rgb = BlendOverLay(col.rgb, vec3(overlay), 0.3);
+            col.rgb += light;
 
 			gl_FragColor = col;
 		}`
