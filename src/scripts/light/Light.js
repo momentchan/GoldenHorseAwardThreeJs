@@ -1,17 +1,15 @@
 import * as THREE from 'three'
 import vertexShader from '../../shaders/screen_vertex.glsl'
-import fragmentShader from '../../shaders/interactiveFractal/fragment.glsl'
+import fragmentShader from '../../shaders/light/fragment.glsl'
 import Instance from '../basis/Instance'
 import { randomRange } from '../../three.js-gist/Utils/Helper'
 import { randFloat } from 'three/src/math/MathUtils'
 
-export default class InteractiveFractal extends Instance {
+export default class Light extends Instance {
     constructor(generator, id, pos) {
         super(generator, id)
         this.setupMesh(pos)
     }
-
-
 
     setupMesh(pos) {
         const wpos = this.camera.getWorldPosFromNDC(pos, this.parameters.distanceToCamera)

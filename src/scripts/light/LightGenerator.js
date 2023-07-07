@@ -1,13 +1,17 @@
 import * as THREE from 'three'
 import Generator from '../basis/Generator'
-import FractalLayer from './FractalLayer'
+import Light from './Light'
 
-export default class FractalLayerGenerator extends Generator {
+export default class LightGenerator extends Generator {
 
     constructor(experience) {
         super(experience)
-        this.addInstance()
-        this.startGenerateInstances()
+        this.touch = this.experience.touch
+        
+        this.touch.on('click', () => {
+            this.addInteractiveFractal(this.touch.click)
+        })
+
     }
 
     setupParameters() {
@@ -25,7 +29,10 @@ export default class FractalLayerGenerator extends Generator {
         this.parameters.fractalStrength = new THREE.Vector2(0.1, 0.3)
     }
 
-    getInstance(id) {
-        return new FractalLayer(this, id)
+    addInteractiveFractal(pos) {
+        console.log(`${this.constructor.name}: add ${this.instanceId}`);
+        const instance = new Light(this, this.instanceId, pos)
+        this.instances.push(instance)
+        this.instanceId++
     }
 }
