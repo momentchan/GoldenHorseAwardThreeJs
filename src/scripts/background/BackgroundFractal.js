@@ -14,7 +14,6 @@ export default class BackgroundFractal {
         this.cameraGroup = this.camera.cameraGroup
 
         this.sizes = this.experience.sizes
-        this.audioStrength = 0
 
         const { w, h } = this.camera.getWorldSizeAtDistance(Math.abs(this.camera.instance.position.z))
         const geometry = new THREE.PlaneGeometry(w, h, 1, 1);
@@ -27,7 +26,6 @@ export default class BackgroundFractal {
                 uTime: { value: 0 },
                 uSpeed: { value: 0.0001 },
                 uTexture: { value: this.isNight? this.items.backgroundRedTex : this.items.backgroundBlueTex },
-                uAudioStrength: { value: 0 }
             }
         })
         this.mesh = new THREE.Mesh(geometry, this.material)
@@ -45,8 +43,5 @@ export default class BackgroundFractal {
 
     update() {
         this.material.uniforms.uTime.value = this.experience.time.elapsed
-        this.audioStrength = THREE.MathUtils.lerp(this.audioStrength, this.audio.getIntensity(), 0.5)
-        this.material.uniforms.uAudioStrength.value = this.audioStrength
-        // console.log(this.audioStrength);
     }
 }

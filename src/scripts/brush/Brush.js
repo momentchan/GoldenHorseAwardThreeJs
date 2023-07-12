@@ -13,8 +13,14 @@ export default class Brush extends Instance {
     }
 
     setupMesh() {
-        const size = randomRange(this.parameters.size)
+        const cameraWorldPos = new THREE.Vector3();
+        this.camera.instance.getWorldPosition(cameraWorldPos)
+
+        const { w, h } = this.camera.getWorldSizeAtDistance(this.parameters.distanceToCamera)
+
+        const size = randomRange(this.parameters.size) * MathUtils.lerp(1, 1.5, (w - 0.15) / (0.95 - 0.15)) // make the size in proportion to screen size
         const ratio = randomRange(this.parameters.ratio)
+
         const geometry = new THREE.PlaneGeometry(size, size * ratio, 1, 40)
 
         this.material = new THREE.ShaderMaterial({
@@ -36,11 +42,6 @@ export default class Brush extends Instance {
             },
         })
 
-
-        const cameraWorldPos = new THREE.Vector3();
-        this.camera.instance.getWorldPosition(cameraWorldPos)
-
-        const { w, h } = this.camera.getWorldSizeAtDistance(this.parameters.distanceToCamera)
         const position = new THREE.Vector3((Math.random() - 0.5) * w,
             (Math.random() - 0.5) * h,
             cameraWorldPos.z + this.parameters.distanceToCamera)

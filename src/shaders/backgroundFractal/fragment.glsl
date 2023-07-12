@@ -113,7 +113,6 @@ varying vec2 vUv;
 uniform sampler2D uTexture;
 uniform float uTime;
 uniform float uSpeed;
-uniform float uAudioStrength;
 
 float getFractal(vec2 uv) {
 	vec3 p = vec3(uv, uTime * uSpeed);
@@ -137,7 +136,7 @@ void main() {
 	float f1 = getFractal(uv1);
 	float f2 = getFractal(uv2);
 
-	vec4 col = textureColor * (f1 + f2) * (1.0 + uAudioStrength / 100.);
+	vec4 col = textureColor * (f1 + f2);
 	col.a = 1.0;
 	gl_FragColor = col;
 

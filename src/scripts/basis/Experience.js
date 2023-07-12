@@ -17,7 +17,6 @@ export default class Experience extends ExperienceBase {
         this.fractalMask = new FractalMask(this)
         this.world = new World(this)
 
-        this.audio = new Audio()
         this.touch = new Touch(this.canvas)
     }
 
@@ -39,7 +38,6 @@ export default class Experience extends ExperienceBase {
         this.world.update()
         this.camera.update()
         this.renderer.update()
-        this.audio.update()
         this.fractalMask.update()
     }
 
