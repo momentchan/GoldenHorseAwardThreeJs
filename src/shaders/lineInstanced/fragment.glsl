@@ -47,8 +47,7 @@ varying vec2 vUv;
 varying vec4 vPos;
 uniform sampler2D uBackgroundTex;
 uniform sampler2D uFractalTex;
-uniform float uTime;
-uniform float uRatio;
+uniform sampler2D uLightTex;
 
 void main() {
 	vec2 vCoords = vPos.xy;
@@ -61,14 +60,13 @@ void main() {
 	float noise = remap(gradientNoise(vUv, 2.0), vec2(0.0, 1.0), vec2(0.5, 1.0));
 
 	float fractal = texture2D(uFractalTex, screenUv).r;
+	float light = texture2D(uLightTex, screenUv).r;
+	float mask = fractal + light;
 
 	vec4 col = vec4(1.0);
-	col.rgb = BlendOverLay(col.rgb, background.rgb, 0.5) * 0.1;
+	col.rgb = BlendOverLay(col.rgb, background.rgb, 0.5) * (0.2 + light * 2.0);
 
-	col.a *= noise * fractal;
-
-	// if(col.a < 0.3)
-	// 	discard;
+	col.a *= noise * mask;
 
 	gl_FragColor = col;
 }

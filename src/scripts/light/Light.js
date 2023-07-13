@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import vertexShader from '../../shaders/screen_vertex.glsl'
+import vertexShader from '../../three.js-gist/Shader/ScreenVertex.js'
 import fragmentShader from '../../shaders/light/fragment.glsl'
 import Instance from '../basis/Instance'
 import { randomRange } from '../../three.js-gist/Utils/Helper'

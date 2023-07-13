@@ -1,8 +1,8 @@
 import * as THREE from 'three'
 import { MathUtils } from 'three'
 import { randomRange } from '../../three.js-gist/Utils/Helper'
-import vertexShader from '../../shaders/brushStill/vertex.glsl'
-import fragmentShader from '../../shaders/brushStill/fragment.glsl'
+import { vertexShader } from '../../shaders/BrushShader'
+import { fragmentShader } from '../../shaders/BrushShader'
 import Instance from '../basis/Instance'
 
 export default class Brush extends Instance {

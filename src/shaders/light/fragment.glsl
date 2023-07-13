@@ -109,7 +109,9 @@ float smoothEdge(vec2 uv, vec2 smoothness) {
 vec3 BlendOverLay(vec3 baseColor, vec3 blendColor, float lerp) {
 	return mix(baseColor, (2.0 * baseColor * blendColor), lerp);
 }
-
+float remap(float In, vec2 InMinMax, vec2 OutMinMax) {
+	return OutMinMax.x + (In - InMinMax.x) * (OutMinMax.y - OutMinMax.x) / (InMinMax.y - InMinMax.x);
+}
 varying vec2 vUv;
 uniform float uTime;
 uniform float uSpeed;
@@ -117,17 +119,15 @@ uniform float uRatio;
 uniform float uFractalScale;
 uniform float uFractalStrength;
 uniform sampler2D uLightTex;
+uniform sampler2D uStrokeTex;
 
-float drawCircle(vec2 uv) {
+float drawCircle(vec2 uv, float radius) {
 
 	// Center position of the circle
 	vec2 center = vec2(0.5, 0.5);
 
-  // Radius of the circle
-	float radius = 0.4;
-
   // Calculate the distance from the current fragment position to the center
-	float distance = length(uv - center);
+	float distance = length((uv - center));
 
   // Calculate the gradient value based on the distance from the center
 	float gradient = smoothstep(radius, radius - 0.2, distance);
@@ -136,13 +136,22 @@ float drawCircle(vec2 uv) {
 }
 
 void main() {
-	vec4 col = texture2D(uLightTex, vUv) * 0.2;
+	vec4 col = texture2D(uLightTex, vUv);
+	vec4 stroke = texture2D(uStrokeTex, vUv * 1.0);
+	if(col.a == 0.0)
+		discard;
 
-	float fade = smoothEdge(vUv, vec2(0.1)) * smoothstep(0.0, 0.3, uRatio) * smoothstep(1.0, 0.5, uRatio);
-	float c = drawCircle(vUv) * fade;
-	col.rgb = vec3(c);
-	// col.a = c * fade;
-	// col.rg = vUv;
+	col.rgb = vec3(texture2D(uLightTex, vUv).r);
+	float fade = drawCircle(vUv, uRatio) * smoothstep(1.0, 0.5, uRatio);//gradientNoise(vUv, 100.0);
+
+	vec2 uv = vec2(0.375, 1.0) * vUv;
+	float f = pow(simplex3d_fractal(vec3(uv * 100., 1.0)), 20.0);
+	float noise = remap(f, vec2(-1.0, 1.), vec2(0.2, 1.0)); //remap(gradientNoise(vUv, 1000.0), vec2(0.0, 1.0), vec2(0.5, 1.0));
+
+	// col.rgb = stroke.rgb;
+	// fade = 1.0;
+	col.a *= fade * (0.5 + stroke.r * 0.2);
 	// col.a=1.0;
+
 	gl_FragColor = col;
 }

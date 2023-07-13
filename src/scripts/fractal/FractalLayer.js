@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import vertexShader from '../../shaders/screen_vertex.glsl'
+import vertexShader from '../../three.js-gist/Shader/ScreenVertex.js'
 import fragmentShader from '../../shaders/fractalLayer/fragment.glsl'
 import Instance from '../basis/Instance'
 

@@ -3,7 +3,7 @@ import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
 import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
 import { FXAAShader } from 'three/examples/jsm/shaders/FXAAShader.js';
-import { backgroundOverlayShader } from '../../shaders/postProcessing/backgroundOverlayShader';
+import { backgroundOverlayShader } from '../../shaders/BackgroundOverlayShader';
 
 export default class Renderer extends RendererBase {
 
