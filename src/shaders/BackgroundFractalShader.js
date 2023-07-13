@@ -1,27 +1,13 @@
 import fractal from "../three.js-gist/Shader/Cginc/Fractal"
-import gradientNoise from "../three.js-gist/Shader/Cginc/GradientNoise"
+import noise from "../three.js-gist/Shader/Cginc/Noise"
+import utility from "../three.js-gist/Shader/Cginc/Utility"
 
 const fragment = /* glsl */ `
 
 ${fractal}
-${gradientNoise}
+${noise}
+${utility}
 
-float Contrast(float In, float Contrast) {
-	float midpoint = pow(0.5, 2.2);
-	return (In - midpoint) * Contrast + midpoint;
-}
-
-float noise(vec2 co) {
-	vec2 seed = vec2(sin(co.x), cos(co.y));
-	return fract(sin(dot(seed, vec2(12.9898, 78.233))) * 43758.5453);
-}
-
-vec2 Scatter(vec2 uv, float radius) {
-	return -radius + vec2(noise(uv), noise(uv.yx)) * radius * 2.0;
-}
-float remap(float In, vec2 InMinMax, vec2 OutMinMax) {
-	return OutMinMax.x + (In - InMinMax.x) * (OutMinMax.y - OutMinMax.x) / (InMinMax.y - InMinMax.x);
-}
 varying vec2 vUv;
 uniform sampler2D uTexture;
 uniform float uTime;
@@ -43,7 +29,7 @@ void main() {
 	vec4 textureColor = texture2D(uTexture, vUv);
 
 	float turbulence = (gradientNoise(vUv, 100.0) - 0.5) * 2.0 * 0.01;
-	vec2 uv1 = vUv * 0.5 + Scatter(vUv, 0.1) + turbulence;
+	vec2 uv1 = vUv * 0.5 + scatter(vUv, 0.1) + turbulence;
 	vec2 uv2 = uv1 + 123.45 + turbulence; // random seed
 
 	float f1 = getFractal(uv1);

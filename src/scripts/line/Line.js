@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 import { MathUtils } from 'three'
-import vertexShader from '../../shaders/lineInstanced/instanced_vertex_instanced.glsl'
-import fragmentShader from '../../shaders/lineInstanced/fragment.glsl'
+import {vertexShader} from '../../shaders/LineShader'
+import {fragmentShader} from '../../shaders/LineShader'
 import Instance from '../basis/Instance'
 
 

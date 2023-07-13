@@ -1,9 +1,11 @@
 import * as THREE from 'three'
 import vertexShader from '../../three.js-gist/Shader/ScreenVertex.js'
-import fragmentShader from '../../shaders/light/fragment.glsl'
+import { fragmentShader } from '../../shaders/LightShader.js'
 import Instance from '../basis/Instance'
 import { randomRange } from '../../three.js-gist/Utils/Helper'
 import { randFloat } from 'three/src/math/MathUtils'
+import { MathUtils } from 'three'
+
 
 export default class Light extends Instance {
     constructor(generator, id, pos) {

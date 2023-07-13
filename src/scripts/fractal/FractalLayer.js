@@ -1,6 +1,6 @@
 import * as THREE from 'three'
 import vertexShader from '../../three.js-gist/Shader/ScreenVertex.js'
-import fragmentShader from '../../shaders/fractalLayer/fragment.glsl'
+import { fragmentShader } from '../../shaders/FractalLayerShader.js'
 import Instance from '../basis/Instance'
 
 export default class FractalLayer extends Instance {
