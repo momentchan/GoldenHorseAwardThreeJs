@@ -10,7 +10,7 @@ export default class BackgroundFractal {
         this.camera = this.experience.camera
         this.audio = this.experience.audio
         this.items = this.experience.resources.items
-        this.isNight = this.experience.isNight
+        this.isMagicHour = this.experience.isMagicHour
         this.cameraGroup = this.camera.cameraGroup
 
         this.sizes = this.experience.sizes
@@ -23,9 +23,9 @@ export default class BackgroundFractal {
             fragmentShader: fragment,
             side: THREE.DoubleSide,
             uniforms: {
+                uTexture: { value: this.isMagicHour ? this.items.backgroundRedTex : this.items.backgroundBlueTex },
                 uTime: { value: 0 },
                 uSpeed: { value: 0.0001 },
-                uTexture: { value: this.isNight? this.items.backgroundRedTex : this.items.backgroundBlueTex },
             }
         })
         this.mesh = new THREE.Mesh(geometry, this.material)

@@ -29,8 +29,8 @@ export default class Brush extends Instance {
             transparent: true,
             side: THREE.DoubleSide,
             uniforms: {
-                uBackgroundTex: { value: this.isNight ? this.items.backgroundRedTex : this.items.backgroundBlueTex },
-                uStrokeTex: { value: this.isNight ? this.items.brushRedTex : this.items.brushBlueTex },
+                uBackgroundTex: { value: this.isMagicHour ? this.items.backgroundRedTex : this.items.backgroundBlueTex },
+                uStrokeTex: { value: this.isMagicHour ? this.items.brushRedTex : this.items.brushBlueTex },
 
                 uDistortionFrequency: { value: randomRange(this.parameters.distortionFrequency) },
                 uDistortionStrength: { value: randomRange(this.parameters.distortionStrength) },

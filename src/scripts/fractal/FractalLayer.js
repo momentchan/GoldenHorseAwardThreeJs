@@ -24,7 +24,7 @@ export default class FractalLayer extends Instance {
                 uSpeed: { value: this.parameters.speed },
                 uSeed: { value: Math.random() },
                 uRatio: { value: 0 },
-                uBackgroundTex: { value: this.isNight ? this.items.backgroundRedTex : this.items.backgroundBlueTex },
+                uBackgroundTex: { value: this.isMagicHour ? this.items.backgroundRedTex : this.items.backgroundBlueTex },
                 uWtoH: { value: w / h }
             }
         })

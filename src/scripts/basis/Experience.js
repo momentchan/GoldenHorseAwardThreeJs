@@ -3,27 +3,33 @@ import Renderer from "./Renderer"
 import Camera from "./Camera";
 import World from "./World";
 import Touch from "../../three.js-gist/Utils/Touch"
-import Audio from '../../three.js-gist/Utils/Audio';
 import FractalMask from '../../three.js-gist/Feature/RTWriter/FractalMask';
 
 export default class Experience extends ExperienceBase {
-    constructor(canvas, sources) {
+    constructor(canvas, sources, sunset) {
         super(canvas, sources)
 
-        this.isNight = this.getMode()
+        console.log(sunset);
+
+        this.isMagicHour = this.isMagicHour(sunset)
 
         this.camera = new Camera(this)
         this.renderer = new Renderer(this)
         this.fractalMask = new FractalMask(this)
         this.world = new World(this)
-
         this.touch = new Touch(this.canvas)
     }
 
-    getMode() {
-        var now = new Date();
-        var currentHour = now.getHours();
-        return currentHour >= 17
+    isMagicHour(time) {
+        const now = new Date();
+
+        const diff = now - time;
+
+        const diffInMinutes = Math.floor(diff / 1000 / 60);
+
+        // console.log(diffInMinutes);
+
+        return diffInMinutes >= 0 && diffInMinutes <= 30;
     }
 
     resize() {

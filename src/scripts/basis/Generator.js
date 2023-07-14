@@ -9,7 +9,7 @@ export default class Generator {
         this.items = this.experience.resources.items
         this.time = this.experience.time
         this.sizes = this.experience.sizes
-        this.isNight = this.experience.isNight
+        this.isMagicHour = this.experience.isMagicHour
 
         this.instances = []
         this.instanceId = 0
