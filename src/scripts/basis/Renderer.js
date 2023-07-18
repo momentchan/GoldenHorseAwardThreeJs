@@ -3,7 +3,7 @@ import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
 import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
 import { FXAAShader } from 'three/examples/jsm/shaders/FXAAShader.js';
-import { backgroundOverlayShader } from '../../shaders/BackgroundOverlayShader';
+import { screenOverlayShader } from '../../shaders/ScreenOverlayShader';
 
 export default class Renderer extends RendererBase {
 
@@ -19,8 +19,11 @@ export default class Renderer extends RendererBase {
             this.composer.addPass(renderPass)
 
             // Overlay Pass
-            const overlayPass = new ShaderPass(backgroundOverlayShader)
-            overlayPass.material.uniforms.uTexture.value = this.experience.resources.items.backgroundOverlay
+            const overlayPass = new ShaderPass(screenOverlayShader)
+            overlayPass.material.uniforms.uTexture.value = this.experience.isMagicHour ?
+                this.experience.resources.items.overlayRedTex :
+                this.experience.resources.items.overlayBlueTex
+
             this.composer.addPass(overlayPass)
 
             // FXAA

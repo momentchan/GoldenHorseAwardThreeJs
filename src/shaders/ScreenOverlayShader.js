@@ -1,6 +1,6 @@
-const backgroundOverlayShader = {
+const screenOverlayShader = {
 
-    name: 'BackgroundOverlayShader',
+    name: 'ScreenOverlayShader',
 
     uniforms: {
 
@@ -43,4 +43,4 @@ const backgroundOverlayShader = {
 		}`
 };
 
-export { backgroundOverlayShader };
+export { screenOverlayShader };

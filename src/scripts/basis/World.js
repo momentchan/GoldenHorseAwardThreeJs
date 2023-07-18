@@ -5,6 +5,7 @@ import LineGenerator from "../line/LineGenerator"
 import BrushGenerator from "../brush/BrushGenerator"
 import LightGenerator from "../light/LightGenerator"
 import PaintGenerator from "../paint/PaintGenerator"
+import Logo from "../logo/logo"
 
 export default class World extends WorldBase {
     constructor(experience) {
@@ -17,6 +18,9 @@ export default class World extends WorldBase {
             this.paintGenerator = new PaintGenerator(this.experience)
             this.lightGenerator = new LightGenerator(this.experience)
             this.lineInstancedGenerator = new LineGenerator(this.experience)
+
+            if (!this.experience.isMobile())
+                this.logo = new Logo(this.experience)
         })
     }
 
@@ -41,7 +45,7 @@ export default class World extends WorldBase {
             this.lightGenerator.update()
         }
 
-        if(this.paintGenerator){
+        if (this.paintGenerator) {
             this.paintGenerator.update()
         }
     }

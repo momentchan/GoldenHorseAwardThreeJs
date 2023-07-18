@@ -5,24 +5,19 @@ export default [
         path: 'textures/backgroundBlue.png'
     },
     {
-        name: 'backgroundBlueDetailTex',
-        type: 'texture',
-        path: 'textures/backgroundBlueDetail.png'
-    },
-    {
         name: 'backgroundRedTex',
         type: 'texture',
         path: 'textures/backgroundRed.png'
     },
     {
-        name: 'backgroundOverlay',
+        name: 'overlayBlueTex',
         type: 'texture',
-        path: 'textures/backgroundOverlayBlue.jpg'
+        path: 'textures/overlayBlue.jpg'
     },
     {
-        name: 'backgroundOverlay2',
+        name: 'overlayRedTex',
         type: 'texture',
-        path: 'textures/backgroundOverlayRed.jpg'
+        path: 'textures/overlayRed.jpg'
     },
     {
         name: 'strokeTex',

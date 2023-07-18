@@ -30,6 +30,11 @@ export default class Experience extends ExperienceBase {
         return diffInMinutes >= 0 && diffInMinutes <= 30;
     }
 
+    isMobile() {
+        const regex = /Mobi|Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
+        return regex.test(navigator.userAgent);
+    }
+
     resize() {
         super.resize()
         this.camera.resize()
