@@ -8,7 +8,6 @@ import Instance from '../basis/Instance'
 export default class Line extends Instance {
     constructor(generator, id) {
         super(generator, id)
-
         this.setupMesh()
     }
 
@@ -25,7 +24,7 @@ export default class Line extends Instance {
                 uTime: { value: 0 },
                 uRatio: { value: 0 },
                 uBackgroundTex: { value: this.items.backgroundTex },
-                uFractalTex: { value: this.generator.fractalMask.getTexture() },
+                uFractalTex: { value: this.generator.fractalMask.getTexture() }
             }
         })
 

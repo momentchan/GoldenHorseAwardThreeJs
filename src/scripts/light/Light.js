@@ -20,7 +20,9 @@ export default class Light extends Instance {
 
     setupMesh(pos) {
         const wpos = this.camera.getWorldPosFromNDC(pos, this.parameters.distanceToCamera)
-        const size = randomRange(this.parameters.size)
+        const w = this.camera.getWorldSizeAtDistance(this.parameters.distanceToCamera).w
+        const size = randomRange(this.parameters.size) * MathUtils.lerp(1, 1.5, (w - 0.15) / (0.95 - 0.15)) // make the size in proportion to screen size
+
         const geometry = new THREE.PlaneGeometry(size, size);
 
         this.material = new THREE.ShaderMaterial({
@@ -28,7 +30,6 @@ export default class Light extends Instance {
             fragmentShader: fragmentShader,
             side: THREE.DoubleSide,
             transparent: true,
-            blending: THREE.AdditiveBlending,
 
             uniforms: {
                 uTime: { value: 0 },
@@ -37,6 +38,7 @@ export default class Light extends Instance {
                 uRatio: { value: 0 },
                 uLightTex: { value: this.items.lightTex1 },
                 uFractalScale: { value: randomRange(this.parameters.fractalScale) },
+                uStrokeTex: { value: this.items.strokeTex },
                 uFractalStrength: { value: randomRange(this.parameters.fractalStrength) },
             }
         })
@@ -45,9 +47,10 @@ export default class Light extends Instance {
         var cameraWorldPos = new THREE.Vector3();
         this.camera.instance.getWorldPosition(cameraWorldPos)
 
-        this.mesh.rotateZ(THREE.MathUtils.degToRad(randFloat(0, 360)))
+        this.mesh.rotateZ(THREE.MathUtils.degToRad(randFloat(-90, -90)))
         this.mesh.position.set(wpos.x, wpos.y, wpos.z)
         this.scene.add(this.mesh);
+        this.generator.scene.add(this.mesh)
     }
 
     update() {

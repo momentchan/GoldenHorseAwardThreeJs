@@ -12,12 +12,17 @@ export default [
     {
         name: 'backgroundOverlay',
         type: 'texture',
-        path: 'textures/backgroundOverlay.jpg'
+        path: 'textures/backgroundOverlayBlue.jpg'
+    },
+    {
+        name: 'backgroundOverlay2',
+        type: 'texture',
+        path: 'textures/backgroundOverlayRed.jpg'
     },
     {
         name: 'strokeTex',
         type: 'texture',
-        path: 'textures/stroke.png'
+        path: 'textures/dot.png'
     },
     {
         name: 'brushBlueTex',
@@ -32,11 +37,21 @@ export default [
     {
         name: 'lightTex1',
         type: 'texture',
-        path: 'textures/light1.png'
+        path: 'textures/light.png'
     },
     {
-        name: 'lightTex2',
+        name: 'paintTex1',
         type: 'texture',
-        path: 'textures/light2.png'
+        path: 'textures/brush1.png'
+    },
+    {
+        name: 'paintTex2',
+        type: 'texture',
+        path: 'textures/brush2.png'
+    },
+    {
+        name: 'paintTex3',
+        type: 'texture',
+        path: 'textures/brush3.png'
     }
 ]

@@ -8,7 +8,6 @@ export default class BrushGenerator extends Generator {
         super(experience)
 
         this.setupDebug()
-        this.addInstance()
         this.startGenerateInstances()
 
         this.touch = this.experience.touch
@@ -42,7 +41,7 @@ export default class BrushGenerator extends Generator {
         this.parameters.lifetime = new THREE.Vector2(20, 30)
         this.parameters.generateInterval = new THREE.Vector2(2, 3)
         this.parameters.ratio = new THREE.Vector2(1, 5)
-        this.parameters.size = new THREE.Vector2(0.08, 0.16)
+        this.parameters.size = new THREE.Vector2(0.1, 0.2)
         this.parameters.speed = new THREE.Vector2(0.5, 1)
         this.parameters.distortionFrequency = new THREE.Vector2(3.0, 5.0)
         this.parameters.distortionStrength = new THREE.Vector2(0.01, 0.03)

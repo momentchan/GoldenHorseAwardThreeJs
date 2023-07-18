@@ -39,7 +39,7 @@ void main() {
 
 	float fractal = getFractal(uv);
 
-	float fade = smoothEdge(vUv, vec2(0.1)) * smoothstep(0.0, 0.05, uRatio) * smoothstep(1.0, 0.9, uRatio);
+	float fade = smoothEdge(vUv, vec2(0.1)) * smoothstep(0.0, 0.2, uRatio) * smoothstep(1.0, 0.8, uRatio);
 	col.a = fractal * fade;
 	// col.rgba = vec4(1.0);
 	// col.a = 1.0;

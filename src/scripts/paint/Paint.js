@@ -1,11 +1,11 @@
 import * as THREE from 'three'
 import { MathUtils } from 'three'
 import { randomRange } from '../../three.js-gist/Utils/Helper'
-import { vertexShader } from '../../shaders/BrushShader'
-import { fragmentShader } from '../../shaders/BrushShader'
+import vertexShader from '../../three.js-gist/Shader/ScreenVertex.js'
+import { fragmentShader } from '../../shaders/PaintShader'
 import Instance from '../basis/Instance'
 
-export default class Brush extends Instance {
+export default class Paint extends Instance {
     constructor(generator, id) {
         super(generator, id)
 
@@ -19,9 +19,8 @@ export default class Brush extends Instance {
         const { w, h } = this.camera.getWorldSizeAtDistance(this.parameters.distanceToCamera)
 
         const size = randomRange(this.parameters.size) * MathUtils.lerp(1, 1.5, (w - 0.15) / (0.95 - 0.15)) // make the size in proportion to screen size
-        const ratio = randomRange(this.parameters.ratio)
 
-        const geometry = new THREE.PlaneGeometry(size, size * ratio, 1, 40)
+        const geometry = new THREE.PlaneGeometry(size, size, 1, 1)
 
         this.material = new THREE.ShaderMaterial({
             vertexShader: vertexShader,
@@ -30,15 +29,10 @@ export default class Brush extends Instance {
             side: THREE.DoubleSide,
             uniforms: {
                 uBackgroundTex: { value: this.isMagicHour ? this.items.backgroundRedTex : this.items.backgroundBlueTex },
-                uStrokeTex: { value: this.isMagicHour ? this.items.brushRedTex : this.items.brushBlueTex },
+                uPaintTex: { value: this.generator.getPaintTex() },
 
-                uDistortionFrequency: { value: randomRange(this.parameters.distortionFrequency) },
-                uDistortionStrength: { value: randomRange(this.parameters.distortionStrength) },
-                uStrength: { value: randomRange(this.parameters.strength) },
-                uHue: { value: randomRange(this.parameters.hue) },
+                uStrength: { value: Math.random() < 0.8 ?　this.parameters.strength.x : this.parameters.strength.y },
                 uRatio: { value: 0 },
-                uSeed: { value: Math.random() },
-                uSpeed: { value: 3 }
             },
         })
 
@@ -48,7 +42,7 @@ export default class Brush extends Instance {
 
         // position.setX(0)
         // position.setY(0)
-        const angle = Math.random() * Math.PI * 2
+        const angle = 0//Math.random() * Math.PI * 2
 
         this.mesh = new THREE.Mesh(geometry, this.material);
         this.mesh.rotateY(MathUtils.degToRad(180))
@@ -57,13 +51,6 @@ export default class Brush extends Instance {
 
         this.scene.add(this.mesh);
     }
-
-    updateMaterial() {
-        this.material.uniforms.uHue.value = this.parameters.hue
-        this.material.uniforms.uSaturation.value = this.parameters.saturation
-        this.material.uniforms.uValue.value = this.parameters.value
-    }
-
 
     update() {
         super.update()
