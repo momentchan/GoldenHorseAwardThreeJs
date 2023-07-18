@@ -8,7 +8,7 @@ export const fragmentShader = /* glsl */`
     float drawCircle(vec2 uv, float radius) {
         vec2 center = vec2(0.5, 0.5);
         float distance = length((uv - center));
-        float gradient = smoothstep(radius, radius - 0.2, distance);
+        float gradient = smoothstep(radius, radius - 0.3, distance);
         return gradient;
     }
 
@@ -19,7 +19,7 @@ export const fragmentShader = /* glsl */`
             discard;
 
         col.rgb = vec3(texture2D(uLightTex, vUv).r);
-        float fade = drawCircle(vUv, uRatio) * smoothstep(1.0, 0.5, uRatio);
+        float fade = drawCircle(vUv, uRatio) * smoothstep(1.0, 0.7, uRatio);
 
         vec2 uv = vec2(0.375, 1.0) * vUv;
         col.a *= fade * (0.5 + stroke.r * 0.2);

@@ -24,7 +24,7 @@ export const fragmentShader = /* glsl */`
         
             // col.rgb = BlendOverLay(col.rgb, bg.rgb, 1.0);
         
-            float fade = smoothstep(0.0, 0.2, uRatio) * smoothstep(1.0, 0.7, uRatio);
+            float fade = smoothstep(0.0, 0.3, uRatio) * smoothstep(1.0, 0.7, uRatio);
         
             col.a *= fade * uStrength;
         

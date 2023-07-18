@@ -19,7 +19,7 @@ export default class LightGenerator extends Generator {
 
         this.parameters.distanceToCamera = 1
         this.parameters.lifetime = new THREE.Vector2(10, 10)
-        this.parameters.size = new THREE.Vector2(0.2, 0.4)
+        this.parameters.size = new THREE.Vector2(0.3, 0.5)
     }
 
     addLight(pos) {

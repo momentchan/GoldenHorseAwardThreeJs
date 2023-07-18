@@ -31,8 +31,8 @@ export default class PaintGenerator extends Generator {
 
         this.parameters.lifetime = new THREE.Vector2(10, 10)
         this.parameters.generateInterval = new THREE.Vector2(3, 5)
-        this.parameters.size = new THREE.Vector2(0.3, 0.5)
-        this.parameters.strength = new THREE.Vector2(0.2, 1.0)
+        this.parameters.size = new THREE.Vector2(0.2, 0.3)
+        this.parameters.strength = new THREE.Vector2(0.3, 1.0)
     }
 
     getInstance(id) {

@@ -34,7 +34,7 @@ export default class Light extends Instance {
         })
 
         this.mesh = new THREE.Mesh(geometry, this.material);
-        this.mesh.rotateZ(THREE.MathUtils.degToRad(randFloat(-90, -90)))
+        this.mesh.rotateZ(MathUtils.degToRad(180))
         this.mesh.position.set(wpos.x, wpos.y, wpos.z)
         this.scene.add(this.mesh);
     }
