@@ -22,9 +22,7 @@ export default class Experience extends ExperienceBase {
 
     isMagicHour(time) {
         const now = new Date();
-
         const diff = now - time;
-
         const diffInMinutes = Math.floor(diff / 1000 / 60);
 
         // console.log(diffInMinutes);

@@ -5,6 +5,11 @@ export default [
         path: 'textures/backgroundBlue.png'
     },
     {
+        name: 'backgroundBlueDetailTex',
+        type: 'texture',
+        path: 'textures/backgroundBlueDetail.png'
+    },
+    {
         name: 'backgroundRedTex',
         type: 'texture',
         path: 'textures/backgroundRed.png'
@@ -53,5 +58,15 @@ export default [
         name: 'paintTex3',
         type: 'texture',
         path: 'textures/brush3.png'
-    }
+    }, 
+    {
+        name: 'logoUpTex',
+        type: 'texture',
+        path: 'textures/logo01.png'
+    }, 
+    {
+        name: 'logoBottomTex',
+        type: 'texture',
+        path: 'textures/logo02.png'
+    },
 ]

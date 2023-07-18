@@ -31,6 +31,13 @@ export default class Renderer extends RendererBase {
         })
     }
 
+    resize() {
+        super.resize()
+        const fxaaPass = this.composer.passes[2];
+        fxaaPass.material.uniforms['resolution'].value.x = 1 / (this.sizes.width * this.sizes.pixelRatio);
+        fxaaPass.material.uniforms['resolution'].value.y = 1 / (this.sizes.height * this.sizes.pixelRatio);
+    }
+
     update() {
         this.composer.render()
     }

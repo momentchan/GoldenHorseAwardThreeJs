@@ -7,14 +7,13 @@ export default class BrushGenerator extends Generator {
     constructor(experience) {
         super(experience)
 
-        this.setupDebug()
         this.startGenerateInstances()
 
         this.touch = this.experience.touch
         this.minTouches = 10
         this.minLength = 0.05
 
-        this.counts = [5, 5, 3] // (initial, ontime, delay)
+        this.counts = [5, 5, 3] // (initial, ontime, follow)
 
 
         for (var i = 0; i < this.counts[0]; i++) {
@@ -41,19 +40,16 @@ export default class BrushGenerator extends Generator {
         this.parameters.lifetime = new THREE.Vector2(20, 30)
         this.parameters.generateInterval = new THREE.Vector2(2, 3)
         this.parameters.ratio = new THREE.Vector2(1, 5)
-        this.parameters.size = new THREE.Vector2(0.1, 0.2)
+        this.parameters.size = new THREE.Vector2(0.08, 0.16)
         this.parameters.speed = new THREE.Vector2(0.5, 1)
         this.parameters.distortionFrequency = new THREE.Vector2(3.0, 5.0)
         this.parameters.distortionStrength = new THREE.Vector2(0.01, 0.03)
-
         this.parameters.strength = new THREE.Vector2(0.5, 1.5)
-
         this.parameters.hue = this.isMagicHour ? new THREE.Vector2(0.97, 1.05) : new THREE.Vector2(0.9, 1.0)
 
         // interactive
         this.parameters.offsetX = new THREE.Vector2(-0.02, 0.02)
         this.parameters.offsetY = new THREE.Vector2(-0.05, 0.05)
-
         this.parameters.delay = new THREE.Vector2(1000, 3000)
     }
 
@@ -74,16 +70,6 @@ export default class BrushGenerator extends Generator {
             const instance = new InteractiveBrush(this, this.instanceId, from, to, true)
             this.instances.push(instance)
             this.instanceId++
-        }
-    }
-
-    setupDebug() {
-        this.debug = this.experience.debug
-        // Debug
-        if (this.debug.active) {
-
-            console.log(this.parameters.hsvShift);
-            this.folder = this.debug.ui.addFolder('brush')
         }
     }
 

@@ -15,9 +15,7 @@ export default class World extends WorldBase {
             this.fractalLayerGenerator = new FractalLayerGenerator(this.experience)
             this.brushGenerator = new BrushGenerator(this.experience)
             this.paintGenerator = new PaintGenerator(this.experience)
-
             this.lightGenerator = new LightGenerator(this.experience)
-
             this.lineInstancedGenerator = new LineGenerator(this.experience)
         })
     }

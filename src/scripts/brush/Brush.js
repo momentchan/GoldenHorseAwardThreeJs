@@ -8,17 +8,14 @@ import Instance from '../basis/Instance'
 export default class Brush extends Instance {
     constructor(generator, id) {
         super(generator, id)
-
         this.setupMesh()
     }
 
     setupMesh() {
-        const cameraWorldPos = new THREE.Vector3();
-        this.camera.instance.getWorldPosition(cameraWorldPos)
+        const wpos = this.camera.getWorldPos()
 
         const { w, h } = this.camera.getWorldSizeAtDistance(this.parameters.distanceToCamera)
-
-        const size = randomRange(this.parameters.size) * MathUtils.lerp(1, 1.5, (w - 0.15) / (0.95 - 0.15)) // make the size in proportion to screen size
+        const size = randomRange(this.parameters.size) * MathUtils.lerp(1, 2, (w - 0.15) / (0.95 - 0.15)) // make the size in proportion to screen size
         const ratio = randomRange(this.parameters.ratio)
 
         const geometry = new THREE.PlaneGeometry(size, size * ratio, 1, 40)
@@ -31,7 +28,6 @@ export default class Brush extends Instance {
             uniforms: {
                 uBackgroundTex: { value: this.isMagicHour ? this.items.backgroundRedTex : this.items.backgroundBlueTex },
                 uStrokeTex: { value: this.isMagicHour ? this.items.brushRedTex : this.items.brushBlueTex },
-
                 uDistortionFrequency: { value: randomRange(this.parameters.distortionFrequency) },
                 uDistortionStrength: { value: randomRange(this.parameters.distortionStrength) },
                 uStrength: { value: randomRange(this.parameters.strength) },
@@ -42,28 +38,19 @@ export default class Brush extends Instance {
             },
         })
 
-        const position = new THREE.Vector3((Math.random() - 0.5) * w,
-            (Math.random() - 0.5) * h,
-            cameraWorldPos.z + this.parameters.distanceToCamera)
+        const pos = new THREE.Vector3((Math.random() - 0.5) * w,
+                                      (Math.random() - 0.5) * h,
+                                       wpos.z + this.parameters.distanceToCamera)
 
-        // position.setX(0)
-        // position.setY(0)
         const angle = Math.random() * Math.PI * 2
 
         this.mesh = new THREE.Mesh(geometry, this.material);
         this.mesh.rotateY(MathUtils.degToRad(180))
         this.mesh.rotateZ(angle)
-        this.mesh.position.set(position.x, position.y, position.z)
+        this.mesh.position.set(pos.x, pos.y, pos.z)
 
         this.scene.add(this.mesh);
     }
-
-    updateMaterial() {
-        this.material.uniforms.uHue.value = this.parameters.hue
-        this.material.uniforms.uSaturation.value = this.parameters.saturation
-        this.material.uniforms.uValue.value = this.parameters.value
-    }
-
 
     update() {
         super.update()

@@ -24,28 +24,23 @@ export default class FractalLayer extends Instance {
                 uSpeed: { value: this.parameters.speed },
                 uSeed: { value: Math.random() },
                 uRatio: { value: 0 },
-                uBackgroundTex: { value: this.isMagicHour ? this.items.backgroundRedTex : this.items.backgroundBlueTex },
+                uBackgroundTex: { value: this.isMagicHour ? this.items.backgroundRedTex : this.items.backgroundBlueDetailTex },
                 uWtoH: { value: w / h }
             }
         })
 
         this.mesh = new THREE.Mesh(geometry, this.material);
 
-        var cameraWorldPos = new THREE.Vector3();
-        this.camera.instance.getWorldPosition(cameraWorldPos)
-
-        this.mesh.position.z = cameraWorldPos.z + this.parameters.distanceToCamera;
+        this.mesh.position.z = this.camera.getWorldPos().z + this.parameters.distanceToCamera;
         this.scene.add(this.mesh);
     }
 
     update() {
-        this.t += this.time.delta
-        const r = this.t / this.lifetime
-        this.material.uniforms.uTime.value = this.time.elapsed
-        this.material.uniforms.uRatio.value = r
+        super.update()
+        this.material.uniforms.uTime.value = this.t / 1000
+        this.material.uniforms.uRatio.value = this.age
 
-        // console.log(r)
-        if (r > 1) {
+        if (this.age > 1) {
             this.destroy()
         }
     }

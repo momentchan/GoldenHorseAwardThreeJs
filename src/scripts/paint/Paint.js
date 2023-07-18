@@ -6,13 +6,13 @@ import { fragmentShader } from '../../shaders/PaintShader'
 import Instance from '../basis/Instance'
 
 export default class Paint extends Instance {
-    constructor(generator, id) {
+    constructor(generator, id, pos) {
         super(generator, id)
 
-        this.setupMesh()
+        this.setupMesh(pos)
     }
 
-    setupMesh() {
+    setupMesh(pos) {
         const cameraWorldPos = new THREE.Vector3();
         this.camera.instance.getWorldPosition(cameraWorldPos)
 
@@ -31,18 +31,18 @@ export default class Paint extends Instance {
                 uBackgroundTex: { value: this.isMagicHour ? this.items.backgroundRedTex : this.items.backgroundBlueTex },
                 uPaintTex: { value: this.generator.getPaintTex() },
 
-                uStrength: { value: Math.random() < 0.8 ?　this.parameters.strength.x : this.parameters.strength.y },
+                uStrength: { value: Math.random() < 0.8 ? this.parameters.strength.x : this.parameters.strength.y },
                 uRatio: { value: 0 },
             },
         })
 
-        const position = new THREE.Vector3((Math.random() - 0.5) * w,
-            (Math.random() - 0.5) * h,
-            cameraWorldPos.z + this.parameters.distanceToCamera)
+        const position = pos == null ? 
+            new THREE.Vector3((Math.random() - 0.5) * w,
+                              (Math.random() - 0.5) * h,
+                              cameraWorldPos.z + this.parameters.distanceToCamera) :
+            this.camera.getWorldPosFromNDC(pos, this.parameters.distanceToCamera)
 
-        // position.setX(0)
-        // position.setY(0)
-        const angle = 0//Math.random() * Math.PI * 2
+        const angle = 0//MathUtils.degToRad(randomRange(-0, 0))
 
         this.mesh = new THREE.Mesh(geometry, this.material);
         this.mesh.rotateY(MathUtils.degToRad(180))

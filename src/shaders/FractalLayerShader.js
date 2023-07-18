@@ -30,7 +30,7 @@ float getFractal(vec2 uv) {
 }
 
 void main() {
-	vec4 col = texture2D(uBackgroundTex, vUv) * 1.5;
+	vec4 col = texture2D(uBackgroundTex, vUv) * 1.0;
 
 	vec2 turbulence = (vec2(gradientNoise(vUv, 100.0), gradientNoise(vUv + vec2(57.68, 0.0), 100.0)) - 0.5) * 2.0 * 0.01;
 

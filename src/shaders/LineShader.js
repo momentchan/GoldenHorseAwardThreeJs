@@ -60,7 +60,7 @@ export const fragmentShader = /* glsl */`
         float noise = remap(gradientNoise(vUv, 2.0), vec2(0.0, 1.0), vec2(0.5, 1.0));
 
         float fractal = texture2D(uFractalTex, screenUv).r;
-        float mask = fractal + light;
+        float mask = fractal;
 
         vec4 col = vec4(1.0);
         col.rgb = BlendOverLay(col.rgb, background.rgb, 0.5) * 0.2;

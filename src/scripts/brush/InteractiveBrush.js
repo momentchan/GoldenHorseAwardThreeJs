@@ -27,7 +27,6 @@ export default class InteractiveBrush extends Instance {
 
         const h = this.camera.getWorldSizeAtDistance(this.parameters.distanceToCamera).h
         const ratio = distance / h
-        // console.log(ratio);
 
         const size = randomRange(this.parameters.size)
         const geometry = new THREE.PlaneGeometry(size, distance, 1, 50)
@@ -44,20 +43,15 @@ export default class InteractiveBrush extends Instance {
                 uDistortionStrength: { value: randomRange(this.parameters.distortionStrength) * ratio },
                 uStrength: { value: randomRange(this.parameters.strength) },
                 uHue: { value: randomRange(this.parameters.hue) },
-                uSaturation: { value: this.parameters.saturation },
-                uValue: { value: this.parameters.value },
                 uRatio: { value: 0 },
                 uSeed: { value: Math.random() },
                 uSpeed: { value: 10 }
             },
         })
 
-        const cameraWorldPos = new THREE.Vector3();
-        this.camera.instance.getWorldPosition(cameraWorldPos)
+        var angle = -Math.atan2(direction.y, direction.x)
 
-        const angle = -Math.atan2(direction.y, direction.x)
-
-        const offsetX = randomRange(this.parameters.offsetX)
+        var offsetX = randomRange(this.parameters.offsetX)
         var offsetY = randomRange(this.parameters.offsetY)
 
         offsetY += this.isDelay ? Math.random(0.5, 1.0) * distance : 0
@@ -74,6 +68,7 @@ export default class InteractiveBrush extends Instance {
 
         this.scene.add(this.mesh);
     }
+    
 
     update() {
         if (!this.isSpawned)
@@ -98,54 +93,4 @@ export default class InteractiveBrush extends Instance {
 
         return { center, direction }
     }
-
-
-    computeDataTexture(touches) {
-        const count = touches.length - 2; // ommit the first and last point to compute the normal
-        const positionData = new Float32Array(count * 4);
-        const normalData = new Float32Array(count * 4);
-
-        const worldPos = []
-
-        for (var i = 0; i < touches.length; i++) {
-            worldPos.push(this.getWorldPosFromNDC(touches[i], this.distanceToCamera))
-        }
-
-        for (var i = 1; i < touches.length - 1; i++) {
-
-            const pre = worldPos[i - 1]
-            const pos = worldPos[i]
-            const next = worldPos[i + 1]
-
-            const id = 4 * (i - 1);
-            positionData[id] = pos.x
-            positionData[id + 1] = pos.y
-            positionData[id + 2] = pos.z
-            positionData[id + 3] = 0
-
-            const normal = next.clone().sub(pre)
-            normal.normalize()
-            if (i > 1) {
-                const preId = id - 4
-                const preNormal = new THREE.Vector3(normalData[preId], normalData[preId + 1], normalData[preId + 2])
-
-                normal.lerpVectors(preNormal, normal, 0.5)
-            }
-
-            normalData[id] = normal.x
-            normalData[id + 1] = normal.y
-            normalData[id + 2] = normal.z
-            normalData[id + 3] = 0
-        }
-
-        this.positionTex = new THREE.DataTexture(positionData, 1, count, THREE.RGBAFormat, THREE.FloatType)
-        this.normalTex = new THREE.DataTexture(normalData, 1, count, THREE.RGBAFormat, THREE.FloatType)
-
-        this.positionTex.needsUpdate = true
-        this.normalTex.needsUpdate = true
-        // console.log(positionData); 
-        // console.log(normalData); 
-        // console.log(this.positionTex);
-    }
-
 }

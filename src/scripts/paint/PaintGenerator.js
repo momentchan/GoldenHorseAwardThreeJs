@@ -12,12 +12,17 @@ export default class PaintGenerator extends Generator {
             this.items.paintTex3,
         ]
 
-        this.addInstance()
-        this.startGenerateInstances()
+        // this.addInstance()
+        // this.startGenerateInstances()
+
+        this.touch = this.experience.touch
+        this.touch.on('click', () => {
+            this.addPaint(this.touch.click)
+        })
     }
 
     getPaintTex() {
-        return this.paintTex[Math.floor(Math.random() * this.paintTex.length)]
+        return this.paintTex[this.instanceId % this.paintTex.length]
     }
 
     setupParameters() {
@@ -45,6 +50,13 @@ export default class PaintGenerator extends Generator {
 
     getInstance(id) {
         return new Paint(this, id)
+    }
+
+    addPaint(pos) {
+        // console.log(`${this.constructor.name}: add ${this.instanceId}`);
+        const instance = new Paint(this, this.instanceId, pos)
+        this.instances.push(instance)
+        this.instanceId++
     }
 
     updateBrushMaterials() {
