@@ -20,7 +20,7 @@ export default [
         path: 'textures/overlayRed.jpg'
     },
     {
-        name: 'strokeTex',
+        name: 'dotTex',
         type: 'texture',
         path: 'textures/dot.png'
     },

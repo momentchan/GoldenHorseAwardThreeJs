@@ -29,7 +29,7 @@ export default class Light extends Instance {
             uniforms: {
                 uRatio: { value: 0 },
                 uLightTex: { value: this.items.lightTex1 },
-                uStrokeTex: { value: this.items.strokeTex },
+                uDotTex: { value: this.items.dotTex },
             }
         })
 
