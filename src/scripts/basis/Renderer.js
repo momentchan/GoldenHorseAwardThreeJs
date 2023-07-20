@@ -20,6 +20,7 @@ export default class Renderer extends RendererBase {
 
             // Overlay Pass
             const overlayPass = new ShaderPass(screenOverlayShader)
+            overlayPass.material.uniforms.uOverlay.value = this.experience.isMobile() ? 0.3 : 0.5
             overlayPass.material.uniforms.uTexture.value = this.experience.isMagicHour ?
                 this.experience.resources.items.overlayRedTex :
                 this.experience.resources.items.overlayBlueTex

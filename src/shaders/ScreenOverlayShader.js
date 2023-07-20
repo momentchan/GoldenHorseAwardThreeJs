@@ -6,6 +6,7 @@ const screenOverlayShader = {
 
         'tDiffuse': { value: null },
         'uTexture': { value: null },
+        'uOverlay': { value: 0 }
     },
 
     vertexShader: /* glsl */`
@@ -21,8 +22,7 @@ const screenOverlayShader = {
 
     fragmentShader: /* glsl */`
 
-		uniform float opacity;
-
+		uniform float uOverlay;
 		uniform sampler2D tDiffuse;
 		uniform sampler2D uTexture;
 
@@ -38,7 +38,7 @@ const screenOverlayShader = {
             float overlay = texture2D(uTexture, vUv).r;
             vec4 col = texture2D(tDiffuse, vUv);
 
-            col.rgb = BlendOverLay(col.rgb, vec3(overlay), 0.5);
+            col.rgb = BlendOverLay(col.rgb, vec3(overlay), uOverlay);
 			gl_FragColor = col;
 		}`
 };
