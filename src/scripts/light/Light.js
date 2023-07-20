@@ -16,7 +16,7 @@ export default class Light extends Instance {
         const w = this.camera.getWorldSizeAtDistance(this.parameters.distanceToCamera).w
         const s = size * MathUtils.lerp(1, 1.5, (w - 0.15) / (0.95 - 0.15)) // make the size in proportion to screen size
 
-        const geometry = new THREE.PlaneGeometry(s, s);
+        const geometry = new THREE.PlaneGeometry(s, s * 0.3);
 
         this.material = new THREE.ShaderMaterial({
             vertexShader: vertexShader,
