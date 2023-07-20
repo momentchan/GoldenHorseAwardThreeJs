@@ -11,7 +11,6 @@ export default class BrushGenerator extends Generator {
 
         this.touch = this.experience.touch
         this.minTouches = 10
-        this.minLength = 0.05
 
         this.counts = [5, 5, 3] // (initial, ontime, follow)
 
@@ -25,10 +24,7 @@ export default class BrushGenerator extends Generator {
                 const touches = this.touch.touches
                 const from = touches[0]
                 const to = touches[touches.length - 1]
-                const distance = from.distanceTo(to)
-                if (distance > this.minLength) {
-                    this.addInteractiveBrush(from, to)
-                }
+                this.addInteractiveBrush(from, to)
             }
         })
     }
