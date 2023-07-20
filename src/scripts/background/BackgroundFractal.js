@@ -19,6 +19,7 @@ export default class BackgroundFractal {
             vertexShader: vertex,
             fragmentShader: fragment,
             side: THREE.DoubleSide,
+            precision: 'lowp',
             uniforms: {
                 uTexture: { value: this.isMagicHour ? this.items.backgroundRedTex : this.items.backgroundBlueTex },
                 uTime: { value: 0 },

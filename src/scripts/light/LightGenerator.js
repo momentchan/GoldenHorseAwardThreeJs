@@ -26,7 +26,7 @@ export default class LightGenerator extends Generator {
 
             const ratio =
                 this.experience.isMobile() ?
-                    randomRange(MathUtils.randFloat(1, 1.2)) :
+                    MathUtils.randFloat(1, 1.2) :
                     Math.random() < 0.8 ? MathUtils.randFloat(1, 1.5) : MathUtils.randFloat(2, 3)
 
             const dir = Math.random() < 0.5 ? 1 : -1
