@@ -30,6 +30,7 @@ export default class Light extends Instance {
                 uRatio: { value: 0 },
                 uLightTex: { value: this.items.lightTex1 },
                 uDotTex: { value: this.items.dotTex },
+                uColor: { value: this.isMagicHour ? new THREE.Vector3(5, 0.2, 0.2) : new THREE.Vector3(1, 1, 1) },
             }
         })
 

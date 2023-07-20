@@ -53,6 +53,21 @@ export default [
         name: 'paintTex3',
         type: 'texture',
         path: 'textures/brush3.png'
+    },
+    {
+        name: 'paintTex4',
+        type: 'texture',
+        path: 'textures/brush4.png'
+    },
+    {
+        name: 'paintTex5',
+        type: 'texture',
+        path: 'textures/brush5.png'
+    },
+    {
+        name: 'paintTex6',
+        type: 'texture',
+        path: 'textures/brush6.png'
     }, 
     {
         name: 'logoUpTex',

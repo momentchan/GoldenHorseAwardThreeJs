@@ -4,7 +4,6 @@ import FractalLayerGenerator from "../fractal/FractalLayerGenerator"
 import LineGenerator from "../line/LineGenerator"
 import BrushGenerator from "../brush/BrushGenerator"
 import LightGenerator from "../light/LightGenerator"
-import PaintGenerator from "../paint/PaintGenerator"
 import Logo from "../logo/logo"
 
 export default class World extends WorldBase {
@@ -15,7 +14,6 @@ export default class World extends WorldBase {
             this.backgroundFractal = new BackgroundFractal(this.experience)
             this.fractalLayerGenerator = new FractalLayerGenerator(this.experience)
             this.brushGenerator = new BrushGenerator(this.experience)
-            this.paintGenerator = new PaintGenerator(this.experience)
             this.lightGenerator = new LightGenerator(this.experience)
             this.lineInstancedGenerator = new LineGenerator(this.experience)
 
@@ -43,10 +41,6 @@ export default class World extends WorldBase {
 
         if (this.lightGenerator) {
             this.lightGenerator.update()
-        }
-
-        if (this.paintGenerator) {
-            this.paintGenerator.update()
         }
     }
 }

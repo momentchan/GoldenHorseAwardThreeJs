@@ -4,6 +4,7 @@ export const fragmentShader = /* glsl */`
     uniform float uRatio;
     uniform sampler2D uLightTex;
     uniform sampler2D uDotTex;
+    uniform vec3 uColor;
 
     float drawCircle(vec2 uv, float radius) {
         vec2 center = vec2(0.5, 0.5);
@@ -18,11 +19,11 @@ export const fragmentShader = /* glsl */`
         if(col.a == 0.0)
             discard;
 
-        col.rgb = vec3(texture2D(uLightTex, vUv).r);
+        col.rgb = vec3(texture2D(uLightTex, vUv).r) * uColor;
         float fade = drawCircle(vUv, uRatio) * smoothstep(1.0, 0.7, uRatio);
 
         vec2 uv = vec2(0.375, 1.0) * vUv;
-        col.a *= fade * (0.3 + dot.r * 0.2);
+        col.a *= fade * 0.2;// * (0.3 + dot.r * 0.2);
 
         gl_FragColor = col;
     }`

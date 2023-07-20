@@ -15,7 +15,7 @@ export default class Brush extends Instance {
         const wpos = this.camera.getWorldPos()
 
         const { w, h } = this.camera.getWorldSizeAtDistance(this.parameters.distanceToCamera)
-        const size = randomRange(this.parameters.size) * MathUtils.lerp(1, 2, (w - 0.15) / (0.95 - 0.15)) // make the size in proportion to screen size
+        const size = randomRange(this.parameters.size) * MathUtils.lerp(1, 1.8, (w - 0.15) / (0.95 - 0.15)) // make the size in proportion to screen size
         const ratio = randomRange(this.parameters.ratio)
 
         const geometry = new THREE.PlaneGeometry(size, size * ratio, 1, 40)

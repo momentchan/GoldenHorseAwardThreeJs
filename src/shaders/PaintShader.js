@@ -10,23 +10,21 @@ export const fragmentShader = /* glsl */`
         
         varying vec2 vUv;
         
-        uniform sampler2D uBackgroundTex;
         uniform sampler2D uPaintTex;
         uniform float uStrength;
         uniform float uRatio;
-        
+        uniform vec3 uColor;
+
         void main() {
             vec4 col = texture2D(uPaintTex, vUv);
+
             if(col.a == 0.0)
                 discard;
-
-            vec4 bg = texture2D(uBackgroundTex, vUv);
-        
-            // col.rgb = BlendOverLay(col.rgb, bg.rgb, 1.0);
+            
+            col.rgb = vec3(texture2D(uPaintTex, vUv).r) * uColor;
         
             float fade = smoothstep(0.0, 0.3, uRatio) * smoothstep(1.0, 0.7, uRatio);
-        
-            col.a *= fade * uStrength;
+            col.a *= fade * 0.2;// * uStrength;
         
             gl_FragColor = col;
         }`

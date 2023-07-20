@@ -27,7 +27,7 @@ export default class Experience extends ExperienceBase {
 
         // console.log(diffInMinutes);
 
-        return diffInMinutes >= 0 && diffInMinutes <= 30;
+        return diffInMinutes >= -30 && diffInMinutes <= 30;
     }
 
     isMobile() {

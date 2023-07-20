@@ -11,7 +11,7 @@ export default class Logo {
         this.cameraGroup = this.camera.cameraGroup
         this.sizes = this.experience.sizes
 
-        this.distance = 2
+        this.distance = 0.5
         const { w, h } = this.camera.getWorldSizeAtDistance(this.distance)
 
         this.s = [0.2, 0.45]
