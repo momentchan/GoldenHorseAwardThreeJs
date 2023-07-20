@@ -20,11 +20,6 @@ export default [
         path: 'textures/overlayRed.jpg'
     },
     {
-        name: 'dotTex',
-        type: 'texture',
-        path: 'textures/dot.png'
-    },
-    {
         name: 'brushBlueTex',
         type: 'texture',
         path: 'textures/brushBlue.png'
@@ -35,7 +30,7 @@ export default [
         path: 'textures/brushRed.png'
     },
     {
-        name: 'lightTex1',
+        name: 'lightTex',
         type: 'texture',
         path: 'textures/light.png'
     },
