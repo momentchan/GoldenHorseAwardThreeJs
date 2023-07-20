@@ -5,12 +5,12 @@ import { fragmentShader } from '../../shaders/PaintShader'
 import Instance from '../basis/Instance'
 
 export default class Paint extends Instance {
-    constructor(generator, id, pos, size, strength) {
+    constructor(generator, id, pos, size, strength, dir) {
         super(generator, id)
-        this.setupMesh(pos, size, strength)
+        this.setupMesh(pos, size, strength, dir)
     }
 
-    setupMesh(pos, size, strength) {
+    setupMesh(pos, size, strength, dir) {
         const wpos = this.camera.getWorldPosFromNDC(pos, this.parameters.distanceToCamera)
         const w = this.camera.getWorldSizeAtDistance(this.parameters.distanceToCamera).w
         const s = size * MathUtils.lerp(1, 1.5, (w - 0.15) / (0.95 - 0.15)) // make the size in proportion to screen size
@@ -23,7 +23,7 @@ export default class Paint extends Instance {
             transparent: true,
             uniforms: {
                 uPaintTex: { value: this.generator.getPaintTex() },
-                uColor: { value: this.isMagicHour ? new THREE.Vector3(1, 0.7, 0.7) : new THREE.Vector3(1, 1, 1) },
+                uColor: { value: this.parameters.color },
                 uStrength: { value: strength },
                 uRatio: { value: 0 },
             },
@@ -31,6 +31,9 @@ export default class Paint extends Instance {
 
         this.mesh = new THREE.Mesh(geometry, this.material);
         this.mesh.rotateY(MathUtils.degToRad(180))
+        
+        if (dir == -1)
+            this.mesh.rotateZ(MathUtils.degToRad(180))
         this.mesh.position.set(wpos.x, wpos.y, wpos.z)
         this.scene.add(this.mesh);
     }

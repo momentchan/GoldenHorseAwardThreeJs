@@ -19,11 +19,13 @@ export default class LightGenerator extends Generator {
             this.items.paintTex6,
         ]
 
+
         this.touch.on('click', () => {
             const strength = Math.random() < 0.8 ? this.parameters.strength.x : this.parameters.strength.y
             const size = randomRange(this.parameters.size)
-            this.addLight(this.touch.click, size, strength)
-            this.addPaint(this.touch.click, size, strength)
+            const dir = Math.random() < 0.5 ? 1 : -1
+            this.addLight(this.touch.click, size, strength, dir)
+            this.addPaint(this.touch.click, size, strength, dir)
         })
 
     }
@@ -37,19 +39,20 @@ export default class LightGenerator extends Generator {
         this.parameters.distanceToCamera = 1
         this.parameters.lifetime = new THREE.Vector2(10, 10)
         this.parameters.size = new THREE.Vector2(0.3, 0.5)
-        this.parameters.strength = new THREE.Vector2(0.2, 1.0)
+        this.parameters.strength = new THREE.Vector2(0.5, 1.0)
+        this.parameters.color = this.isMagicHour ? new THREE.Vector3(0.77, 0.46, 0.53) : new THREE.Vector3(1, 1, 1)
     }
 
-    addLight(pos, size, strength) {
+    addLight(pos, size, strength, dir) {
         // console.log(`${this.constructor.name}: add ${this.instanceId}`);
-        const instance = new Light(this, this.instanceId, pos, size, strength)
+        const instance = new Light(this, this.instanceId, pos, size, strength, dir)
         this.instances.push(instance)
         this.instanceId++
     }
 
-    addPaint(pos, size, strength) {
+    addPaint(pos, size, strength, dir) {
         // console.log(`${this.constructor.name}: add ${this.instanceId}`);
-        const instance = new Paint(this, this.instanceId, pos, size, strength)
+        const instance = new Paint(this, this.instanceId, pos, size, strength, dir)
         this.instances.push(instance)
         this.instanceId++
     }
