@@ -22,17 +22,16 @@ export default class Light extends Instance {
             vertexShader: vertexShader,
             fragmentShader: fragmentShader,
             transparent: true,
-            side: THREE.DoubleSide,
             uniforms: {
                 uLightTex: { value: this.items.lightTex },
-                uColor: { value: this.isMagicHour ? new THREE.Vector3(5, 0.2, 0.2) : new THREE.Vector3(1, 1, 1) },
-                uStrength: { value:strength },
+                uColor: { value: this.isMagicHour ? new THREE.Vector3(1, 0.7, 0.7) : new THREE.Vector3(1, 1, 1) },
+                uStrength: { value: strength },
                 uRatio: { value: 0 },
             }
         })
 
         this.mesh = new THREE.Mesh(geometry, this.material);
-        this.mesh.rotateZ(MathUtils.degToRad(180))
+        this.mesh.rotateY(MathUtils.degToRad(180))
         this.mesh.position.set(wpos.x, wpos.y, wpos.z)
         this.scene.add(this.mesh);
     }

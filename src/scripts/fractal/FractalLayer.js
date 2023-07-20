@@ -3,6 +3,8 @@ import vertexShader from '../../three.js-gist/Shader/ScreenVertex.js'
 import { fragmentShader } from '../../shaders/FractalLayerShader.js'
 import Instance from '../basis/Instance'
 
+import { MathUtils } from 'three'
+
 export default class FractalLayer extends Instance {
     constructor(generator, id) {
         super(generator, id)
@@ -16,7 +18,6 @@ export default class FractalLayer extends Instance {
         this.material = new THREE.ShaderMaterial({
             vertexShader: vertexShader,
             fragmentShader: fragmentShader,
-            side: THREE.DoubleSide,
             transparent: true,
 
             uniforms: {
@@ -30,7 +31,7 @@ export default class FractalLayer extends Instance {
         })
 
         this.mesh = new THREE.Mesh(geometry, this.material);
-
+        this.mesh.rotateY(MathUtils.degToRad(180))
         this.mesh.position.z = this.camera.getWorldPos().z + this.parameters.distanceToCamera;
         this.scene.add(this.mesh);
     }

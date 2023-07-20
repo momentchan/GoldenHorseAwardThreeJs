@@ -16,9 +16,7 @@ export default class World extends WorldBase {
             this.brushGenerator = new BrushGenerator(this.experience)
             this.lightGenerator = new LightGenerator(this.experience)
             this.lineInstancedGenerator = new LineGenerator(this.experience)
-
-            if (!this.experience.isMobile())
-                this.logo = new Logo(this.experience)
+            this.logo = new Logo(this.experience)
         })
     }
 
@@ -41,6 +39,10 @@ export default class World extends WorldBase {
 
         if (this.lightGenerator) {
             this.lightGenerator.update()
+        }
+
+        if(this.logo){
+            this.logo.update()
         }
     }
 }
