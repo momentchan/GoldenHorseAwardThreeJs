@@ -20,7 +20,6 @@ export default class Line extends Instance {
             fragmentShader: fragmentShader,
             transparent: true,
             blending: THREE.AdditiveBlending,
-            precision: 'lowp',
             uniforms: {
                 uTime: { value: 0 },
                 uRatio: { value: 0 },

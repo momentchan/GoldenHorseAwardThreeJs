@@ -34,7 +34,6 @@ export default class Logo {
             vertexShader: vertexShader,
             fragmentShader: fragmentShader,
             transparent: true,
-            precision: 'lowp',
             uniforms: {
                 uTexture: { value: tex },
                 uRatio: { value: 0 },

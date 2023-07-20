@@ -19,7 +19,7 @@ export default class FractalLayer extends Instance {
             vertexShader: vertexShader,
             fragmentShader: fragmentShader,
             transparent: true,
-            precision: 'lowp',
+
             uniforms: {
                 uTime: { value: 0 },
                 uSpeed: { value: this.parameters.speed },

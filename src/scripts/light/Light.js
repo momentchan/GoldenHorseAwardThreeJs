@@ -22,7 +22,6 @@ export default class Light extends Instance {
             vertexShader: vertexShader,
             fragmentShader: fragmentShader,
             transparent: true,
-            precision: 'lowp',
             uniforms: {
                 uLightTex: { value: this.items.lightTex },
                 uColor: { value: this.parameters.color },

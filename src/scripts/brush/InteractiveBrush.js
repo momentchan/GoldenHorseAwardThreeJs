@@ -35,7 +35,6 @@ export default class InteractiveBrush extends Instance {
             vertexShader: vertexShader,
             fragmentShader: fragmentShader,
             transparent: true,
-            precision: 'lowp',
             uniforms: {
                 uBackgroundTex: { value: this.isMagicHour ? this.items.backgroundRedTex : this.items.backgroundBlueTex },
                 uStrokeTex: { value: this.isMagicHour ? this.items.brushRedTex : this.items.brushBlueTex },
