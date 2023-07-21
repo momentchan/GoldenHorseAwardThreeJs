@@ -54,5 +54,7 @@ export default class Experience extends ExperienceBase {
         super.destroy()
         this.camera.controls.dispose()
         this.renderer.instance.dispose()
+        this.fractalMask.dispose()
+        this.touch.dispose()
     }
 }
