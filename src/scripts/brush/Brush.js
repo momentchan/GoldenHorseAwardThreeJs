@@ -33,7 +33,7 @@ export default class Brush extends Instance {
                 uHue: { value: randomRange(this.parameters.hue) },
                 uRatio: { value: 0 },
                 uSeed: { value: Math.random() },
-                uSpeed: { value: 3 }
+                uSpeed: { value: this.generator.isMobile? 1.5 : 3 }
             },
         })
 

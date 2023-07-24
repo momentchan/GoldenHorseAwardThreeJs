@@ -10,6 +10,7 @@ export default class Generator {
         this.time = this.experience.time
         this.sizes = this.experience.sizes
         this.isMagicHour = this.experience.isMagicHour
+        this.isMobile = this.experience.isMobile()
 
         this.instances = []
         this.instanceId = 0

@@ -12,9 +12,8 @@ export default class FractalLayerGenerator extends Generator {
     setupParameters() {
         super.setupParameters()
 
-        this.parameters.count = 400
         this.parameters.distanceToCamera = 1.5
-        this.parameters.lifetime = new THREE.Vector2(20, 30)
+        this.parameters.lifetime = this.isMobile ? new THREE.Vector2(10, 20) : new THREE.Vector2(20, 30)
         this.parameters.generateInterval = new THREE.Vector2(5, 15)
         this.parameters.speed = 0.02
     }

@@ -12,7 +12,7 @@ export default class BrushGenerator extends Generator {
         this.touch = this.experience.touch
         this.minTouches = 10
 
-        this.counts = [5, 5, 3] // (initial, ontime, follow)
+        this.counts = this.isMobile ? [3, 3, 2] : [5, 5, 3] // (initial, ontime, follow)
 
 
         for (var i = 0; i < this.counts[0]; i++) {
@@ -33,11 +33,10 @@ export default class BrushGenerator extends Generator {
         super.setupParameters()
         this.parameters.distanceToCamera = 1
 
-        this.parameters.lifetime = new THREE.Vector2(20, 30)
+        this.parameters.lifetime = this.isMobile ? new THREE.Vector2(10, 15) : new THREE.Vector2(20, 30)
         this.parameters.generateInterval = new THREE.Vector2(2, 3)
         this.parameters.ratio = new THREE.Vector2(1, 5)
         this.parameters.size = new THREE.Vector2(0.08, 0.16)
-        this.parameters.speed = new THREE.Vector2(0.5, 1)
         this.parameters.distortionFrequency = new THREE.Vector2(3.0, 5.0)
         this.parameters.distortionStrength = new THREE.Vector2(0.01, 0.03)
         this.parameters.strength = new THREE.Vector2(0.5, 1.5)

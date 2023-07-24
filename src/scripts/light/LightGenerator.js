@@ -25,7 +25,7 @@ export default class LightGenerator extends Generator {
             const size = randomRange(this.parameters.size)
 
             const ratio =
-                this.experience.isMobile() ?
+                this.isMobile ?
                     MathUtils.randFloat(1, 1.2) :
                     Math.random() < 0.8 ? MathUtils.randFloat(1, 1.5) : MathUtils.randFloat(2, 3)
 
@@ -43,7 +43,7 @@ export default class LightGenerator extends Generator {
         super.setupParameters()
 
         this.parameters.distanceToCamera = 1
-        this.parameters.lifetime = new THREE.Vector2(10, 10)
+        this.parameters.lifetime = this.isMobile ? new THREE.Vector2(7, 7) : new THREE.Vector2(10, 10)
         this.parameters.size = new THREE.Vector2(0.2, 0.4)
         this.parameters.strength = new THREE.Vector2(0.5, 1.0)
         this.parameters.color = this.isMagicHour ? new THREE.Vector3(0.77, 0.46, 0.53) : new THREE.Vector3(1, 1, 1)
