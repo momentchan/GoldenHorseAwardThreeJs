@@ -3,7 +3,7 @@ import vertexShader from '../../three.js-gist/Shader/ScreenVertex.js'
 import { fragmentShader } from '../../shaders/LogoShader.js'
 import { MathUtils } from 'three'
 
-export default class Logo {
+export default class LogoPng {
 
     constructor(experience) {
         this.experience = experience
@@ -22,9 +22,8 @@ export default class Logo {
         this.s = [0.2, 0.45]
         this.y = [0.3, -0.28]
 
-        this.logoUp = this.createLogo(this.items.logoUpTex, this.s[0] * h, this.y[0] * h)
-        if (!this.experience.isMobile())
-            this.logoBottom = this.createLogo(this.items.logoBottomTex, this.s[1] * h, this.y[1] * h)
+        this.logoUp = this.createLogo(this.items.logoTopTex, this.s[0] * h, this.y[0] * h)
+        // this.logoBottom = this.createLogo(this.items.logoBottomTex, this.s[1] * h, this.y[1] * h)
     }
 
     createLogo(tex, size, y) {
@@ -49,8 +48,6 @@ export default class Logo {
     }
 
     update() {
-        if (!this.experience.isMobile()) return
-
         this.t += this.time.delta
         this.material.uniforms.uRatio.value = this.t / this.lifetime
     }

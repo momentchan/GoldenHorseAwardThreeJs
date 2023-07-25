@@ -63,15 +63,25 @@ export default [
         name: 'paintTex6',
         type: 'texture',
         path: 'textures/brush6.png'
-    }, 
+    },
     {
-        name: 'logoUpTex',
+        name: 'logoTopTex',
         type: 'texture',
         path: 'textures/logo01.png'
-    }, 
+    },
     {
         name: 'logoBottomTex',
         type: 'texture',
         path: 'textures/logo02.png'
     },
+    {
+        name: 'logoTopSVG',
+        type: 'svg',
+        path: 'textures/A-1.svg'
+    },
+    {
+        name: 'logoBottomSVG',
+        type: 'svg',
+        path: 'textures/A-2.svg'
+    }
 ]

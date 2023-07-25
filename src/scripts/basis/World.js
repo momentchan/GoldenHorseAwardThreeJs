@@ -4,7 +4,8 @@ import FractalLayerGenerator from "../fractal/FractalLayerGenerator"
 import LineGenerator from "../line/LineGenerator"
 import BrushGenerator from "../brush/BrushGenerator"
 import LightGenerator from "../light/LightGenerator"
-import Logo from "../logo/logo"
+import LogoSVG from "../logo/LogoSVG"
+import LogoPng from "../logo/LogoPng"
 
 export default class World extends WorldBase {
     constructor(experience) {
@@ -16,7 +17,12 @@ export default class World extends WorldBase {
             this.brushGenerator = new BrushGenerator(this.experience)
             this.lightGenerator = new LightGenerator(this.experience)
             this.lineInstancedGenerator = new LineGenerator(this.experience)
-            this.logo = new Logo(this.experience)
+
+            if (this.experience.isMobile())
+                this.logo = new LogoPng(this.experience)
+            else {
+                this.logo = new LogoSVG(this.experience)
+            }
         })
     }
 
@@ -41,7 +47,7 @@ export default class World extends WorldBase {
             this.lightGenerator.update()
         }
 
-        if(this.logo){
+        if (this.logo) {
             this.logo.update()
         }
     }
