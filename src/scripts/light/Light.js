@@ -43,9 +43,9 @@ export default class Light extends Instance {
     update() {
         super.update()
         this.material.uniforms.uRatio.value = this.age
+        this.mesh.visible = this.generator.visible
 
-        if (this.age > 1) {
+        if (this.age > 1)
             this.destroy()
-        }
     }
 }

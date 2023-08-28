@@ -41,8 +41,9 @@ export default class FractalLayer extends Instance {
         this.material.uniforms.uTime.value = this.t / 1000
         this.material.uniforms.uRatio.value = this.age
 
-        if (this.age > 1) {
+        this.mesh.visible = this.generator.visible
+
+        if (this.age > 1)
             this.destroy()
-        }
     }
 }

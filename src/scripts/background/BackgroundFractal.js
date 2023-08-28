@@ -42,4 +42,8 @@ export default class BackgroundFractal {
     update() {
         this.material.uniforms.uTime.value = this.experience.time.elapsed / 1000
     }
+
+    show(visible) {
+        this.mesh.visible = visible
+    }
 }

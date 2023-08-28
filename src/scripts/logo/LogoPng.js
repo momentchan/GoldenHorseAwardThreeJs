@@ -51,4 +51,8 @@ export default class LogoPng {
         this.t += this.time.delta
         this.material.uniforms.uRatio.value = this.t / this.lifetime
     }
+
+    show(visible) {
+        this.logoUp.visible = visible
+    }
 }

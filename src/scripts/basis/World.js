@@ -10,6 +10,16 @@ import LogoPng from "../logo/LogoPng"
 export default class World extends WorldBase {
     constructor(experience) {
         super(experience)
+        this.debug = this.experience.debug
+
+        this.parameters = {
+            backgroundFractal: true,
+            fractalLayer: true,
+            brush: true,
+            light: true,
+            line: true,
+            logo: true
+        }
 
         this.resources.on('ready', () => {
             this.backgroundFractal = new BackgroundFractal(this.experience)
@@ -24,6 +34,29 @@ export default class World extends WorldBase {
                 this.logo = new LogoSVG(this.experience)
             }
         })
+
+        // Debug
+        if (this.debug.active) {
+            this.debugFolder = this.debug.ui.addFolder(this.constructor.name)
+
+            this.debugFolder.add(this.parameters, 'backgroundFractal')
+                            .onChange(value => this.backgroundFractal.show(value))
+
+            this.debugFolder.add(this.parameters, 'fractalLayer')
+                            .onChange(value => this.fractalLayerGenerator.show(value))
+
+            this.debugFolder.add(this.parameters, 'brush')
+                            .onChange(value => this.brushGenerator.show(value))
+
+            this.debugFolder.add(this.parameters, 'light')
+                            .onChange(value => this.lightGenerator.show(value))
+
+            this.debugFolder.add(this.parameters, 'line')
+                            .onChange(value => this.lineInstancedGenerator.show(value))
+
+            this.debugFolder.add(this.parameters, 'logo')
+                            .onChange(value => this.logo.show(value))
+        }
     }
 
     update() {
