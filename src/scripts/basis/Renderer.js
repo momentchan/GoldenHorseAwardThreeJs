@@ -11,6 +11,7 @@ export default class Renderer extends RendererBase {
         super.setInstance()
         this.composer = new EffectComposer(this.instance)
         this.resources = this.experience.resources
+        this.keyInput = this.experience.keyInput
 
         this.debug = this.experience.debug
         this.resources.on('ready', () => {
@@ -25,6 +26,13 @@ export default class Renderer extends RendererBase {
                 this.experience.resources.items.overlayRedTex :
                 this.experience.resources.items.overlayBlueTex
 
+            this.keyInput.onKeyDownEvent('7', () => {
+                if (overlayPass.material.uniforms.uOverlay.value != 0)
+                    overlayPass.material.uniforms.uOverlay.value = 0
+                else
+                    overlayPass.material.uniforms.uOverlay.value = this.experience.isMobile() ? 0.3 : 0.5
+            })
+
             this.composer.addPass(overlayPass)
 
             // FXAA
@@ -33,6 +41,7 @@ export default class Renderer extends RendererBase {
             fxaaPass.material.uniforms['resolution'].value.y = 1 / (this.sizes.height * this.sizes.pixelRatio);
             this.composer.addPass(fxaaPass);
         })
+
     }
 
     resize() {

@@ -63,7 +63,7 @@ export const fragmentShader = /* glsl */`
         float mask = fractal;
 
         vec4 col = vec4(1.0);
-        col.rgb = BlendOverLay(col.rgb, background.rgb, 0.5) * 0.2;
+        col.rgb = BlendOverLay(col.rgb, background.rgb, 0.5) * 0.3;
 
         col.a *= noise * mask;
 

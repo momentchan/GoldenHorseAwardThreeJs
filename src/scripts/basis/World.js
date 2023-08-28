@@ -6,13 +6,12 @@ import BrushGenerator from "../brush/BrushGenerator"
 import LightGenerator from "../light/LightGenerator"
 import LogoSVG from "../logo/LogoSVG"
 import LogoPng from "../logo/LogoPng"
-import KeyInput from "../../three.js-gist/Utils/KeyInput"
 
 export default class World extends WorldBase {
     constructor(experience) {
         super(experience)
         this.debug = this.experience.debug
-        this.keyInpuut = new KeyInput()
+        this.keyInput = this.experience.keyInput
 
         this.parameters = {
             backgroundFractal: true,
@@ -61,12 +60,12 @@ export default class World extends WorldBase {
         }
 
         // keyInput
-        this.keyInpuut.onKeyDownEvent('1', () => { this.backgroundFractal.showOrHide() })
-        this.keyInpuut.onKeyDownEvent('2', () => { this.fractalLayerGenerator.showOrHide() })
-        this.keyInpuut.onKeyDownEvent('3', () => { this.brushGenerator.showOrHide() })
-        this.keyInpuut.onKeyDownEvent('4', () => { this.lightGenerator.showOrHide() })
-        this.keyInpuut.onKeyDownEvent('5', () => { this.lineInstancedGenerator.showOrHide() })
-        this.keyInpuut.onKeyDownEvent('6', () => { this.logo.showOrHide() })
+        this.keyInput.onKeyDownEvent('1', () => { this.fractalLayerGenerator.showOrHide() })
+        this.keyInput.onKeyDownEvent('2', () => { this.brushGenerator.showOrHide() })
+        this.keyInput.onKeyDownEvent('3', () => { this.lightGenerator.showOrHide() })
+        this.keyInput.onKeyDownEvent('4', () => { this.lineInstancedGenerator.showOrHide() })
+        this.keyInput.onKeyDownEvent('5', () => { this.logo.showOrHide() })
+        this.keyInput.onKeyDownEvent('6', () => { this.backgroundFractal.showOrHide() })
     }
 
     update() {

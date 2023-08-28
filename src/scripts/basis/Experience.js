@@ -4,6 +4,7 @@ import Camera from "./Camera";
 import World from "./World";
 import Touch from "../../three.js-gist/Utils/Touch"
 import FractalMask from '../../three.js-gist/Feature/RTWriter/FractalMask';
+import KeyInput from "../../three.js-gist/Utils/KeyInput";
 
 export default class Experience extends ExperienceBase {
     constructor(canvas, sources, sunset) {
@@ -12,6 +13,8 @@ export default class Experience extends ExperienceBase {
         console.log(sunset);
 
         this.isMagicHour = this.isMagicHour(sunset)
+
+        this.keyInput = new KeyInput()
 
         this.camera = new Camera(this)
         this.renderer = new Renderer(this)
