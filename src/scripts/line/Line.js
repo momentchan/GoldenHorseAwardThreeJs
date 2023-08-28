@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 import { MathUtils } from 'three'
-import { vertexShader } from '../../shaders/LineShader'
-import { fragmentShader } from '../../shaders/LineShader'
+import {vertexShader} from '../../shaders/LineShader'
+import {fragmentShader} from '../../shaders/LineShader'
 import Instance from '../basis/Instance'
 
 
@@ -95,7 +95,5 @@ export default class Line extends Instance {
         super.update()
         this.material.uniforms.uTime.value = this.t / 1000
         this.material.uniforms.uRatio.value = this.age
-
-        this.mesh.visible = this.generator.visible
     }
 }

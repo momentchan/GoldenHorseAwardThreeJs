@@ -22,8 +22,8 @@ export default class Logo {
         this.s = [0.00017, 0.00012]
         this.y = [0.4, -0.04]
 
-        this.logoTop = this.createSVG(this.items.logoTopSVG, 0.018, this.s[0] * h, this.y[0] * h)
-        this.logoBottom = this.createSVG(this.items.logoBottomSVG, 0.0395, this.s[1] * h, this.y[1] * h)
+        this.createSVG(this.items.logoTopSVG, 0.018, this.s[0] * h, this.y[0] * h)
+        this.createSVG(this.items.logoBottomSVG, 0.0395, this.s[1] * h, this.y[1] * h)
     }
 
     createSVG(data, offset, s, y) {
@@ -63,20 +63,8 @@ export default class Logo {
             item.position.x = xOffset;
             item.position.y = yOffset;
         });
-
-        return group
     }
 
     update() {
-    }
-
-    show(visible) {
-        this.logoTop.visible = visible
-        this.logoBottom.visible = visible
-    }
-
-    showOrHide() {
-        this.logoTop.visible = !this.logoTop.visible
-        this.logoBottom.visible = !this.logoBottom.visible
     }
 }

@@ -55,7 +55,6 @@ export default class Brush extends Instance {
         super.update()
 
         this.material.uniforms.uRatio.value = this.age
-        this.mesh.visible = this.generator.visible
 
         if (this.age > 1)
             this.destroy()

@@ -11,7 +11,6 @@ export default class Generator {
         this.sizes = this.experience.sizes
         this.isMagicHour = this.experience.isMagicHour
         this.isMobile = this.experience.isMobile()
-        this.visible = true
 
         this.instances = []
         this.instanceId = 0
@@ -21,7 +20,7 @@ export default class Generator {
 
     setupParameters() {
         this.parameters = {}
-    }
+     }
 
     getInstance(instanceId) { }
 
@@ -51,13 +50,5 @@ export default class Generator {
         // console.log(`${this.constructor.name}: remove ${id}`);
 
         this.instances = this.instances.filter(item => item.id !== id)
-    }
-
-    show(visible) {
-        this.visible = visible
-    }
-
-    showOrHide() {
-        this.visible = !this.visible
     }
 }

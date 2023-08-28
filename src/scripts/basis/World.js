@@ -6,22 +6,10 @@ import BrushGenerator from "../brush/BrushGenerator"
 import LightGenerator from "../light/LightGenerator"
 import LogoSVG from "../logo/LogoSVG"
 import LogoPng from "../logo/LogoPng"
-import KeyInput from "../../three.js-gist/Utils/KeyInput"
 
 export default class World extends WorldBase {
     constructor(experience) {
         super(experience)
-        this.debug = this.experience.debug
-        this.keyInpuut = new KeyInput()
-
-        this.parameters = {
-            backgroundFractal: true,
-            fractalLayer: true,
-            brush: true,
-            light: true,
-            line: true,
-            logo: true
-        }
 
         this.resources.on('ready', () => {
             this.backgroundFractal = new BackgroundFractal(this.experience)
@@ -36,37 +24,6 @@ export default class World extends WorldBase {
                 this.logo = new LogoSVG(this.experience)
             }
         })
-
-        // Debug
-        if (this.debug.active) {
-            this.debugFolder = this.debug.ui.addFolder(this.constructor.name)
-
-            this.debugFolder.add(this.parameters, 'backgroundFractal')
-                .onChange(value => this.backgroundFractal.show(value))
-
-            this.debugFolder.add(this.parameters, 'fractalLayer')
-                .onChange(value => this.fractalLayerGenerator.show(value))
-
-            this.debugFolder.add(this.parameters, 'brush')
-                .onChange(value => this.brushGenerator.show(value))
-
-            this.debugFolder.add(this.parameters, 'light')
-                .onChange(value => this.lightGenerator.show(value))
-
-            this.debugFolder.add(this.parameters, 'line')
-                .onChange(value => this.lineInstancedGenerator.show(value))
-
-            this.debugFolder.add(this.parameters, 'logo')
-                .onChange(value => this.logo.show(value))
-        }
-
-        // keyInput
-        this.keyInpuut.onKeyDownEvent('1', () => { this.backgroundFractal.showOrHide() })
-        this.keyInpuut.onKeyDownEvent('2', () => { this.fractalLayerGenerator.showOrHide() })
-        this.keyInpuut.onKeyDownEvent('3', () => { this.brushGenerator.showOrHide() })
-        this.keyInpuut.onKeyDownEvent('4', () => { this.lightGenerator.showOrHide() })
-        this.keyInpuut.onKeyDownEvent('5', () => { this.lineInstancedGenerator.showOrHide() })
-        this.keyInpuut.onKeyDownEvent('6', () => { this.logo.showOrHide() })
     }
 
     update() {
