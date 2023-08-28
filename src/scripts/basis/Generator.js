@@ -21,7 +21,7 @@ export default class Generator {
 
     setupParameters() {
         this.parameters = {}
-     }
+    }
 
     getInstance(instanceId) { }
 
@@ -55,5 +55,9 @@ export default class Generator {
 
     show(visible) {
         this.visible = visible
+    }
+
+    showOrHide() {
+        this.visible = !this.visible
     }
 }

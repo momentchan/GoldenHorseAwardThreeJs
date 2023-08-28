@@ -55,4 +55,8 @@ export default class LogoPng {
     show(visible) {
         this.logoUp.visible = visible
     }
+
+    showOrHide() {
+        this.logoUp.visible = !this.logoUp.visible
+    }
 }

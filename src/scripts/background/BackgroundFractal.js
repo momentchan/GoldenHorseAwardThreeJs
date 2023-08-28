@@ -46,4 +46,8 @@ export default class BackgroundFractal {
     show(visible) {
         this.mesh.visible = visible
     }
+
+    showOrHide() {
+        this.mesh.visible = !this.mesh.visible
+    }
 }

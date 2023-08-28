@@ -74,4 +74,9 @@ export default class Logo {
         this.logoTop.visible = visible
         this.logoBottom.visible = visible
     }
+
+    showOrHide() {
+        this.logoTop.visible = !this.logoTop.visible
+        this.logoBottom.visible = !this.logoBottom.visible
+    }
 }
