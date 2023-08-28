@@ -9,6 +9,8 @@ export default class Renderer extends RendererBase {
 
     setInstance() {
         super.setInstance()
+
+        this.debugCamera = this.experience.debugCamera
         this.composer = new EffectComposer(this.instance)
         this.resources = this.experience.resources
 
@@ -43,6 +45,7 @@ export default class Renderer extends RendererBase {
     }
 
     update() {
-        this.composer.render()
+        this.instance.setRenderTarget(null);
+        this.instance.render(this.scene, this.debugCamera.instance)
     }
 }

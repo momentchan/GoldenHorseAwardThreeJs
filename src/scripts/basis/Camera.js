@@ -12,6 +12,9 @@ export default class Camera extends CameraBase {
         this.cameraGroup.add(this.instance)
         this.instance.position.z = -15
         this.scene.add(this.cameraGroup)
+
+        const helper = new THREE.CameraHelper( this.instance );
+        this.scene.add(helper)
     }
 
     setOrbitControl() {
@@ -20,6 +23,6 @@ export default class Camera extends CameraBase {
     }
 
     update() {
-        this.cameraGroup.position.z -= 0.0003
+        this.cameraGroup.position.z -= 0.003
     }
 }

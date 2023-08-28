@@ -4,6 +4,7 @@ import Camera from "./Camera";
 import World from "./World";
 import Touch from "../../three.js-gist/Utils/Touch"
 import FractalMask from '../../three.js-gist/Feature/RTWriter/FractalMask';
+import DebugCamera from "./DebugCamera";
 
 export default class Experience extends ExperienceBase {
     constructor(canvas, sources, sunset) {
@@ -14,6 +15,9 @@ export default class Experience extends ExperienceBase {
         this.isMagicHour = this.isMagicHour(sunset)
 
         this.camera = new Camera(this)
+        this.debugCamera = new DebugCamera(this)
+        this.debugCamera.target = this.camera
+
         this.renderer = new Renderer(this)
         this.fractalMask = new FractalMask(this)
         this.world = new World(this)
@@ -46,6 +50,7 @@ export default class Experience extends ExperienceBase {
         super.update()
         this.world.update()
         this.camera.update()
+        this.debugCamera.update()
         this.renderer.update()
         this.fractalMask.update()
     }

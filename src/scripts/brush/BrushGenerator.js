@@ -12,7 +12,7 @@ export default class BrushGenerator extends Generator {
         this.touch = this.experience.touch
         this.minTouches = 10
 
-        this.counts = this.isMobile ? [3, 3, 2] : [5, 5, 3] // (initial, ontime, follow)
+        this.counts = this.isMobile ? [0, 3, 2] : [0, 5, 3] // (initial, ontime, follow)
 
 
         for (var i = 0; i < this.counts[0]; i++) {
@@ -24,7 +24,7 @@ export default class BrushGenerator extends Generator {
                 const touches = this.touch.touches
                 const from = touches[0]
                 const to = touches[touches.length - 1]
-                this.addInteractiveBrush(from, to)
+                // this.addInteractiveBrush(from, to)
             }
         })
     }
