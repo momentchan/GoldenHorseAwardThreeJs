@@ -19,6 +19,7 @@ export default class FractalLayer extends Instance {
             vertexShader: vertexShader,
             fragmentShader: fragmentShader,
             transparent: true,
+            side: THREE.DoubleSide,
 
             uniforms: {
                 uTime: { value: 0 },
@@ -33,6 +34,8 @@ export default class FractalLayer extends Instance {
         this.mesh = new THREE.Mesh(geometry, this.material);
         this.mesh.rotateY(MathUtils.degToRad(180))
         this.mesh.position.z = this.camera.getWorldPos().z + this.parameters.distanceToCamera;
+        this.box = new THREE.BoxHelper( this.mesh, 0x555555 );
+        this.scene.add(this.box)
         this.scene.add(this.mesh);
     }
 
@@ -43,7 +46,9 @@ export default class FractalLayer extends Instance {
 
         this.mesh.visible = this.generator.visible
 
-        if (this.age > 1)
+        if (this.age > 1){
             this.destroy()
+            this.scene.remove(this.box);
+        }
     }
 }

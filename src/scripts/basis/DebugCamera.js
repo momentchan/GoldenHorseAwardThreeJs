@@ -21,10 +21,10 @@ export default class DebugCamera extends CameraBase {
 
     update() {
         super.update()
-        this.instance.position.z -= 0.006
+        this.instance.position.z -= 0.003
 
         var pos = this.target.getWorldPos()
-        pos.z += 2
+        pos.z += 3
         this.controls.target = pos
     }
 }

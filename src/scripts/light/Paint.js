@@ -21,6 +21,8 @@ export default class Paint extends Instance {
             vertexShader: vertexShader,
             fragmentShader: fragmentShader,
             transparent: true,
+            side: THREE.DoubleSide,
+
             uniforms: {
                 uPaintTex: { value: this.generator.getPaintTex() },
                 uColor: { value: this.parameters.color },

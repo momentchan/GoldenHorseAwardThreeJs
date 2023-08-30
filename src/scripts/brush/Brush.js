@@ -24,6 +24,7 @@ export default class Brush extends Instance {
             vertexShader: vertexShader,
             fragmentShader: fragmentShader,
             transparent: true,
+            side: THREE.DoubleSide,
             uniforms: {
                 uBackgroundTex: { value: this.isMagicHour ? this.items.backgroundRedTex : this.items.backgroundBlueTex },
                 uStrokeTex: { value: this.isMagicHour ? this.items.brushRedTex : this.items.brushBlueTex },
@@ -47,8 +48,10 @@ export default class Brush extends Instance {
         this.mesh.rotateY(MathUtils.degToRad(180))
         this.mesh.rotateZ(angle)
         this.mesh.position.set(pos.x, pos.y, pos.z)
-
+        this.box = new THREE.BoxHelper( this.mesh, 0x555555 );
+        
         this.scene.add(this.mesh);
+        this.scene.add(this.box)
     }
 
     update() {
@@ -57,7 +60,13 @@ export default class Brush extends Instance {
         this.material.uniforms.uRatio.value = this.age
         this.mesh.visible = this.generator.visible
 
-        if (this.age > 1)
+        if (this.age > 1){
             this.destroy()
+            this.scene.remove(this.box);
+        }
+    }
+
+    updateMaterial(){
+
     }
 }

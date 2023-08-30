@@ -25,6 +25,7 @@ export default class World extends WorldBase {
 
         this.resources.on('ready', () => {
             this.backgroundFractal = new BackgroundFractal(this.experience)
+            this.backgroundFractal.showOrHide()
             this.fractalLayerGenerator = new FractalLayerGenerator(this.experience)
             this.brushGenerator = new BrushGenerator(this.experience)
             this.lightGenerator = new LightGenerator(this.experience)
@@ -60,6 +61,7 @@ export default class World extends WorldBase {
                 .onChange(value => this.logo.show(value))
         }
 
+        
         // keyInput
         this.keyInpuut.onKeyDownEvent('1', () => { this.backgroundFractal.showOrHide() })
         this.keyInpuut.onKeyDownEvent('2', () => { this.fractalLayerGenerator.showOrHide() })

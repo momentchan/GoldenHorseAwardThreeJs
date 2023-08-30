@@ -22,6 +22,8 @@ export default class Light extends Instance {
             vertexShader: vertexShader,
             fragmentShader: fragmentShader,
             transparent: true,
+            side: THREE.DoubleSide,
+
             uniforms: {
                 uLightTex: { value: this.items.lightTex },
                 uColor: { value: this.parameters.color },
@@ -37,6 +39,8 @@ export default class Light extends Instance {
             this.mesh.rotateZ(MathUtils.degToRad(180))
             
         this.mesh.position.set(wpos.x, wpos.y, wpos.z)
+        this.box = new THREE.BoxHelper( this.mesh, 0x555555 );
+        this.scene.add(this.box)
         this.scene.add(this.mesh);
     }
 
@@ -45,7 +49,9 @@ export default class Light extends Instance {
         this.material.uniforms.uRatio.value = this.age
         this.mesh.visible = this.generator.visible
 
-        if (this.age > 1)
+        if (this.age > 1){
             this.destroy()
+            this.scene.remove(this.box);
+        }
     }
 }
